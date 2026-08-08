@@ -7,6 +7,7 @@ import {
   LayoutDashboard,
   Compass,
   MapPin,
+  Plane,
   Tags,
   Image as ImageIcon,
   FileText,
@@ -18,10 +19,10 @@ import {
   ChevronRight,
 } from 'lucide-react'
 
-// Layover Packages intentionally absent: no backend surface yet (Phase 3).
 const navItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/admin/tours', label: 'Tours', icon: Compass },
+  { href: '/admin/layover-packages', label: 'Layover Packages', icon: Plane },
   { href: '/admin/destinations', label: 'Destinations', icon: MapPin },
   { href: '/admin/categories', label: 'Tour Categories', icon: Tags },
   { href: '/admin/gallery', label: 'Gallery', icon: ImageIcon },
