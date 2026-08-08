@@ -4,6 +4,7 @@ import {
   mapBooking,
   mapDestination,
   mapGalleryImage,
+  mapLayoverPackage,
   mapTour
 } from "../../src/utils/mappers.js";
 
@@ -112,6 +113,55 @@ describe("mapBlog", () => {
   it("handles missing category", () => {
     const mapped = mapBlog({ id: 5, blogTitle: "No Cat", description: null, imageUrl: null, createdAt: null, category: null } as any);
     expect(mapped.category).toBeNull();
+  });
+});
+
+describe("mapLayoverPackage", () => {
+  const row = {
+    id: 9,
+    slug: "6-hour",
+    hours: "6 Hours",
+    title: "The Espresso",
+    price: "$95 per person",
+    imageUrl: null,
+    teaser: "A tight, elegant loop of the capital.",
+    itinerary: '["Meet at arrivals", "Entoto ridge", "Coffee ceremony", "Late lunch", "Back to the terminal"]',
+    includes: '["Private vehicle", "All entrance fees", "Lunch", "Meet-and-greet"]',
+    bestFor: "Connections of 8 hours or more"
+  } as any;
+
+  it("maps all fields with arrays parsed from JSON strings", () => {
+    const mapped = mapLayoverPackage(row);
+    expect(mapped).toEqual({
+      id: 9,
+      slug: "6-hour",
+      hours: "6 Hours",
+      title: "The Espresso",
+      price: "$95 per person",
+      image: null,
+      teaser: "A tight, elegant loop of the capital.",
+      itinerary: ["Meet at arrivals", "Entoto ridge", "Coffee ceremony", "Late lunch", "Back to the terminal"],
+      includes: ["Private vehicle", "All entrance fees", "Lunch", "Meet-and-greet"],
+      best: "Connections of 8 hours or more"
+    });
+  });
+
+  it("maps imageUrl to image and defaults empty arrays on invalid JSON", () => {
+    const mapped = mapLayoverPackage({
+      ...row,
+      imageUrl: "/assets/images/layover/LAY-1.png",
+      itinerary: "not json",
+      includes: null
+    } as any);
+    expect(mapped.image).toBe("/assets/images/layover/LAY-1.png");
+    expect(mapped.itinerary).toEqual([]);
+    expect(mapped.includes).toEqual([]);
+  });
+
+  it("emits image (never imageUrl) for the frontend contract", () => {
+    const mapped = mapLayoverPackage(row);
+    expect(mapped).not.toHaveProperty("imageUrl");
+    expect(mapped).not.toHaveProperty("bestFor");
   });
 });
 

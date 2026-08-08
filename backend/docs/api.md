@@ -97,6 +97,7 @@ a JWT signed with `JWT_SECRET`. `tokenVersion` bumps invalidate old sessions.
 | GET | `/categories` | tour categories |
 | GET | `/gallery`, `/gallery/tour/:tourId` | gallery images |
 | GET | `/blog/categories`, `/blog`, `/blog/slug/:slug`, `/blog/:id` | blog |
+| GET | `/layover-packages` | layover packages, ordered by `sortOrder` asc then `id` asc |
 | GET | `/testimonials` | testimonials |
 | POST | `/bookings` | booking inquiry (validates blocked dates; email notifications log-only when `EMAIL_ENABLED=false`) |
 | POST | `/contact` | contact form (email log-only when disabled) |
@@ -112,6 +113,7 @@ a JWT signed with `JWT_SECRET`. `tokenVersion` bumps invalidate old sessions.
 | GET | `/auth/me` | current admin |
 | PUT | `/auth/profile`, `/auth/change-password` | profile / password |
 | GET/POST/PUT/DELETE | `/admin/tours`, `/admin/tours/:id` | CRUD, multipart `tourImages`, `tourDestinations`, `tourCategories` |
+| GET/POST/PUT/DELETE | `/admin/layover-packages`, `/admin/layover-packages/:id` | CRUD, multipart `layoverImage` (optional), `removeImage` flag, textarea `itinerary`/`includes` (one line per entry), `sortOrder` |
 | GET/POST/PUT/DELETE | `/admin/destinations[...]` | CRUD (multipart `destinationImage`) |
 | GET/POST/PUT/DELETE | `/admin/categories[...]` | tour categories |
 | GET/POST/DELETE | `/admin/gallery`, `/admin/gallery/:id` | gallery (multipart `galleryImage`) |
@@ -128,6 +130,39 @@ a JWT signed with `JWT_SECRET`. `tokenVersion` bumps invalidate old sessions.
 `STORAGE_DRIVER` (default `local` for local dev; `database` auto-on-Vercel):
 - `local` — files under `UPLOAD_ROOT/assets/...`, served at `/assets/...`
 - `database` — bytes stored in `media_assets`, served at `/api/v1/media/:id`
+
+### Layover package shapes
+
+Public `GET /layover-packages` envelope data is an array of:
+
+```json
+{
+  "id": 1,
+  "slug": "6-hour",
+  "hours": "6 Hours",
+  "title": "The Espresso",
+  "price": "$95 per person",
+  "image": null,
+  "teaser": "…",
+  "itinerary": ["…"],
+  "includes": ["…"],
+  "best": "Connections of 8 hours or more"
+}
+```
+
+Admin CRUD returns the same shape (`201` on create). Slug is derived from
+`title` **at creation only** — `PUT` deliberately preserves it, so renaming a
+package never changes its identity. `POST` accepts `layoverImage` optionally
+(image absent == `image: null`). `PUT` image semantics: a new file replaces
+and deletes the old stored file; `removeImage: "true"` clears it and deletes
+the stored file; neither leaves the current image untouched.
+
+**Image URL contract:** with the `database` driver the backend emits
+`/api/v1/media/<uuid>` paths that the backend itself serves in production.
+With the `local` driver (dev) it emits `/assets/...` paths that only the
+backend process serves — the Next frontend does not. The public layover page
+overlays a live `image` only when it starts with `/api/v1/`; seeded packages
+have `image: null`, so the client's static images render instead.
 
 ---
 

@@ -1,4 +1,4 @@
-export type UploadKind = "tour" | "destination" | "blog" | "gallery" | "admin" | "document";
+export type UploadKind = "tour" | "destination" | "blog" | "gallery" | "admin" | "document" | "layover";
 
 export interface SaveResult {
   storedPath: string;

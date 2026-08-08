@@ -151,3 +151,18 @@ export function mapContact(contact: any) {
     createdAt: contact.createdAt ?? null
   };
 }
+
+export function mapLayoverPackage(row: any) {
+  return {
+    id: row.id,
+    slug: row.slug,
+    hours: row.hours,
+    title: row.title,
+    price: row.price,
+    image: row.imageUrl,
+    teaser: row.teaser,
+    itinerary: parseJsonArray(row.itinerary),
+    includes: parseJsonArray(row.includes),
+    best: row.bestFor
+  };
+}

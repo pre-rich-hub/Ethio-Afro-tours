@@ -9,7 +9,8 @@ const uploadConfig: Record<UploadKind, { dir: string; prefix: string }> = {
   blog:        { dir: "assets/images/blog",           prefix: "BLOG-" },
   gallery:     { dir: "assets/images/gallery",        prefix: "IMG-" },
   admin:       { dir: "assets/images/admin",          prefix: "IMG-" },
-  document:    { dir: "data",                         prefix: "DOC-" }
+  document:    { dir: "data",                         prefix: "DOC-" },
+  layover:     { dir: "assets/images/layover",        prefix: "LAY-" }
 };
 
 export class LocalStorageProvider implements StorageProvider {

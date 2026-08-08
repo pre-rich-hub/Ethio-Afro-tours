@@ -14,6 +14,7 @@ import {
   mapContact,
   mapDestination,
   mapGalleryImage,
+  mapLayoverPackage,
   mapTestimonial,
   mapTour
 } from "../../utils/mappers.js";
@@ -78,10 +79,27 @@ async function uniqueTourSlug(title: string, excludeId?: number): Promise<string
   }
 }
 
+async function uniqueLayoverSlug(title: string): Promise<string> {
+  const base = slugify(title) || "layover-package";
+  let candidate = base;
+  let suffix = 2;
+
+  while (true) {
+    const existing = await prisma.layoverPackage.findUnique({
+      where: { slug: candidate },
+      select: { id: true }
+    });
+    if (!existing) return candidate;
+    candidate = `${base}-${suffix}`;
+    suffix += 1;
+  }
+}
+
 const tourUpload = uploadFor("tour");
 const destinationUpload = uploadFor("destination");
 const blogUpload = uploadFor("blog");
 const galleryUpload = uploadFor("gallery");
+const layoverUpload = uploadFor("layover");
 
 const tourIncludes = {
   destination: true,
@@ -743,6 +761,103 @@ adminRouter.delete(
     const id = idParam.parse(req.params.id);
     await prisma.subscriber.delete({ where: { id } });
     return ok(res, "Subscriber deleted successfully", null);
+  })
+);
+
+// ---------------------- Layover packages ----------------------
+
+adminRouter.get(
+  "/layover-packages",
+  asyncHandler(async (_req, res) => {
+    const packages = await prisma.layoverPackage.findMany({
+      orderBy: [{ sortOrder: "asc" }, { id: "asc" }]
+    });
+    return ok(res, "Layover packages fetched successfully", packages.map(mapLayoverPackage));
+  })
+);
+
+adminRouter.get(
+  "/layover-packages/:id",
+  asyncHandler(async (req, res) => {
+    const id = idParam.parse(req.params.id);
+    const record = await prisma.layoverPackage.findUnique({ where: { id } });
+    if (!record) throw new HttpError(404, "Layover package not found");
+    return ok(res, "Layover package fetched successfully", mapLayoverPackage(record));
+  })
+);
+
+adminRouter.post(
+  "/layover-packages",
+  layoverUpload.single("layoverImage"),
+  asyncHandler(async (req, res) => {
+    const imageUrl = req.file ? urlForFile(req.file) : undefined;
+    const title = String(req.body.title ?? "");
+    const slug = await uniqueLayoverSlug(title);
+    const created = await prisma.layoverPackage.create({
+      data: {
+        slug,
+        hours: String(req.body.hours ?? ""),
+        title,
+        price: String(req.body.price ?? ""),
+        teaser: String(req.body.teaser ?? ""),
+        itinerary: parseOptionalJsonArrayString(req.body.itinerary),
+        includes: parseOptionalJsonArrayString(req.body.includes),
+        bestFor: String(req.body.bestFor ?? ""),
+        sortOrder: toNumber(req.body.sortOrder) ?? 0,
+        ...(imageUrl ? { imageUrl } : {})
+      }
+    });
+    return ok(res, "Layover package created successfully", mapLayoverPackage(created), 201);
+  })
+);
+
+adminRouter.put(
+  "/layover-packages/:id",
+  layoverUpload.single("layoverImage"),
+  asyncHandler(async (req, res) => {
+    const id = idParam.parse(req.params.id);
+    const existing = await prisma.layoverPackage.findUnique({ where: { id } });
+    if (!existing) throw new HttpError(404, "Layover package not found");
+
+    const newImageUrl = req.file ? urlForFile(req.file) : undefined;
+    const removeImage = req.body.removeImage === "true";
+    let imageUrl = existing.imageUrl;
+    let storedToRemove: string | null = null;
+    if (newImageUrl || removeImage) {
+      imageUrl = newImageUrl ?? null;
+      storedToRemove = existing.imageUrl;
+    }
+
+    const updated = await prisma.layoverPackage.update({
+      where: { id },
+      data: {
+        // slug deliberately preserved: renaming a package must not change its identity.
+        hours: String(req.body.hours ?? ""),
+        title: String(req.body.title ?? ""),
+        price: String(req.body.price ?? ""),
+        teaser: String(req.body.teaser ?? ""),
+        itinerary: parseOptionalJsonArrayString(req.body.itinerary),
+        includes: parseOptionalJsonArrayString(req.body.includes),
+        bestFor: String(req.body.bestFor ?? ""),
+        sortOrder: toNumber(req.body.sortOrder) ?? 0,
+        imageUrl
+      }
+    });
+
+    if (storedToRemove) await removeStoredFile(storedToRemove);
+    return ok(res, "Layover package updated successfully", mapLayoverPackage(updated));
+  })
+);
+
+adminRouter.delete(
+  "/layover-packages/:id",
+  asyncHandler(async (req, res) => {
+    const id = idParam.parse(req.params.id);
+    const existing = await prisma.layoverPackage.findUnique({ where: { id } });
+    if (!existing) throw new HttpError(404, "Layover package not found");
+    await prisma.layoverPackage.delete({ where: { id } });
+    if (existing.imageUrl) await removeStoredFile(existing.imageUrl);
+    return ok(res, "Layover package deleted successfully", null);
   })
 );
 

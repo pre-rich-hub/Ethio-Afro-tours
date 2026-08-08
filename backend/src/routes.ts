@@ -11,6 +11,7 @@ import { bookingsRouter } from "./modules/bookings/bookings.routes.js";
 import { contactsRouter } from "./modules/contacts/contacts.routes.js";
 import { subscribeRouter } from "./modules/subscribe/subscribe.routes.js";
 import { mediaRouter } from "./modules/media/media.routes.js";
+import { layoverPackagesRouter } from "./modules/layover-packages/layover-packages.routes.js";
 
 export function registerRoutes(app: Express) {
   // API v1 routes
@@ -26,4 +27,5 @@ export function registerRoutes(app: Express) {
   app.use("/api/v1/contact", contactsRouter);
   app.use("/api/v1/subscribe", subscribeRouter);
   app.use("/api/v1/media", mediaRouter);
+  app.use("/api/v1/layover-packages", layoverPackagesRouter);
 }
