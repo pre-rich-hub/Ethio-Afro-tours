@@ -2,9 +2,10 @@ import { Reveal } from '@/components/reveal'
 import { SectionHeading } from '@/components/section-heading'
 import { TourCard } from '@/components/tour-card'
 import { LinkButton } from '@/components/link-button'
-import { tours } from '@/lib/site'
+import { tours as staticTours } from '@/lib/site'
+import type { Tour } from '@/lib/site'
 
-export function Journeys() {
+export function Journeys({ tours = staticTours }: { tours?: Tour[] }) {
   const featured = tours.filter((t) => t.featured)
 
   return (

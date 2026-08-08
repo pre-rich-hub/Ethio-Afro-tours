@@ -7,7 +7,8 @@ import { Reveal } from '@/components/reveal'
 import { SectionHeading } from '@/components/section-heading'
 import { ToursGrid } from '@/components/tours-grid'
 import { CtaBand } from '@/components/cta-band'
-import { promises, tours } from '@/lib/site'
+import { promises } from '@/lib/site'
+import { getToursData } from '@/lib/data'
 
 export const metadata: Metadata = {
   title: 'Tours & Journeys',
@@ -15,7 +16,8 @@ export const metadata: Metadata = {
     'Private, tailor-made Ethiopian itineraries — historic route, highland wildlife, Danakil expedition, Omo immersion and festival journeys. Every route drawn from scratch.',
 }
 
-export default function ToursPage() {
+export default async function ToursPage() {
+  const tours = await getToursData()
   const hero = tours.find((t) => t.featured) ?? tours[0]
 
   return (

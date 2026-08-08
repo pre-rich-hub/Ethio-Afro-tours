@@ -8,14 +8,17 @@ import { LayoverTeaser } from '@/components/layover-teaser'
 import { Testimonial } from '@/components/testimonial'
 import { Gallery } from '@/components/gallery'
 import { PlanJourney } from '@/components/plan-journey'
+import { getToursData } from '@/lib/data'
 
-export default function Page() {
+export default async function Page() {
+  const tours = await getToursData()
+
   return (
     <>
       <Hero />
       <BrandIntro />
       <Destinations />
-      <Journeys />
+      <Journeys tours={tours} />
       <WhyEthiopia />
       <Experiences />
       <LayoverTeaser />

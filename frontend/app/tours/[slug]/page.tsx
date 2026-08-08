@@ -8,6 +8,7 @@ import { TourCard } from '@/components/tour-card'
 import { EnquiryForm } from '@/components/enquiry-form'
 import { CtaBand } from '@/components/cta-band'
 import { getTour, tours } from '@/lib/site'
+import { getTourData } from '@/lib/data'
 
 export function generateStaticParams() {
   return tours.map((t) => ({ slug: t.slug }))
@@ -34,7 +35,7 @@ export default async function TourPage({
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
-  const t = getTour(slug)
+  const t = await getTourData(slug)
   if (!t) notFound()
 
   const others = tours.filter((o) => o.slug !== t.slug).slice(0, 3)
