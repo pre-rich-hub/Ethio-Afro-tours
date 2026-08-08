@@ -445,6 +445,24 @@ export function AdminTourEdit() {
           />
         </section>
 
+        {/* Journey Map */}
+        <section className={adminPanelClass}>
+          <label htmlFor="tourMap" className="mb-5 block font-serif text-lg text-foreground">
+            Journey map
+          </label>
+          <textarea
+            id="tourMap"
+            name="tourMap"
+            rows={4}
+            defaultValue={tour.journeyMap ?? ''}
+            className={`${fieldClass} resize-y`}
+            placeholder="URL or map markup for the tour journey"
+          />
+          <p className="mt-2 text-xs text-muted-foreground">
+            Leave empty to clear the journey map.
+          </p>
+        </section>
+
         {/* Included */}
         <section className={adminPanelClass}>
           <div className="mb-5 flex items-center justify-between">
