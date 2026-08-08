@@ -4,6 +4,7 @@ import { env } from "../src/config/env.js";
 import { slugify } from "../src/utils/slug.js";
 import { tourSeeds } from "./data/tours.seed.js";
 import { destinationSeeds } from "./data/destinations.seed.js";
+import { layoverPackageSeeds } from "./data/layover-packages.seed.js";
 
 // Seeds run against the DIRECT connection: interactive transactions (tour
 // upsert + junction sync) fail with P2028 over the pooled pgbouncer URL.
@@ -18,6 +19,8 @@ const prisma = new PrismaClient({
  *  - blog categories (4), tour categories (5)
  *  - destinations (8 client destinations from frontend/lib/site.ts)
  *  - tours (6 client tours from frontend/lib/site.ts, mapped into our schema)
+ *  - layover packages (4 client packages — import-once only, NO prune/clobber:
+ *    Phase 3 makes them client-owned, admin edits must survive re-seeds)
  *  - bookings (4, mixed statuses), contacts (4), subscribers (3)
  *  - testimonials (tops up to 3)
  *
@@ -423,6 +426,35 @@ async function main() {
   console.log(
     `Testimonials: ${testimonialCount} total (${testimonialsCreated} new this run)`
   );
+
+  // ------------------------- Layover packages -------------------------
+  // Import-once semantics, deliberately different from tours/destinations:
+  //  - NO prune (no deleteMany notIn): as of Phase 3 the packages are
+  //    client-owned catalog rows seeded once; pruning would delete any
+  //    admin-created packages on the next seed run.
+  //  - NO scalar clobber (no update) — re-running the seed must not revert
+  //    admin edits (title, price, itinerary, ordering) made in the admin UI.
+  // The seed only ever fills the table when it is empty.
+  const layoverExisting = await prisma.layoverPackage.count();
+  if (layoverExisting === 0) {
+    await prisma.layoverPackage.createMany({
+      data: layoverPackageSeeds.map((seed) => ({
+        slug: seed.slug,
+        hours: seed.hours,
+        title: seed.title,
+        price: seed.price,
+        teaser: seed.teaser,
+        itinerary: JSON.stringify(seed.itinerary),
+        includes: JSON.stringify(seed.includes),
+        bestFor: seed.bestFor,
+        sortOrder: seed.sortOrder,
+        imageUrl: seed.imageUrl
+      }))
+    });
+    console.log(`Layover packages: ${layoverPackageSeeds.length} created`);
+  } else {
+    console.log(`Layover packages: ${layoverExisting} existing, skipped (guard: count != 0)`);
+  }
 
   console.log("Seed complete");
 }
