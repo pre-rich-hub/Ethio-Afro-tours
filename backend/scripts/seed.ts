@@ -14,16 +14,19 @@ const prisma = new PrismaClient({
 });
 
 /**
- * Seeds the demo catalog and ops data:
+ * Seeds the client catalog and ops data:
  *  - blog categories (4), tour categories (5)
- *  - destinations (10 = 5 base + 5 curated from the reference destination seeds)
- *  - tours (10 curated from the client-owned tours.ts, mapped into our schema)
+ *  - destinations (8 client destinations from frontend/lib/site.ts)
+ *  - tours (6 client tours from frontend/lib/site.ts, mapped into our schema)
  *  - bookings (4, mixed statuses), contacts (4), subscribers (3)
  *  - testimonials (tops up to 3)
  *
  * Idempotent: tours upsert by slug (rows only rewritten when they drift from
  * the seed values, so the second run changes nothing), destinations upsert by
- * slug, and bookings/contacts/subscribers are guarded by row counts.
+ * slug, and bookings/contacts/subscribers are guarded by row counts. Stale
+ * rows (tours/destinations whose slug is no longer in the client catalog,
+ * e.g. the reference catalog's Harar or Debre Libanos rows) are pruned so
+ * the API surface matches the client catalog exactly.
  */
 async function main() {
   // ------------------------- Blog categories -------------------------
@@ -55,38 +58,36 @@ async function main() {
   console.log(`Tour categories: ${tourCategories.length}`);
 
   // ------------------------- Destinations -------------------------
-  const baseDestinations = [
-    { name: "Addis Ababa", description: "The capital city — gateway to Ethiopia.", imageUrl: null },
-    { name: "Lalibela", description: "Famous for its rock-hewn churches.", imageUrl: null },
-    { name: "Gondar", description: "Known as the Camelot of Africa.", imageUrl: null },
-    { name: "Bahir Dar", description: "Gateway to Lake Tana and the Blue Nile Falls.", imageUrl: null },
-    { name: "Axum", description: "Home to ancient obelisks and legends of the Ark.", imageUrl: null }
-  ];
-  const destinationSeedsMerged = [
-    ...baseDestinations,
-    ...destinationSeeds.map((d) => ({
-      name: d.destinationName,
-      description: d.description,
-      imageUrl: d.imageUrl
-    }))
-  ];
-  for (const destination of destinationSeedsMerged) {
+  // All 8 client destinations (from frontend/lib/site.ts destinations array).
+  // Upsert by the seed's explicit slug: the client slug is the API contract
+  // (e.g. "lake-tana", NOT the slugified name "lake-tana-blue-nile").
+  const clientDestinationSlugs = destinationSeeds.map((d) => d.slug);
+  for (const destination of destinationSeeds) {
     await prisma.destination.upsert({
-      where: { slug: slugify(destination.name) },
+      where: { slug: destination.slug },
       update: {
+        destinationName: destination.destinationName,
         description: destination.description,
         ...(destination.imageUrl ? { imageUrl: destination.imageUrl } : {})
       },
       create: {
-        slug: slugify(destination.name),
-        destinationName: destination.name,
+        slug: destination.slug,
+        destinationName: destination.destinationName,
         description: destination.description,
         ...(destination.imageUrl ? { imageUrl: destination.imageUrl } : {})
       }
     });
   }
+  // Prune stale destinations (reference-catalog rows like "harar" or
+  // "simien-mountains-national-park"). Tour.destinationId is SetNull by the
+  // schema, so surviving tours simply lose their fallback pointer.
+  const prunedDestinations = await prisma.destination.deleteMany({
+    where: { slug: { notIn: clientDestinationSlugs } }
+  });
   const destinationCount = await prisma.destination.count();
-  console.log(`Destinations: ${destinationCount}`);
+  console.log(
+    `Destinations: ${destinationCount} (${prunedDestinations.count} stale pruned)`
+  );
 
   // ------------------------- Tours -------------------------
   // Map reference category slugs -> our seeded tour categories (by slug).
@@ -112,56 +113,10 @@ async function main() {
     "religious-pilgrimage-tours": "religious-tours"
   };
 
-  // Map reference destination slugs -> our seeded destinations (by slug).
-  // Slugs missing from the map are skipped (granularity of the demo catalog).
-  const destinationSlugMap: Record<string, string> = {
-    "addis-ababa": "addis-ababa",
-    "mount-entoto": "addis-ababa",
-    "national-museum-of-ethiopia": "addis-ababa",
-    "ethnological-museum": "addis-ababa",
-    "holy-trinity-cathedral": "addis-ababa",
-    "debre-libanos-monastery": "addis-ababa",
-    "portuguese-bridge": "addis-ababa",
-    "jemma-river-gorge": "addis-ababa",
-    lalibela: "lalibela",
-    gondar: "gondar",
-    aksum: "axum",
-    "bahir-dar": "bahir-dar",
-    "lake-tana": "bahir-dar",
-    "blue-nile-falls": "bahir-dar",
-    "awra-amba": "bahir-dar",
-    harar: "harar",
-    "dire-dawa": "harar",
-    aweday: "harar",
-    "omo-valley": "omo-valley",
-    jinka: "omo-valley",
-    "arba-minch": "omo-valley",
-    "lake-chamo": "omo-valley",
-    "mago-national-park": "omo-valley",
-    turmi: "omo-valley",
-    karo: "omo-valley",
-    nyangatom: "omo-valley",
-    omorate: "omo-valley",
-    dassanech: "omo-valley",
-    konso: "omo-valley",
-    "konso-cultural-landscape": "omo-valley",
-    dorze: "omo-valley",
-    hawassa: "omo-valley",
-    "lake-hawassa": "omo-valley",
-    "lake-langano": "omo-valley",
-    "lake-ziway": "omo-valley",
-    tiya: "omo-valley",
-    "adadi-maryam": "omo-valley",
-    "melka-kunture": "omo-valley",
-    "danakil-depression": "danakil-depression",
-    "erta-ale": "danakil-depression",
-    dallol: "danakil-depression",
-    mekele: "danakil-depression",
-    semera: "danakil-depression",
-    "simien-mountains-national-park": "simien-mountains-national-park",
-    "bale-mountains-national-park": "bale-mountains-national-park"
-  };
-
+  // Tours carry client destination slugs directly (see tours.seed.ts); the
+  // seeded destinations use those same slugs, so no translation map is needed.
+  // Slugs not present in the client catalog (e.g. "addis-ababa") resolve to
+  // nothing and are skipped.
   const tourCategoriesBySlug = await prisma.tourCategory.findMany();
   const destinationsBySlug = await prisma.destination.findMany();
   const categoryIdFor = (slug: string) =>
@@ -171,6 +126,8 @@ async function main() {
 
   let seededTours = 0;
   let demoPricedTours = 0;
+
+  const clientTourSlugs = tourSeeds.map((t) => t.slug);
 
   for (const seed of tourSeeds) {
     // Resolve categories and destinations for this tour.
@@ -186,9 +143,7 @@ async function main() {
     const destinationIds = [
       ...new Set(
         seed.destinationSlugs
-          .map((slug) => destinationSlugMap[slug])
-          .filter(Boolean)
-          .map((slug) => destinationIdFor(slug!))
+          .map((slug) => destinationIdFor(slug))
           .filter((id): id is number => id !== undefined)
       )
     ];
@@ -293,8 +248,18 @@ async function main() {
     seededTours += 1;
   }
 
+  // Prune stale tours (reference-catalog rows like "3-day-lalibela-genna-..."
+  // or "10-day-omo-valley-..."). Junctions and gallery cascade; bookings
+  // SetNull. Runs BEFORE the bookings seed below so stale tourIds never
+  // linger on freshly created rows.
+  const prunedTours = await prisma.tour.deleteMany({
+    where: { slug: { notIn: clientTourSlugs } }
+  });
+
   const tourCount = await prisma.tour.count();
-  console.log(`Tours: ${seededTours} seeded (${tourCount} total, ${demoPricedTours} demo-priced)`);
+  console.log(
+    `Tours: ${seededTours} seeded (${tourCount} total, ${demoPricedTours} demo-priced, ${prunedTours.count} stale pruned)`
+  );
 
   // ------------------------- Bookings -------------------------
   const bookingCount = await prisma.booking.count();
@@ -352,10 +317,15 @@ async function main() {
     ];
     for (const booking of bookings) {
       const tour = await prisma.tour.findUnique({ where: { slug: booking.tourSlug } });
-      if (!tour) throw new Error(`Seed booking references unknown tour: ${booking.tourSlug}`);
+      // Fail-safe: the demo booking rows reference the reference catalog's
+      // tour slugs, which are pruned away on this catalog. Null tourId is
+      // acceptable for demo rows (Booking.tourId is nullable, SetNull).
+      if (!tour) {
+        console.warn(`Seed booking tour not found (null tourId): ${booking.tourSlug}`);
+      }
       await prisma.booking.create({
         data: {
-          tourId: tour.id,
+          tourId: tour?.id ?? null,
           fullName: booking.fullName,
           email: booking.email,
           phone: booking.phone,
