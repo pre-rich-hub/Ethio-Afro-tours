@@ -7,6 +7,14 @@
 // Non-2xx responses are thrown with the backend's message so callers can
 // render it directly as form feedback.
 
+// Abort any request that does not complete in time. This is a dev/build
+// safety net: from a local machine every DB round trip over the Neon pooler
+// costs ~1.7s, so slug lookups can stall static generation for minutes.
+// Callers with a fallback (e.g. lib/data.ts static records) recover on the
+// thrown AbortError; in production the API answers in ~100ms and the timeout
+// never fires.
+const REQUEST_TIMEOUT_MS = 5_000
+
 type ApiEnvelope<T> = {
   success: boolean
   message?: string
@@ -70,6 +78,7 @@ export type ToursPage = {
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(path, {
     ...init,
+    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
     headers: { 'Content-Type': 'application/json', ...(init?.headers ?? {}) },
   })
 
