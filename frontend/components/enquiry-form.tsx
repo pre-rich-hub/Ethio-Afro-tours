@@ -80,11 +80,12 @@ export function EnquiryForm({
 
         <div className="grid gap-5 sm:grid-cols-2">
           <Field label="Full name" id="name">
-            <input id="name" required className="input" placeholder="Your name" />
+            <input id="name" name="name" required className="input" placeholder="Your name" />
           </Field>
           <Field label="Email address" id="email">
             <input
               id="email"
+              name="email"
               type="email"
               required
               className="input"
@@ -95,10 +96,10 @@ export function EnquiryForm({
 
         <div className="grid gap-5 sm:grid-cols-2">
           <Field label="Preferred travel dates" id="when">
-            <input id="when" className="input" placeholder="e.g. March 2026" />
+            <input id="when" name="when" className="input" placeholder="e.g. March 2026" />
           </Field>
           <Field label="Number of travellers" id="travellers">
-            <input id="travellers" className="input" placeholder="2 adults" />
+            <input id="travellers" name="travellers" className="input" placeholder="2 adults" />
           </Field>
         </div>
 
@@ -131,6 +132,7 @@ export function EnquiryForm({
         <Field label="Tell us about the journey you've imagined" id="dream">
           <textarea
             id="dream"
+            name="dream"
             rows={4}
             className="input resize-none"
             placeholder="A private coffee journey, mornings above the clouds, evenings by the fire..."
