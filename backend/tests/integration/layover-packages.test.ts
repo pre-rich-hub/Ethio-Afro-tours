@@ -162,9 +162,28 @@ describe("admin layover packages (mocked prisma)", () => {
       .mockResolvedValueOnce(null);
     db.prisma.layoverPackage.create.mockImplementation(async ({ data }: any) => row({ ...data, id: 6 }));
 
-    const res = await agent.post("/api/v1/admin/layover-packages").send({ title: "The Espresso" });
+    const res = await agent.post("/api/v1/admin/layover-packages").send({
+      hours: "6 Hours",
+      title: "The Espresso",
+      price: "$95 per person"
+    });
     expect(res.status).toBe(201);
     expect(res.body.data.slug).toBe("the-espresso-2");
+  });
+
+  it("rejects a package missing required fields with 422", async () => {
+    const login = await agent.post("/api/v1/auth/login").send({ email: "admin@example.com", password: "correct-horse" });
+    expect(login.status).toBe(200);
+
+    const res = await agent.post("/api/v1/admin/layover-packages").send({
+      hours: "6 Hours",
+      title: ""
+    });
+    expect(res.status).toBe(422);
+    expect(db.prisma.layoverPackage.create).not.toHaveBeenCalled();
+    // schema parses the bare field value, so the issue path is relative (empty)
+    const messages = res.body.errors.map((e: { message: string }) => e.message);
+    expect(messages).toContain("Title is required");
   });
 
   it("updates fields while preserving the slug and clearing a stored image", async () => {

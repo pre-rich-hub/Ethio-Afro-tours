@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   parseJsonArray,
+  parseLineList,
   parseOptionalJsonArrayString,
   toBoolean,
   toNumber
@@ -30,6 +31,43 @@ describe("parseOptionalJsonArrayString", () => {
   it("returns [] for empty input", () => {
     expect(parseOptionalJsonArrayString("")).toBe("[]");
     expect(parseOptionalJsonArrayString(undefined)).toBe("[]");
+  });
+});
+
+describe("parseLineList", () => {
+  it("keeps comma-containing lines intact as a single line", () => {
+    expect(parseLineList("Mercato with a chef, then a spice-market tasting")).toEqual([
+      "Mercato with a chef, then a spice-market tasting"
+    ]);
+  });
+
+  it("splits newline-separated lines and trims whitespace-only lines away", () => {
+    expect(parseLineList("  Meet at arrivals  \n   \nEntoto ridge\n")).toEqual([
+      "Meet at arrivals",
+      "Entoto ridge"
+    ]);
+    expect(parseLineList("   ")).toEqual([]);
+  });
+
+  it("handles CRLF line endings", () => {
+    expect(parseLineList("a\r\nb\r\nc")).toEqual(["a", "b", "c"]);
+  });
+
+  it("accepts JSON array input as a list of strings", () => {
+    expect(parseLineList('["Meet at arrivals","Entoto ridge"]')).toEqual([
+      "Meet at arrivals",
+      "Entoto ridge"
+    ]);
+  });
+
+  it("falls back to a newline split when JSON-looking input fails to parse", () => {
+    expect(parseLineList('["unterminated')).toEqual(['["unterminated']);
+  });
+
+  it("returns [] for null, undefined and non-strings", () => {
+    expect(parseLineList(null)).toEqual([]);
+    expect(parseLineList(undefined)).toEqual([]);
+    expect(parseLineList(42)).toEqual([]);
   });
 });
 

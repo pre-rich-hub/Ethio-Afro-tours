@@ -6,7 +6,7 @@ import { ok } from "../../utils/api-response.js";
 import { HttpError } from "../../middleware/error.middleware.js";
 import { requireAdminAuth } from "../../middleware/auth.middleware.js";
 import { uploadFor, urlForFile } from "../../middleware/upload.middleware.js";
-import { parseOptionalJsonArrayString, toBoolean, toNumber } from "../../utils/parsers.js";
+import { parseLineList, parseOptionalJsonArrayString, toBoolean, toNumber } from "../../utils/parsers.js";
 import {
   mapBlog,
   mapBooking,
@@ -54,6 +54,9 @@ function parseItinerary(value: unknown): string {
 
 const tourTitleSchema = z.string().trim().min(1, "Tour name is required").max(255);
 const tourDestinationSchema = z.coerce.number().int().positive("A destination is required");
+const layoverTitleSchema = z.string().trim().min(1, "Title is required").max(255);
+const layoverHoursSchema = z.string().trim().min(1, "Hours are required").max(255);
+const layoverPriceSchema = z.string().trim().min(1, "Price is required").max(255);
 
 function parseTourDestinationIds(body: Record<string, unknown>): number[] {
   const destinationIds = [...new Set(
@@ -791,17 +794,19 @@ adminRouter.post(
   layoverUpload.single("layoverImage"),
   asyncHandler(async (req, res) => {
     const imageUrl = req.file ? urlForFile(req.file) : undefined;
-    const title = String(req.body.title ?? "");
+    const title = layoverTitleSchema.parse(req.body.title);
+    const hours = layoverHoursSchema.parse(req.body.hours);
+    const price = layoverPriceSchema.parse(req.body.price);
     const slug = await uniqueLayoverSlug(title);
     const created = await prisma.layoverPackage.create({
       data: {
         slug,
-        hours: String(req.body.hours ?? ""),
+        hours,
         title,
-        price: String(req.body.price ?? ""),
+        price,
         teaser: String(req.body.teaser ?? ""),
-        itinerary: parseOptionalJsonArrayString(req.body.itinerary),
-        includes: parseOptionalJsonArrayString(req.body.includes),
+        itinerary: JSON.stringify(parseLineList(req.body.itinerary)),
+        includes: JSON.stringify(parseLineList(req.body.includes)),
         bestFor: String(req.body.bestFor ?? ""),
         sortOrder: toNumber(req.body.sortOrder) ?? 0,
         ...(imageUrl ? { imageUrl } : {})
@@ -819,6 +824,12 @@ adminRouter.put(
     const existing = await prisma.layoverPackage.findUnique({ where: { id } });
     if (!existing) throw new HttpError(404, "Layover package not found");
 
+    // Validate the minimums on fields the form sends (title, hours, price are
+    // required in the UI); fields absent from the body keep their old behavior.
+    const title = req.body.title === undefined ? "" : layoverTitleSchema.parse(req.body.title);
+    const hours = req.body.hours === undefined ? "" : layoverHoursSchema.parse(req.body.hours);
+    const price = req.body.price === undefined ? "" : layoverPriceSchema.parse(req.body.price);
+
     const newImageUrl = req.file ? urlForFile(req.file) : undefined;
     const removeImage = req.body.removeImage === "true";
     let imageUrl = existing.imageUrl;
@@ -832,12 +843,12 @@ adminRouter.put(
       where: { id },
       data: {
         // slug deliberately preserved: renaming a package must not change its identity.
-        hours: String(req.body.hours ?? ""),
-        title: String(req.body.title ?? ""),
-        price: String(req.body.price ?? ""),
+        hours,
+        title,
+        price,
         teaser: String(req.body.teaser ?? ""),
-        itinerary: parseOptionalJsonArrayString(req.body.itinerary),
-        includes: parseOptionalJsonArrayString(req.body.includes),
+        itinerary: JSON.stringify(parseLineList(req.body.itinerary)),
+        includes: JSON.stringify(parseLineList(req.body.includes)),
         bestFor: String(req.body.bestFor ?? ""),
         sortOrder: toNumber(req.body.sortOrder) ?? 0,
         imageUrl
