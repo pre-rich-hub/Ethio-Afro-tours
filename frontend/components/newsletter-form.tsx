@@ -2,9 +2,11 @@
 
 import { useState } from 'react'
 import { Check } from 'lucide-react'
+import { subscribe } from '@/lib/api'
 
 export function NewsletterForm() {
   const [done, setDone] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   if (done) {
     return (
@@ -17,9 +19,18 @@ export function NewsletterForm() {
 
   return (
     <form
-      onSubmit={(e) => {
+      onSubmit={async (e) => {
         e.preventDefault()
-        setDone(true)
+        setError(null)
+        const email = String(new FormData(e.currentTarget).get('email') ?? '').trim()
+        try {
+          await subscribe(email)
+          setDone(true)
+        } catch (err) {
+          setError(
+            err instanceof Error ? err.message : 'Something went wrong — please try again.',
+          )
+        }
       }}
       className="flex w-full max-w-sm flex-col gap-2 sm:flex-row"
     >
@@ -28,6 +39,7 @@ export function NewsletterForm() {
       </label>
       <input
         id="newsletter-email"
+        name="email"
         type="email"
         required
         placeholder="Your email"
@@ -39,6 +51,11 @@ export function NewsletterForm() {
       >
         Join
       </button>
+      {error ? (
+        <p className="text-xs text-red-600" role="alert">
+          {error}
+        </p>
+      ) : null}
     </form>
   )
 }

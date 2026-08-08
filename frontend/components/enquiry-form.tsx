@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { Check, ArrowRight } from 'lucide-react'
 import { journeyStyles } from '@/lib/site'
+import { submitContact } from '@/lib/api'
 
 export function EnquiryForm({
   defaultStyles = ['Luxury'],
@@ -13,6 +14,7 @@ export function EnquiryForm({
 }) {
   const [selected, setSelected] = useState<string[]>(defaultStyles)
   const [submitted, setSubmitted] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const toggle = (style: string) =>
     setSelected((prev) =>
@@ -40,9 +42,32 @@ export function EnquiryForm({
   return (
     <div className="border border-border bg-card p-6 shadow-[0_28px_70px_-40px_oklch(0.185_0.012_58/0.4)] sm:p-8 lg:p-10">
       <form
-        onSubmit={(e) => {
+        onSubmit={async (e) => {
           e.preventDefault()
-          setSubmitted(true)
+          setError(null)
+          const data = new FormData(e.currentTarget)
+          const name = String(data.get('name') ?? '').trim()
+          const email = String(data.get('email') ?? '').trim()
+          const when = String(data.get('when') ?? '').trim()
+          const travellers = String(data.get('travellers') ?? '').trim()
+          const dream = String(data.get('dream') ?? '').trim()
+
+          const lines: string[] = []
+          if (subject) lines.push(`Journey: ${subject}`)
+          if (when) lines.push(`Preferred dates: ${when}`)
+          if (travellers) lines.push(`Travellers: ${travellers}`)
+          if (selected.length) lines.push(`Journey styles: ${selected.join(', ')}`)
+          if (dream) lines.push('')
+          lines.push(dream)
+
+          try {
+            await submitContact({ name, email, message: lines.join('\n') })
+            setSubmitted(true)
+          } catch (err) {
+            setError(
+              err instanceof Error ? err.message : 'Something went wrong — please try again.',
+            )
+          }
         }}
         className="space-y-6"
       >
@@ -111,6 +136,12 @@ export function EnquiryForm({
             placeholder="A private coffee journey, mornings above the clouds, evenings by the fire..."
           />
         </Field>
+
+        {error ? (
+          <p className="text-xs text-red-600" role="alert">
+            {error}
+          </p>
+        ) : null}
 
         <button
           type="submit"
