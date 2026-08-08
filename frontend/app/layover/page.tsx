@@ -6,7 +6,7 @@ import { Reveal } from '@/components/reveal'
 import { SectionHeading } from '@/components/section-heading'
 import { EnquiryForm } from '@/components/enquiry-form'
 import { CtaBand } from '@/components/cta-band'
-import { layoverPackages } from '@/lib/site'
+import { getLayoverPackagesData } from '@/lib/data'
 
 export const metadata: Metadata = {
   title: 'Addis Ababa Layover Tours',
@@ -37,7 +37,12 @@ const assurances = [
   },
 ]
 
-export default function LayoverPage() {
+export default async function LayoverPage() {
+  const packages = await getLayoverPackagesData()
+  const packageCount = packages.length
+  const shortest = packages[0]?.hours ?? '6 Hours'
+  const from = packages[0]?.price ?? '$95 pp'
+
   return (
     <>
       <PageHero
@@ -48,9 +53,9 @@ export default function LayoverPage() {
         imageAlt="The Addis Ababa skyline at dusk seen from the Entoto hills"
         crumbs={[{ label: 'Home', href: '/' }, { label: 'Layover' }]}
         meta={[
-          { label: 'Packages', value: '4' },
-          { label: 'Shortest', value: '6 Hours' },
-          { label: 'From', value: '$95 pp' },
+          { label: 'Packages', value: String(packageCount) },
+          { label: 'Shortest', value: shortest },
+          { label: 'From', value: from },
           { label: 'Airport', value: 'Bole (ADD)' },
         ]}
       />
@@ -64,7 +69,7 @@ export default function LayoverPage() {
         />
 
         <div className="space-y-6 sm:space-y-8">
-          {layoverPackages.map((p, i) => (
+          {packages.map((p, i) => (
             <Reveal key={p.slug} delay={(i % 2) * 90}>
               <article className="group grid gap-0 overflow-hidden border border-border bg-card lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]">
                 <div className="relative aspect-[16/10] lg:aspect-auto lg:min-h-[380px]">
@@ -221,3 +226,7 @@ export default function LayoverPage() {
     </>
   )
 }
+
+// ISR: admin edits surface within an hour (deliberate deviation from the
+// statically frozen tours pages — the catalog is now API-backed).
+export const revalidate = 3600

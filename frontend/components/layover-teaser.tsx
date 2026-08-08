@@ -2,9 +2,13 @@ import Image from 'next/image'
 import { Plane } from 'lucide-react'
 import { Reveal } from '@/components/reveal'
 import { LinkButton } from '@/components/link-button'
-import { layoverPackages } from '@/lib/site'
+import { getLayoverPackagesData } from '@/lib/data'
 
-export function LayoverTeaser() {
+export async function LayoverTeaser() {
+  // Homepage section: baked at build time (the homepage is statically built);
+  // a failing API falls back to the static catalog, so the build never breaks.
+  const packages = await getLayoverPackagesData()
+
   return (
     <section className="border-y border-border bg-muted/40">
       <div className="shell grid gap-12 py-20 lg:grid-cols-2 lg:items-center lg:gap-20 lg:py-32">
@@ -24,7 +28,7 @@ export function LayoverTeaser() {
           </p>
 
           <dl className="mt-10 grid grid-cols-2 gap-x-6 gap-y-6 sm:grid-cols-4">
-            {layoverPackages.map((p) => (
+            {packages.map((p) => (
               <div key={p.slug} className="border-t border-border pt-4">
                 <dt className="flex items-center gap-1.5 font-serif text-xl text-primary">
                   <Plane className="h-3.5 w-3.5 text-accent" aria-hidden />
