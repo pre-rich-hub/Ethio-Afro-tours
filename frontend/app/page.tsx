@@ -1,0 +1,28 @@
+import { Hero } from '@/components/hero'
+import { BrandIntro } from '@/components/brand-intro'
+import { Destinations } from '@/components/destinations'
+import { Journeys } from '@/components/journeys'
+import { WhyEthiopia } from '@/components/why-ethiopia'
+import { Experiences } from '@/components/experiences'
+import { LayoverTeaser } from '@/components/layover-teaser'
+import { Testimonial } from '@/components/testimonial'
+import { Gallery } from '@/components/gallery'
+import { PlanJourney } from '@/components/plan-journey'
+
+export default function Page() {
+  return (
+    <>
+      <Hero />
+      <BrandIntro />
+      <Destinations />
+      <Journeys />
+      <WhyEthiopia />
+      <Experiences />
+      <LayoverTeaser />
+      <Testimonial />
+      <Gallery />
+      <PlanJourney />
+    </>
+  )
+}
+
