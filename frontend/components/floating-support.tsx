@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { MessageSquare, X, Send, Sparkles, Bot } from 'lucide-react'
 import { contact } from '@/lib/site'
+import { streamAssistantChat } from '@/lib/api'
 
 // Custom WhatsApp SVG Icon to look consistent and sharp
 function WhatsAppIcon({ className = 'h-5 w-5' }: { className?: string }) {
@@ -44,7 +45,10 @@ export function FloatingSupport() {
     ])
     const [input, setInput] = useState('')
     const [isTyping, setIsTyping] = useState(false)
+    const [isStreaming, setIsStreaming] = useState(false)
     const chatEndRef = useRef<HTMLDivElement>(null)
+    const sessionIdRef = useRef<string | null>(null)
+    const activeBotMessageIdRef = useRef<string | null>(null)
 
     // Auto-scroll to bottom of messages
     useEffect(() => {
@@ -55,37 +59,26 @@ export function FloatingSupport() {
     const formattedWhatsapp = contact.whatsapp.replace(/\s+/g, '').replace(/^\+/, '')
     const whatsappUrl = `https://wa.me/${formattedWhatsapp}`
 
-    const getBotResponse = (query: string): string => {
-        const q = query.toLowerCase()
-        if (q.includes('lali') || q.includes('church') || q.includes('monolith')) {
-            return 'Lalibela is famous for its 11 rock-hewn monolithic churches, carved out of red volcanic tuff in the 12th century. It is a UNESCO World Heritage site and a living sanctuary. Our private journeys include expert local scholar-guides, luxury lodges like Mezena Lodge, and VIP access to special liturgies.'
-        }
-        if (q.includes('danakil') || q.includes('dallol') || q.includes('lava') || q.includes('erta')) {
-            return 'The Danakil Depression is one of the lowest and hottest places on Earth (-125m), featuring the otherworldly Dallol sulfur springs and the active Erta Ale lava lake. We curate highly secure, fully serviced expeditions with privately chartered 4x4s, premium camp setups, and professional naturalists.'
-        }
-        if (q.includes('omo') || q.includes('tribe') || q.includes('cultur')) {
-            return 'The Omo Valley is home to diverse tribes (such as the Mursi, Hamer, and Kara) with unique living traditions. We organize respectful, privately guided cultural immersions that support the local communities directly and provide deep insights into local customs without drive-by tourism.'
-        }
-        if (q.includes('book') || q.includes('pricing') || q.includes('price') || q.includes('cost') || q.includes('plan') || q.includes('contact')) {
-            return "All our itineraries are 100% tailor-made to your preferences. To receive a detailed proposal and pricing, you can click 'Plan Your Journey' in the navbar or contact page, fill out our short Enquiry Form, and one of our dedicated travel designers will reach out to you within 24 hours."
-        }
-        if (q.includes('simien') || q.includes('mountain') || q.includes('hike') || q.includes('trek')) {
-            return 'The Simien Mountains offer dramatic jagged peaks, deep canyons, and rare endemic wildlife like the Gelada baboons and Walia ibex. We arrange luxury treks with private chefs, high-end mountain gear, and overnight stays at the spectacular Limalimo Lodge.'
-        }
-        if (q.includes('best time') || q.includes('season') || q.includes('weather') || q.includes('month') || q.includes('when')) {
-            return 'The best time to visit Ethiopia is generally from October to March (dry season, clear skies, lush green highlands after kiremt rains). October and November are especially spectacular for wild alpine flowers. December and January are excellent for highland festivals (Timkat/Genna). The Omo Valley in the south is open year-round.'
-        }
-        if (q.includes('layover') || q.includes('transit') || q.includes('addis') || q.includes('stopover')) {
-            return 'If you have a layover in Addis Ababa, we offer curated 6 to 48-hour transit tours. These include airport meet-and-greet, luxury vehicles, private guides, visits to the National Museum (to see Lucy), traditional coffee ceremonies, and meals at premium cultural restaurants.'
-        }
-        return "I would be delighted to assist you with planning your customizable journey. You can ask me about popular destinations (Lalibela, Danakil, Simien Mountains, Omo Valley), layover services in Addis Ababa, or how to start planning. What aspect of Ethiopia's soul inspires you most today?"
+    const appendBotMessage = (text: string) => {
+        setMessages((prev) => [...prev, {
+            id: crypto.randomUUID(),
+            sender: 'bot',
+            text,
+            timestamp: new Date(),
+        }])
+    }
+
+    const finishStream = () => {
+        activeBotMessageIdRef.current = null
+        setIsTyping(false)
+        setIsStreaming(false)
     }
 
     const handleSendMessage = (text: string) => {
-        if (!text.trim()) return
+        if (!text.trim() || isStreaming) return
 
         const userMessage: Message = {
-            id: Math.random().toString(),
+            id: crypto.randomUUID(),
             sender: 'user',
             text,
             timestamp: new Date(),
@@ -94,19 +87,47 @@ export function FloatingSupport() {
         setMessages((prev) => [...prev, userMessage])
         setInput('')
         setIsTyping(true)
+        setIsStreaming(true)
 
-        // Simulate typing latency
-        setTimeout(() => {
-            const responseText = getBotResponse(text)
-            const botMessage: Message = {
-                id: Math.random().toString(),
-                sender: 'bot',
-                text: responseText,
-                timestamp: new Date(),
-            }
-            setMessages((prev) => [...prev, botMessage])
-            setIsTyping(false)
-        }, 1200)
+        if (!sessionIdRef.current) sessionIdRef.current = crypto.randomUUID()
+
+        void streamAssistantChat(text, sessionIdRef.current, {
+            onMeta: (sessionId) => {
+                sessionIdRef.current = sessionId
+            },
+            onDelta: (delta) => {
+                if (activeBotMessageIdRef.current === null) {
+                    const id = crypto.randomUUID()
+                    activeBotMessageIdRef.current = id
+                    setIsTyping(false)
+                    setMessages((prev) => [...prev, {
+                        id,
+                        sender: 'bot',
+                        text: delta,
+                        timestamp: new Date(),
+                    }])
+                } else {
+                    setMessages((prev) => prev.map((message) =>
+                        message.id === activeBotMessageIdRef.current
+                            ? { ...message, text: message.text + delta }
+                            : message
+                    ))
+                }
+            },
+            onDone: (done) => {
+                if (done.handoff.type !== 'none') {
+                    appendBotMessage(
+                        'I have reached a limit for now. For a personal tailor-made proposal, please use our Enquiry Form (/contact) or chat with us on WhatsApp.'
+                    )
+                }
+                finishStream()
+            },
+            onError: (message) => {
+                appendBotMessage(message)
+                appendBotMessage('For immediate personal help, reach out to us on WhatsApp.')
+                finishStream()
+            },
+        })
     }
 
     return (
@@ -252,12 +273,13 @@ export function FloatingSupport() {
                         type="text"
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
+                        disabled={isStreaming}
                         placeholder="Ask a question about Ethiopia..."
-                        className="flex-1 bg-neutral-900/60 border border-white/10 focus:border-accent focus:ring-1 focus:ring-accent rounded-full px-4 py-2.5 text-xs text-white placeholder:text-sand/40 outline-none transition-all duration-200"
+                        className="flex-1 bg-neutral-900/60 border border-white/10 focus:border-accent focus:ring-1 focus:ring-accent rounded-full px-4 py-2.5 text-xs text-white placeholder:text-sand/40 outline-none transition-all duration-200 disabled:opacity-50"
                     />
                     <button
                         type="submit"
-                        disabled={!input.trim()}
+                        disabled={isStreaming || !input.trim()}
                         aria-label="Send message"
                         className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-accent-foreground hover:bg-accent/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-md cursor-pointer"
                     >
