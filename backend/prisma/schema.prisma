@@ -162,6 +162,7 @@ model Blog {
   slug        String        @unique @db.VarChar(255)
   blogTitle   String        @map("blog_title")
   description String?       @db.Text
+  content     String?       @db.Text
   imageUrl    String?       @map("image_url")
   categoryId  Int?
   category    BlogCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
@@ -205,4 +206,38 @@ model MediaAsset {
   createdAt    DateTime @default(now()) @map("created_at")
 
   @@map("media_assets")
+}
+
+model ChatSession {
+  id           String        @id @default(uuid()) @db.Uuid
+  ipHash       String?       @map("ip_hash")
+  messageCount Int           @default(0) @map("message_count")
+  tokenCount   Int           @default(0) @map("token_count")
+  createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime      @updatedAt @map("updated_at")
+  messages     ChatMessage[]
+
+  @@map("chat_sessions")
+}
+
+model ChatMessage {
+  id         Int          @id @default(autoincrement())
+  sessionId  String       @map("session_id") @db.Uuid
+  session    ChatSession  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  role       String
+  content    String       @db.Text
+  tokenCount Int          @default(0) @map("token_count")
+  createdAt  DateTime     @default(now()) @map("created_at")
+
+  @@index([sessionId, id])
+  @@map("chat_messages")
+}
+
+model ChatDailyUsage {
+  id         Int      @id @default(autoincrement())
+  date       DateTime @unique @db.Date
+  tokenCount Int      @default(0) @map("token_count")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@map("chat_daily_usage")
 }
