@@ -10,7 +10,16 @@ export const logger = pino({
         options: { colorize: true, translateTime: "HH:MM:ss.l" }
       },
   redact: {
-    paths: ["req.headers.authorization", "req.headers.cookie", "body.password"],
+    paths: [
+      "req.headers.authorization",
+      "req.headers.cookie",
+      "body.password",
+      // AI assistant payloads: the chat message and any assistant content must
+      // never land in logs.
+      "body.message",
+      "body.content",
+      "messages[*].content"
+    ],
     censor: "[REDACTED]"
   }
 });

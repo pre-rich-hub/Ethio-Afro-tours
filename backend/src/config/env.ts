@@ -46,6 +46,26 @@ const envSchema = z.object({
     (value) => typeof value === "string" && value.trim() === "" ? undefined : value,
     z.enum(["local", "database"]).optional()
   ),
+
+  // AI travel assistant (Phase 4). All ASSISTANT_* settings are independent of
+  // EMAIL_ENABLED; the boot check below mirrors the email fail-fast pattern.
+  ASSISTANT_ENABLED: z.preprocess(envBoolean, z.boolean()).default(false),
+  ASSISTANT_PROVIDER: z.enum(["openai", "gemini"]).default("openai"),
+  OPENAI_API_KEY: z.string().optional().default(""),
+  ASSISTANT_MODEL: z.string().default("gpt-5-mini"),
+  GEMINI_API_KEY: z.string().optional().default(""),
+  ASSISTANT_GEMINI_MODEL: z.string().default("gemini-3.1-flash-lite"),
+  ASSISTANT_MAX_MESSAGES: z.coerce.number().int().positive().default(30),
+  ASSISTANT_MAX_SESSION_TOKENS: z.coerce.number().int().positive().default(50000),
+  ASSISTANT_MAX_OUTPUT_TOKENS: z.coerce.number().int().positive().default(600),
+  ASSISTANT_MAX_HISTORY_MESSAGES: z.coerce.number().int().positive().default(10),
+  ASSISTANT_MAX_CONTEXT_CHARS: z.coerce.number().int().positive().default(40000),
+  ASSISTANT_STREAM_TIMEOUT_MS: z.coerce.number().int().positive().default(45000),
+  ASSISTANT_CONTEXT_TTL_MS: z.coerce.number().int().positive().default(300000),
+  ASSISTANT_MAX_DAILY_TOKENS: z.coerce.number().int().positive().default(200000),
+  ASSISTANT_STREAM: z.preprocess(envBoolean, z.boolean()).default(true),
+  ASSISTANT_SPIKE_ROUTE: z.preprocess(envBoolean, z.boolean()).default(false),
+  ASSISTANT_IP_HASH_SALT: z.string().optional().default(""),
 });
 
 const rawEnv = envSchema.parse(process.env);
@@ -55,7 +75,10 @@ const parsed = {
   STORAGE_DRIVER:
     process.env.VERCEL && (!rawEnv.STORAGE_DRIVER || rawEnv.STORAGE_DRIVER === "local")
       ? "database"
-      : rawEnv.STORAGE_DRIVER ?? "local"
+      : rawEnv.STORAGE_DRIVER ?? "local",
+  // Never store raw client IPs; hash them with a per-deployment salt. Falls
+  // back to JWT_SECRET when no dedicated salt is configured.
+  ASSISTANT_IP_HASH_SALT: rawEnv.ASSISTANT_IP_HASH_SALT || rawEnv.JWT_SECRET
 };
 
 // Boot check: email must be fully configured before it is enabled. Without an
@@ -64,6 +87,27 @@ if (parsed.EMAIL_ENABLED && !parsed.SMTP_HOST) {
   throw new Error(
     "EMAIL_ENABLED is true but SMTP_HOST is not configured. Set SMTP_HOST (and SMTP_USER/SMTP_PASS) or set EMAIL_ENABLED=false."
   );
+}
+
+// Boot check: the assistant may only be enabled with a configured provider.
+// Every provider key is verified up front so a half-configured deployment
+// fails at boot rather than at the first chat request.
+if (parsed.ASSISTANT_ENABLED) {
+  if (parsed.ASSISTANT_PROVIDER === "openai" && !parsed.OPENAI_API_KEY) {
+    throw new Error(
+      "ASSISTANT_ENABLED is true but OPENAI_API_KEY is not configured. Set OPENAI_API_KEY or set ASSISTANT_ENABLED=false."
+    );
+  }
+  if (parsed.ASSISTANT_PROVIDER === "gemini" && !parsed.GEMINI_API_KEY) {
+    throw new Error(
+      "ASSISTANT_ENABLED is true but GEMINI_API_KEY is not configured. Set GEMINI_API_KEY or set ASSISTANT_ENABLED=false."
+    );
+  }
+  if (parsed.ASSISTANT_PROVIDER !== "openai" && parsed.ASSISTANT_PROVIDER !== "gemini") {
+    throw new Error(
+      `ASSISTANT_PROVIDER "${parsed.ASSISTANT_PROVIDER}" has no implementation. Supported: openai, gemini.`
+    );
+  }
 }
 
 export const env = parsed;
