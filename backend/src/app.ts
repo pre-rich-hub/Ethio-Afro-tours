@@ -13,6 +13,11 @@ import { registerRoutes } from "./routes.js";
 
 export const app = express();
 
+// Vercel terminates TLS at the edge and forwards client IPs via the
+// X-Forwarded-For header. Without this every rate limiter keys on the edge
+// node IP, collapsing all visitors into one site-wide bucket.
+app.set("trust proxy", 1);
+
 app.use(helmet());
 app.use(
   cors({
