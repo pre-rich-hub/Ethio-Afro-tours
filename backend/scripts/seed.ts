@@ -5,6 +5,7 @@ import { slugify } from "../src/utils/slug.js";
 import { tourSeeds } from "./data/tours.seed.js";
 import { destinationSeeds } from "./data/destinations.seed.js";
 import { layoverPackageSeeds } from "./data/layover-packages.seed.js";
+import { blogPostSeeds } from "./data/blog-posts.seed.js";
 
 // Seeds run against the DIRECT connection: interactive transactions (tour
 // upsert + junction sync) fail with P2028 over the pooled pgbouncer URL.
@@ -426,6 +427,47 @@ async function main() {
   console.log(
     `Testimonials: ${testimonialCount} total (${testimonialsCreated} new this run)`
   );
+
+  // ------------------------- Blog posts -------------------------
+  // Client-owned journal posts (frontend/lib/site.ts). Import-once semantics,
+  // exactly like layover packages: NO prune, NO clobber — the seed only fills
+  // the table when it is empty, and admin edits survive re-seeds. Missing
+  // categories are created by name (only "Culture" exists among the
+  // pre-seeded 4), never deleted. Post content is never logged.
+  const blogPostsExisting = await prisma.blog.count();
+  if (blogPostsExisting === 0) {
+    const blogCategoriesBySlug = new Map(
+      (await prisma.blogCategory.findMany()).map((category) => [category.slug, category.id])
+    );
+    const newCategories = new Set<string>();
+    for (const post of blogPostSeeds) {
+      const categorySlug = slugify(post.categoryName);
+      let categoryId = blogCategoriesBySlug.get(categorySlug);
+      if (categoryId === undefined) {
+        const category = await prisma.blogCategory.create({
+          data: { name: post.categoryName, slug: categorySlug }
+        });
+        blogCategoriesBySlug.set(categorySlug, category.id);
+        categoryId = category.id;
+        newCategories.add(post.categoryName);
+      }
+      await prisma.blog.create({
+        data: {
+          slug: post.slug,
+          blogTitle: post.title,
+          description: post.description,
+          content: post.content,
+          imageUrl: post.imageUrl,
+          categoryId
+        }
+      });
+    }
+    console.log(
+      `Blog posts: ${blogPostSeeds.length} created (${newCategories.size} new categories: ${[...newCategories].join(", ")})`
+    );
+  } else {
+    console.log(`Blog posts: ${blogPostsExisting} existing, skipped (guard: count != 0)`);
+  }
 
   // ------------------------- Layover packages -------------------------
   // Import-once semantics, deliberately different from tours/destinations:
