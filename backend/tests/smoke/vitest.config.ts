@@ -6,7 +6,13 @@ export default defineConfig({
     environment: "node",
     // Force database-backed media storage so upload URLs go through
     // /api/v1/media/:id (the Neon smoke target).
-    env: { STORAGE_DRIVER: "database" },
+    // Enable the assistant module with a dummy key: the provider module is
+    // mocked, so no real LLM calls are ever made.
+    env: {
+      STORAGE_DRIVER: "database",
+      ASSISTANT_ENABLED: "true",
+      OPENAI_API_KEY: "test"
+    },
     fileParallelism: false,
     testTimeout: 30000,
     hookTimeout: 30000

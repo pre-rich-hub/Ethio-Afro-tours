@@ -12,13 +12,22 @@
  *
  * Run: `SMOKE=1 npm run test:smoke`
  */
-import { afterAll, describe, expect, it } from "vitest";
+import { afterAll, describe, expect, it, vi } from "vitest";
 import request from "supertest";
+import { randomUUID } from "node:crypto";
 
 import "dotenv/config";
 import { app } from "../../src/app.js";
 import { prisma } from "../../src/config/database.js";
 import { env } from "../../src/config/env.js";
+
+// The AI provider is always mocked in smoke: the persistence round-trip below
+// goes through Prisma directly and must never make a real LLM API call.
+vi.mock("../../src/modules/assistant/provider.client.js", () => ({
+  OpenAIProvider: class {},
+  GeminiProvider: class {},
+  createProvider: () => ({ streamChat: vi.fn() })
+}));
 
 const SMOKE = Boolean(process.env.SMOKE);
 const marker = `smoke-${Date.now()}`;
@@ -29,7 +38,9 @@ const created = {
   galleryIds: [] as number[],
   mediaIds: [] as string[],
   tourSlugs: [] as string[],
-  contactIds: [] as number[]
+  contactIds: [] as number[],
+  chatSessionIds: [] as string[],
+  chatDailyUsageDates: [] as Date[]
 };
 
 describe.skipIf(!SMOKE)("smoke (Neon, real DB)", () => {
@@ -43,6 +54,15 @@ describe.skipIf(!SMOKE)("smoke (Neon, real DB)", () => {
     for (const slug of created.tourSlugs) {
       await prisma.tour.delete({ where: { slug } }).catch(() => undefined);
     }
+    // Messages cascade with the session, but delete them explicitly to keep
+    // cleanup symmetric with the other tables.
+    await prisma.chatMessage.deleteMany({
+      where: { sessionId: { in: created.chatSessionIds } }
+    });
+    await prisma.chatSession.deleteMany({ where: { id: { in: created.chatSessionIds } } });
+    await prisma.chatDailyUsage.deleteMany({
+      where: { date: { in: created.chatDailyUsageDates } }
+    });
     await prisma.$disconnect();
   });
 
@@ -193,5 +213,53 @@ describe.skipIf(!SMOKE)("smoke (Neon, real DB)", () => {
       where: { email: `${marker}-rb@example.com` }
     });
     expect(rolledBack).toBeNull();
+  });
+
+  it("assistant chat persistence round-trip (provider mocked, no LLM calls)", async () => {
+    const session = await prisma.chatSession.create({
+      data: { id: randomUUID(), ipHash: "smoke-hmac-ip" }
+    });
+    created.chatSessionIds.push(session.id);
+
+    const userMessage = await prisma.chatMessage.create({
+      data: {
+        sessionId: session.id,
+        role: "user",
+        content: "What is the best time to visit Lalibela?",
+        tokenCount: 12
+      }
+    });
+    const botMessage = await prisma.chatMessage.create({
+      data: {
+        sessionId: session.id,
+        role: "assistant",
+        content: "October to March is ideal.",
+        tokenCount: 9
+      }
+    });
+
+    // Far-future fixed date: never collides with real per-day usage rows.
+    const usageDate = new Date("2099-12-31T00:00:00.000Z");
+    const usage = await prisma.chatDailyUsage.create({
+      data: { date: usageDate, tokenCount: 42 }
+    });
+    created.chatDailyUsageDates.push(usage.date);
+
+    const readBack = await prisma.chatSession.findUnique({
+      where: { id: session.id },
+      include: { messages: { orderBy: { id: "asc" } } }
+    });
+    expect(readBack).not.toBeNull();
+    expect(readBack!.ipHash).toBe("smoke-hmac-ip");
+    expect(readBack!.messages).toHaveLength(2);
+    expect(readBack!.messages.map((message) => message.role)).toEqual(["user", "assistant"]);
+    expect(readBack!.messages[0].id).toBe(userMessage.id);
+    expect(readBack!.messages[0].content).toContain("Lalibela");
+    expect(await prisma.chatMessage.count({ where: { sessionId: session.id } })).toBe(2);
+
+    const dailyReadBack = await prisma.chatDailyUsage.findUnique({
+      where: { date: usage.date }
+    });
+    expect(dailyReadBack?.tokenCount).toBe(42);
   });
 });
