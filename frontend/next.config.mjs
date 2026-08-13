@@ -3,6 +3,10 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  // SSE (AI assistant streaming) breaks when the server gzips responses:
+  // Chrome's streaming fetch stalls after the first decompressed chunk.
+  // Next must not compress; Vercel's CDN handles static-asset compression.
+  compress: false,
   images: {
     unoptimized: true,
   },
