@@ -13,6 +13,7 @@ import { getToursData } from '@/lib/data'
 export default async function Page() {
   const tours = await getToursData()
 
+
   return (
     <>
       <Hero />
@@ -28,4 +29,6 @@ export default async function Page() {
     </>
   )
 }
+
+
 
