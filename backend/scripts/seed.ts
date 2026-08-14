@@ -18,7 +18,7 @@ const prisma = new PrismaClient({
 /**
  * Seeds the client catalog and ops data:
  *  - blog categories (4), tour categories (5)
- *  - destinations (8 client destinations from frontend/lib/site.ts)
+ *  - destinations (20 client destinations from frontend/lib/site.ts)
  *  - tours (6 client tours from frontend/lib/site.ts, mapped into our schema)
  *  - layover packages (4 client packages — import-once only, NO prune/clobber:
  *    Phase 3 makes them client-owned, admin edits must survive re-seeds)
@@ -29,7 +29,7 @@ const prisma = new PrismaClient({
  * the seed values, so the second run changes nothing), destinations upsert by
  * slug, and bookings/contacts/subscribers are guarded by row counts. Stale
  * rows (tours/destinations whose slug is no longer in the client catalog,
- * e.g. the reference catalog's Harar or Debre Libanos rows) are pruned so
+ * e.g. destinations outside the approved 20-entry catalog) are pruned so
  * the API surface matches the client catalog exactly.
  */
 async function main() {
@@ -62,7 +62,7 @@ async function main() {
   console.log(`Tour categories: ${tourCategories.length}`);
 
   // ------------------------- Destinations -------------------------
-  // All 8 client destinations (from frontend/lib/site.ts destinations array).
+  // All 20 client destinations (from frontend/lib/site.ts destinations array).
   // Upsert by the seed's explicit slug: the client slug is the API contract
   // (e.g. "lake-tana", NOT the slugified name "lake-tana-blue-nile").
   const clientDestinationSlugs = destinationSeeds.map((d) => d.slug);
@@ -82,8 +82,8 @@ async function main() {
       }
     });
   }
-  // Prune stale destinations (reference-catalog rows like "harar" or
-  // "simien-mountains-national-park"). Tour.destinationId is SetNull by the
+  // Prune stale destinations outside the approved client catalog. The
+  // Tour.destinationId relation is SetNull by the
   // schema, so surviving tours simply lose their fallback pointer.
   const prunedDestinations = await prisma.destination.deleteMany({
     where: { slug: { notIn: clientDestinationSlugs } }
@@ -119,8 +119,7 @@ async function main() {
 
   // Tours carry client destination slugs directly (see tours.seed.ts); the
   // seeded destinations use those same slugs, so no translation map is needed.
-  // Slugs not present in the client catalog (e.g. "addis-ababa") resolve to
-  // nothing and are skipped.
+  // Slugs not present in the client catalog resolve to nothing and are skipped.
   const tourCategoriesBySlug = await prisma.tourCategory.findMany();
   const destinationsBySlug = await prisma.destination.findMany();
   const categoryIdFor = (slug: string) =>

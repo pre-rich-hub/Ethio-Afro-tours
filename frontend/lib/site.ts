@@ -58,8 +58,33 @@ export const destinations: Destination[] = [
     span: 'lg:col-span-7',
   },
   {
+    slug: 'addis-ababa',
+    name: 'Addis Ababa',
+    region: 'Central Ethiopia',
+    tag: 'Capital City',
+    image: '/images/addis-skyline.png',
+    teaser:
+      'Museums, markets and modern Ethiopian life at the gateway to the country.',
+    intro:
+      'Ethiopia’s highland capital brings ancient history, living culture and an ambitious contemporary city together at the beginning of almost every journey.',
+    bestTime: 'October – May',
+    duration: '1 – 2 days',
+    altitude: '2,355 m',
+    highlights: [
+      'National Museum and the story of Lucy',
+      'Mount Entoto viewpoints and historic churches',
+      'Merkato with a local guide and coffee specialist',
+      'Contemporary galleries, restaurants and live music',
+    ],
+    paragraphs: [
+      'Addis Ababa is more than an arrival point. A well-paced day moves from the deep human history held in its museums to the city’s Orthodox churches, busy trading quarters and new cultural spaces.',
+      'We shape the visit around your flight times and interests, with a private guide who can connect the capital’s food, art and politics to the regions you will explore next.',
+    ],
+    span: 'lg:col-span-5',
+  },
+  {
     slug: 'simien-mountains',
-    name: 'Simien Mountains',
+    name: 'Simien Mountains National Park',
     region: 'Northern Highlands',
     tag: 'National Park',
     image: '/images/hero-simien.png',
@@ -84,7 +109,7 @@ export const destinations: Destination[] = [
   },
   {
     slug: 'danakil-depression',
-    name: 'Danakil Depression',
+    name: 'Danakil Depression & Erta Ale',
     region: 'Afar Lowlands',
     tag: 'Expedition',
     image: '/images/danakil.png',
@@ -158,7 +183,7 @@ export const destinations: Destination[] = [
   },
   {
     slug: 'axum',
-    name: 'Axum',
+    name: 'Aksum',
     region: 'Tigray',
     tag: 'Ancient Capital',
     image: '/images/festival-timkat.png',
@@ -176,39 +201,14 @@ export const destinations: Destination[] = [
       'Rock-hewn churches of the Gheralta on the drive south',
     ],
     paragraphs: [
-      'Axum rewards a guide who can read stone. The obelisks are engineering as much as art — single pieces of granite, carved to imitate multi-storey towers, raised without mortar.',
+      'Aksum rewards a guide who can read stone. The obelisks are engineering as much as art — single pieces of granite, carved to imitate multi-storey towers, raised without mortar.',
       'We combine it with Tigray’s cliff churches, several of which require a genuine scramble and reward it with frescoes almost nobody sees.',
     ],
     span: 'lg:col-span-6',
   },
   {
-    slug: 'bale-mountains',
-    name: 'Bale Mountains',
-    region: 'Southern Highlands',
-    tag: 'Wildlife',
-    image: '/images/bale-gelada.png',
-    teaser:
-      'Afro-alpine moorland holding the rarest canid on earth — the Ethiopian wolf.',
-    intro:
-      'The Sanetti Plateau is the largest expanse of Afro-alpine habitat in Africa, and the best place in the world to see a wild wolf hunt.',
-    bestTime: 'November – April',
-    duration: '3 – 4 days',
-    altitude: '2,500 – 4,377 m',
-    highlights: [
-      'Ethiopian wolf tracking on the Sanetti Plateau',
-      'Harenna cloud forest and wild coffee understorey',
-      'Endemic birding — sixteen Ethiopian endemics in a day',
-      'Mountain nyala at dusk near Dinsho',
-    ],
-    paragraphs: [
-      'Fewer than five hundred Ethiopian wolves remain, and roughly half of them live here. Mornings on the plateau are cold, clear and quiet, and the sightings — a rust-coloured wolf working a rodent burrow — are genuinely intimate.',
-      'Below the escarpment, the Harenna forest is another world: moss, wild coffee, colobus and hornbills. We usually spend a night on each side.',
-    ],
-    span: 'lg:col-span-6',
-  },
-  {
     slug: 'lake-tana',
-    name: 'Lake Tana & Blue Nile',
+    name: 'Bahir Dar, Lake Tana & Blue Nile Falls',
     region: 'Amhara',
     tag: 'Slow Travel',
     image: '/images/lake-tana.png',
@@ -228,6 +228,306 @@ export const destinations: Destination[] = [
     paragraphs: [
       'Tana is the gentle chapter of a northern journey. The monasteries are round, thatched and painted floor to ceiling, and the monks who unwrap their manuscripts for you are usually delighted to have the company.',
       'We use a private boat and go early, before the day-trip flotilla, then take a late breakfast on the water.',
+    ],
+    span: 'lg:col-span-6',
+  },
+  {
+    slug: 'bale-mountains',
+    name: 'Bale Mountains National Park',
+    region: 'Oromia Highlands',
+    tag: 'Wildlife',
+    image: '/images/bale-gelada.png',
+    teaser:
+      'Afro-alpine moorland holding the rarest canid on earth — the Ethiopian wolf.',
+    intro:
+      'The Sanetti Plateau is the largest expanse of Afro-alpine habitat in Africa, and the best place in the world to see a wild wolf hunt.',
+    bestTime: 'November – April',
+    duration: '3 – 4 days',
+    altitude: '2,500 – 4,377 m',
+    highlights: [
+      'Ethiopian wolf tracking on the Sanetti Plateau',
+      'Harenna cloud forest and wild coffee understorey',
+      'Endemic birding across contrasting habitats',
+      'Mountain nyala at dusk near Dinsho',
+    ],
+    paragraphs: [
+      'Fewer than five hundred Ethiopian wolves remain, and roughly half of them live here. Mornings on the plateau are cold, clear and quiet, and the sightings — a rust-coloured wolf working a rodent burrow — are genuinely intimate.',
+      'Below the escarpment, the Harenna forest is another world: moss, wild coffee, colobus and hornbills. We usually spend a night on each side.',
+    ],
+    span: 'lg:col-span-6',
+  },
+  {
+    slug: 'harar',
+    name: 'Harar Jugol',
+    region: 'Eastern Ethiopia',
+    tag: 'UNESCO Heritage',
+    image: '/placeholder.jpg',
+    teaser:
+      'A walled city of painted homes, narrow lanes and centuries of Islamic scholarship.',
+    intro:
+      'Behind Harar’s old gates, more than eighty mosques, vibrant markets and distinctive Harari homes form one of Africa’s most remarkable living historic cities.',
+    bestTime: 'October – March',
+    duration: '2 – 3 days',
+    altitude: '1,885 m',
+    highlights: [
+      'Walking the lanes and gates of Harar Jugol',
+      'Traditional Harari homes and cultural museums',
+      'Coffee, spice and textile markets',
+      'The evening hyena-feeding tradition',
+    ],
+    paragraphs: [
+      'Harar is best discovered on foot, turning through lanes where every doorway opens onto another layer of trade, faith and domestic art. A Harari guide gives meaning to the city’s colors, courtyards and sacred spaces.',
+      'We allow at least two nights, pairing the old city with its markets and surrounding landscapes rather than treating it as a quick excursion from the airport.',
+    ],
+    span: 'lg:col-span-7',
+  },
+  {
+    slug: 'arba-minch',
+    name: 'Arba Minch',
+    region: 'Southern Ethiopia',
+    tag: 'Lakes & Wildlife',
+    image: '/placeholder.jpg',
+    teaser:
+      'A green escarpment above twin Rift Valley lakes and the forests of Nech Sar.',
+    intro:
+      'Arba Minch is the natural gateway to southern Ethiopia, overlooking Lakes Abaya and Chamo with wildlife, wetlands and highland communities close at hand.',
+    bestTime: 'October – March',
+    duration: '2 – 3 days',
+    altitude: '1,285 m',
+    highlights: [
+      'Boat journey on Lake Chamo',
+      'Nech Sar National Park landscapes',
+      'The forest springs known as Forty Springs',
+      'Easy access to Dorze and Konso',
+    ],
+    paragraphs: [
+      'The view from Arba Minch explains its appeal immediately: forested slopes fall toward two immense lakes divided by the Bridge of God. It is a restorative stop between the long cultural routes of the south.',
+      'A private boat on Lake Chamo brings close views of hippos, waterbirds and large Nile crocodiles, while the highlands above town open the route toward Dorze.',
+    ],
+    span: 'lg:col-span-5',
+  },
+  {
+    slug: 'konso',
+    name: 'Konso Cultural Landscape',
+    region: 'Southern Ethiopia',
+    tag: 'UNESCO Heritage',
+    image: '/placeholder.jpg',
+    teaser:
+      'Stone-walled settlements and terraced hills shaped by generations of skilled farmers.',
+    intro:
+      'Konso’s fortified villages, sculpted agricultural terraces and communal traditions reveal a cultural landscape refined over centuries in a demanding environment.',
+    bestTime: 'June – March',
+    duration: '1 – 2 days',
+    altitude: '1,400 – 2,000 m',
+    highlights: [
+      'Terraced hillsides of the UNESCO landscape',
+      'Guided visit to a traditional walled village',
+      'Community gathering spaces and generation poles',
+      'Carved waka memorial traditions',
+    ],
+    paragraphs: [
+      'Konso is not a single monument but a landscape made by sustained human knowledge. Dry-stone terraces conserve soil and water, while compact hilltop settlements reflect systems of defense, community and shared work.',
+      'Visits are led with local guides and arranged at the pace of the community. The value lies in understanding how the landscape functions, not simply photographing its architecture.',
+    ],
+    span: 'lg:col-span-6',
+  },
+  {
+    slug: 'sof-omar-cave',
+    name: 'Sof Omar Cave',
+    region: 'Oromia',
+    tag: 'Geological Wonder',
+    image: '/placeholder.jpg',
+    teaser:
+      'A river-cut limestone world of soaring chambers, pillars and sacred memory.',
+    intro:
+      'The Web River passes through an immense limestone cave system whose echoing galleries carry both geological drama and deep spiritual significance.',
+    bestTime: 'October – June',
+    duration: '1 day',
+    altitude: '1,300 m',
+    highlights: [
+      'The monumental Chamber of Columns',
+      'River passages and natural limestone arches',
+      'Local Islamic history and pilgrimage traditions',
+      'A natural pairing with the Bale Mountains',
+    ],
+    paragraphs: [
+      'Sof Omar changes scale as you enter: daylight narrows behind you and the Web River leads into chambers held by fluted limestone pillars. The cave feels architectural even though water shaped every surface.',
+      'We visit with local expertise and proper lighting, usually as part of a longer Bale journey. Seasonal river levels determine how far the safest route can extend.',
+    ],
+    span: 'lg:col-span-6',
+  },
+  {
+    slug: 'hawassa',
+    name: 'Hawassa',
+    region: 'Sidama',
+    tag: 'Rift Valley',
+    image: '/placeholder.jpg',
+    teaser:
+      'A relaxed lakeside city of fish markets, gardens and abundant birdlife.',
+    intro:
+      'Set beside Lake Hawassa, the Sidama capital offers an easy introduction to the Rift Valley through waterfront life, nearby coffee country and a gentler pace.',
+    bestTime: 'October – May',
+    duration: '1 – 2 days',
+    altitude: '1,708 m',
+    highlights: [
+      'Sunrise birding along Lake Hawassa',
+      'The lively lakeside fish market',
+      'Boat excursions and hippo sightings',
+      'Sidama coffee and cultural experiences',
+    ],
+    paragraphs: [
+      'Hawassa works best as a pause rather than a checklist. Marabou storks and fish eagles gather by the water, cafés face the lake, and the city’s broad avenues make it one of southern Ethiopia’s most comfortable stops.',
+      'From here we can continue into Sidama coffee country or use the city as a natural break on the road between Addis Ababa and Arba Minch.',
+    ],
+    span: 'lg:col-span-7',
+  },
+  {
+    slug: 'wonchi-crater-lake',
+    name: 'Wonchi Crater Lake',
+    region: 'Oromia',
+    tag: 'Volcanic Landscape',
+    image: '/placeholder.jpg',
+    teaser:
+      'A blue crater lake ringed by farms, forest paths and mineral springs.',
+    intro:
+      'West of Addis Ababa, Wonchi’s volcanic caldera holds a highland lake, small islands and rural trails that make a rewarding active day or overnight escape.',
+    bestTime: 'October – May',
+    duration: '1 – 2 days',
+    altitude: 'About 2,900 m',
+    highlights: [
+      'Caldera viewpoints above the lake',
+      'Hiking or riding down through farmland',
+      'Boat crossing to the island monastery',
+      'Hot springs and village landscapes',
+    ],
+    paragraphs: [
+      'The journey into Wonchi is part of the experience, descending from a wide crater rim through cultivated slopes to the water below. Weather moves quickly at this altitude, changing the light across the caldera.',
+      'We arrange local guides, a boat crossing and a route matched to your preferred level of walking, with time to meet communities around the lake without rushing back to Addis.',
+    ],
+    span: 'lg:col-span-5',
+  },
+  {
+    slug: 'dorze',
+    name: 'Dorze Village',
+    region: 'Gamo Highlands',
+    tag: 'Living Culture',
+    image: '/placeholder.jpg',
+    teaser:
+      'Highland weaving traditions and remarkable bamboo homes above the Rift Valley.',
+    intro:
+      'In the cool hills above Arba Minch, Dorze communities are known for skilled weaving, towering bamboo houses and food traditions rooted in the enset plant.',
+    bestTime: 'October – March',
+    duration: '1 day',
+    altitude: 'About 2,600 m',
+    highlights: [
+      'Distinctive elephant-shaped bamboo houses',
+      'Weaving demonstrations with local artisans',
+      'Preparation and tasting of kocho',
+      'Wide views over Lakes Abaya and Chamo',
+    ],
+    paragraphs: [
+      'Dorze’s woven houses are practical works of architecture, designed to age gradually while remaining usable for decades. The same precision appears in textiles produced in family compounds across the highlands.',
+      'A thoughtful visit is conversational and locally hosted. We allow time for food, craft and questions rather than reducing the village to a roadside performance.',
+    ],
+    span: 'lg:col-span-6',
+  },
+  {
+    slug: 'tiya',
+    name: 'Tiya Archaeological Site',
+    region: 'Central Ethiopia',
+    tag: 'UNESCO Heritage',
+    image: '/placeholder.jpg',
+    teaser:
+      'Carved standing stones preserving the symbols of a still-mysterious past.',
+    intro:
+      'South of Addis Ababa, Tiya’s field of engraved megaliths marks an important prehistoric burial landscape whose signs continue to invite interpretation.',
+    bestTime: 'October – May',
+    duration: 'Half day',
+    altitude: 'About 1,900 m',
+    highlights: [
+      'Rows of carved megalithic stelae',
+      'Symbols of swords and geometric forms',
+      'Interpretation of the burial landscape',
+      'Easy combination with Adadi Mariam',
+    ],
+    paragraphs: [
+      'Tiya is compact but compelling. More than thirty standing stones carry repeated symbols, yet the people who placed them left no written explanation, making careful archaeological interpretation essential.',
+      'We usually combine the site with other heritage south of Addis, giving it enough context to feel like part of a larger historical landscape rather than an isolated stop.',
+    ],
+    span: 'lg:col-span-6',
+  },
+  {
+    slug: 'debre-libanos',
+    name: 'Debre Libanos Monastery',
+    region: 'Oromia',
+    tag: 'Sacred Heritage',
+    image: '/placeholder.jpg',
+    teaser:
+      'A major Orthodox monastery set above the immense gorge of the Blue Nile.',
+    intro:
+      'Founded in the thirteenth century, Debre Libanos remains one of Ethiopia’s most important monasteries and a rewarding excursion through the highlands north of Addis Ababa.',
+    bestTime: 'October – May',
+    duration: '1 day',
+    altitude: 'About 2,450 m',
+    highlights: [
+      'The modern church and stained-glass windows',
+      'Cave and spring associated with Saint Tekle Haymanot',
+      'Views into the Jemma River Gorge',
+      'The historic Portuguese Bridge nearby',
+    ],
+    paragraphs: [
+      'Debre Libanos combines living faith with a dramatic natural setting. Pilgrims arrive throughout the year, and the monastery’s history reaches far beyond the buildings visible today.',
+      'The day continues to viewpoints over the Jemma Gorge, where geladas and raptors are sometimes seen, creating an unusually rich cultural and landscape excursion from the capital.',
+    ],
+    span: 'lg:col-span-7',
+  },
+  {
+    slug: 'dire-dawa',
+    name: 'Dire Dawa',
+    region: 'Eastern Ethiopia',
+    tag: 'Railway City',
+    image: '/placeholder.jpg',
+    teaser:
+      'Railway heritage, colorful markets and a warm lowland gateway to Harar.',
+    intro:
+      'Dire Dawa grew around the historic railway between Addis Ababa and Djibouti, creating a distinctive eastern city shaped by trade, migration and several architectural eras.',
+    bestTime: 'October – February',
+    duration: '1 day',
+    altitude: '1,276 m',
+    highlights: [
+      'The historic railway station and old quarter',
+      'Kafira market and spice trading',
+      'French-influenced streets and architecture',
+      'Convenient connection with Harar',
+    ],
+    paragraphs: [
+      'Dire Dawa has a different rhythm from the highland capitals. Its broad streets, railway compounds and active markets tell the story of Ethiopia’s twentieth-century connections to the coast.',
+      'Most journeys pair it with Harar, but a guided day here adds valuable context and reveals a city with an identity far beyond its airport and railway.',
+    ],
+    span: 'lg:col-span-5',
+  },
+  {
+    slug: 'adadi-mariam',
+    name: 'Adadi Mariam Rock-Hewn Church',
+    region: 'Oromia',
+    tag: 'Sacred Heritage',
+    image: '/placeholder.jpg',
+    teaser:
+      'A quietly active rock-hewn sanctuary hidden in the countryside south of Addis.',
+    intro:
+      'Often described as the southern counterpart to Lalibela’s churches, Adadi Mariam is a working monolithic church traditionally associated with King Lalibela.',
+    bestTime: 'October – May',
+    duration: 'Half day',
+    altitude: 'About 1,900 m',
+    highlights: [
+      'Rock-cut chambers and surrounding trenches',
+      'Active Ethiopian Orthodox worship',
+      'Rural landscapes south of Addis Ababa',
+      'Natural pairing with the Tiya stelae',
+    ],
+    paragraphs: [
+      'Adadi Mariam is modest in scale but intimate in atmosphere. Descending into its rock-cut court reveals a church that remains woven into the religious life of the surrounding community.',
+      'It works especially well alongside Tiya, connecting two very different forms of heritage on a full-day journey through the countryside south of the capital.',
     ],
     span: 'lg:col-span-6',
   },
@@ -317,7 +617,14 @@ export const tours: Tour[] = [
         text: 'A last coffee ceremony, a day room at the airport hotel, and an evening flight home.',
       },
     ],
-    places: ['Lake Tana', 'Gondar', 'Simien Mountains', 'Lalibela', 'Axum'],
+    places: [
+      'Bahir Dar',
+      'Lake Tana',
+      'Gondar',
+      'Simien Mountains National Park',
+      'Lalibela',
+      'Aksum',
+    ],
     featured: true,
   },
   {
@@ -374,7 +681,7 @@ export const tours: Tour[] = [
         text: 'Return flight, National Museum with a curator, and an evening departure.',
       },
     ],
-    places: ['Simien Mountains', 'Rift Valley Lakes', 'Bale Mountains'],
+    places: ['Simien Mountains National Park', 'Bale Mountains National Park'],
     featured: true,
   },
   {
@@ -426,7 +733,7 @@ export const tours: Tour[] = [
         text: 'Mercato with a chef, lunch, and an evening flight.',
       },
     ],
-    places: ['Lake Tana', 'Kaffa', 'Bonga Forest', 'Addis Ababa'],
+    places: ['Bahir Dar', 'Lake Tana', 'Kaffa', 'Bonga Forest', 'Addis Ababa'],
     featured: true,
   },
   {
@@ -488,7 +795,7 @@ export const tours: Tour[] = [
         text: 'Morning flight and a day room before an evening departure.',
       },
     ],
-    places: ['Mekele', 'Dallol', 'Lake Assale', 'Erta Ale'],
+    places: ['Danakil Depression', 'Dallol', 'Lake Assale', 'Erta Ale'],
     featured: true,
   },
   {
@@ -545,7 +852,7 @@ export const tours: Tour[] = [
         text: 'Flight north, a farewell lunch, and an evening departure.',
       },
     ],
-    places: ['Dorze', 'Turmi', 'Dimeka', 'Mursi Highlands', 'Karo'],
+    places: ['Arba Minch', 'Dorze', 'Konso', 'Omo Valley', 'Turmi', 'Dimeka', 'Mursi Highlands', 'Karo'],
     featured: true,
   },
   {

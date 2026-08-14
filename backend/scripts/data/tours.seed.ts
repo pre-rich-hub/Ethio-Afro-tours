@@ -27,21 +27,30 @@ export interface TourSeed {
 }
 
 // Local place name -> client destination slug. Places that are not part of
-// one of the 8 client destinations are dropped (e.g. "Bonga Forest",
-// "Addis Ababa"). Regional places are folded into their parent destination
-// (Erta Ale/Dallol -> danakil-depression, Turmi/Dorze -> omo-valley).
+// the 20 client destinations are dropped (for example Bonga Forest). Smaller
+// regional stops are folded into their catalog destination where appropriate.
 const PLACE_SLUG_MAP: Record<string, string> = {
+  "Addis Ababa": "addis-ababa",
+  "Bahir Dar": "lake-tana",
   "Lake Tana": "lake-tana",
   Gondar: "gondar",
   "Simien Mountains": "simien-mountains",
+  "Simien Mountains National Park": "simien-mountains",
   Lalibela: "lalibela",
   Axum: "axum",
+  Aksum: "axum",
   "Bale Mountains": "bale-mountains",
+  "Bale Mountains National Park": "bale-mountains",
+  "Sof Omar Cave": "sof-omar-cave",
   Mekele: "danakil-depression",
+  "Danakil Depression": "danakil-depression",
   Dallol: "danakil-depression",
   "Lake Assale": "danakil-depression",
   "Erta Ale": "danakil-depression",
-  Dorze: "omo-valley",
+  "Arba Minch": "arba-minch",
+  Dorze: "dorze",
+  Konso: "konso",
+  "Omo Valley": "omo-valley",
   Turmi: "omo-valley",
   Dimeka: "omo-valley",
   "Mursi Highlands": "omo-valley",
@@ -125,7 +134,7 @@ export const tourSeeds: TourSeed[] = [
       }
     ]),
     journeyMap: null,
-    destinationSlugs: toDestinationSlugs(["Lake Tana", "Gondar", "Simien Mountains", "Lalibela", "Axum"]),
+    destinationSlugs: toDestinationSlugs(["Bahir Dar", "Lake Tana", "Gondar", "Simien Mountains National Park", "Lalibela", "Aksum"]),
     categorySlugs: ["historical-tours", "cultural-tours", "religious-pilgrimage-tours"],
     adultPrice: 6450,
     childPrice: 6450,
@@ -182,7 +191,7 @@ export const tourSeeds: TourSeed[] = [
       }
     ]),
     journeyMap: null,
-    destinationSlugs: toDestinationSlugs(["Simien Mountains", "Rift Valley Lakes", "Bale Mountains"]),
+    destinationSlugs: toDestinationSlugs(["Simien Mountains National Park", "Bale Mountains National Park"]),
     categorySlugs: ["trekking-hiking-tours", "wildlife-tours", "nature-tours"],
     adultPrice: 5780,
     childPrice: 5780,
@@ -234,7 +243,7 @@ export const tourSeeds: TourSeed[] = [
       }
     ]),
     journeyMap: null,
-    destinationSlugs: toDestinationSlugs(["Lake Tana", "Kaffa", "Bonga Forest", "Addis Ababa"]),
+    destinationSlugs: toDestinationSlugs(["Bahir Dar", "Lake Tana", "Kaffa", "Bonga Forest", "Addis Ababa"]),
     categorySlugs: ["cultural-tours", "nature-tours"],
     adultPrice: 4320,
     childPrice: 4320,
@@ -296,7 +305,7 @@ export const tourSeeds: TourSeed[] = [
       }
     ]),
     journeyMap: null,
-    destinationSlugs: toDestinationSlugs(["Mekele", "Dallol", "Lake Assale", "Erta Ale"]),
+    destinationSlugs: toDestinationSlugs(["Danakil Depression", "Dallol", "Lake Assale", "Erta Ale"]),
     categorySlugs: ["nature-adventure-tours", "nature-geological-tours"],
     adultPrice: 5150,
     childPrice: 5150,
@@ -353,7 +362,7 @@ export const tourSeeds: TourSeed[] = [
       }
     ]),
     journeyMap: null,
-    destinationSlugs: toDestinationSlugs(["Dorze", "Turmi", "Dimeka", "Mursi Highlands", "Karo"]),
+    destinationSlugs: toDestinationSlugs(["Arba Minch", "Dorze", "Konso", "Omo Valley", "Turmi", "Dimeka", "Mursi Highlands", "Karo"]),
     categorySlugs: ["cultural-tours", "omo-valley-tours"],
     adultPrice: 6980,
     childPrice: 6980,
