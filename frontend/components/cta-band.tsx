@@ -50,7 +50,7 @@ export function CtaBand({
             <p className="mt-6 text-sm text-primary-foreground/70">
               Or call us directly on{' '}
               <a
-                href={`tel:${contact.phone.replace(/\s/g, '')}`}
+                href={`tel:${contact.phone.replace(/[^\d+]/g, '')}`}
                 className="border-b border-accent/50 pb-0.5 text-background transition-colors hover:border-accent hover:text-accent"
               >
                 {contact.phone}

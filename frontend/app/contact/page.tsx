@@ -9,7 +9,7 @@ import { contact, promises } from '@/lib/site'
 export const metadata: Metadata = {
   title: 'Contact Us',
   description:
-    'Speak directly with an Addis-based travel designer about your Ethiopian journey. We reply personally within 24 hours, seven days a week.',
+    'Speak directly with an Addis-based travel designer about your Ethiopian journey. We are available Monday to Saturday, 8:00 AM - 5:30 PM.',
 }
 
 const steps = [
@@ -71,7 +71,7 @@ export default function ContactPage() {
           <dl className="mt-12 space-y-7">
             <Detail icon={Phone} label="Telephone">
               <a
-                href={`tel:${contact.phone.replace(/\s/g, '')}`}
+                href={`tel:${contact.phone.replace(/[^\d+]/g, '')}`}
                 className="border-b border-accent/40 pb-0.5 transition-colors hover:border-accent hover:text-primary"
               >
                 {contact.phone}

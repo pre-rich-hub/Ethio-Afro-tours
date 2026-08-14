@@ -8,11 +8,11 @@ export const navLinks = [
 ] as const
 
 export const contact = {
-  phone: '+251 11 555 0192',
-  whatsapp: '+251 91 234 5678',
-  email: 'journeys@ethioafrotours.com',
-  address: 'Bole Road, Yeka Tower, 7th Floor, Addis Ababa, Ethiopia',
-  hours: 'Travel designers reply within 24 hours, seven days a week',
+  phone: '+1909-450-7246',
+  whatsapp: '+1909-450-7246',
+  email: 'info@ethioafrotours.com',
+  address: 'Bole Medhaniallem, Cape Verde Street 1000, Addis Ababa, Ethiopia',
+  hours: 'Monday to Saturday 8:00 AM - 5:30 PM',
 }
 
 export type Destination = {

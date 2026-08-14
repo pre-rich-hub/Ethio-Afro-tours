@@ -98,7 +98,7 @@ export function SiteNav() {
   const isActive = (href: string) =>
     href === '/' ? pathname === '/' : pathname.startsWith(href)
 
-  const tone: 'light' | 'dark' = scrolled ? 'dark' : 'light'
+  const tone: 'light' | 'dark' = 'light'
 
   return (
     <>
@@ -106,7 +106,7 @@ export function SiteNav() {
         className={cn(
           'fixed inset-x-0 top-0 z-50 transition-all duration-500',
           scrolled
-            ? 'border-b border-border bg-background/92 backdrop-blur-xl'
+            ? 'border-b border-background/10 bg-bg-dark/95 backdrop-blur-xl'
             : 'bg-gradient-to-b from-charcoal/55 to-transparent',
         )}
       >
@@ -125,7 +125,7 @@ export function SiteNav() {
             </p>
             <div className="flex items-center gap-6">
               <a
-                href={`tel:${contact.phone.replace(/\s/g, '')}`}
+                href={`tel:${contact.phone.replace(/[^\d+]/g, '')}`}
                 className="flex items-center gap-2 transition-colors hover:text-accent"
               >
                 <Phone className="h-3.5 w-3.5" />
@@ -458,7 +458,7 @@ export function SiteNav() {
 
           <div className="mt-8 space-y-2 border-t border-border pt-6 text-sm text-muted-foreground">
             <a
-              href={`tel:${contact.phone.replace(/\s/g, '')}`}
+              href={`tel:${contact.phone.replace(/[^\d+]/g, '')}`}
               className="flex items-center gap-3"
             >
               <Phone className="h-4 w-4 text-accent" />

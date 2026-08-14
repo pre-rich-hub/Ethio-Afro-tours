@@ -1,6 +1,16 @@
 import pg from "pg";
 const { Client } = pg;
-const pwd = "npg_PMBn9Nkj0ZSc";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const pwd = process.env.NEON_PASSWORD || (process.env.DIRECT_URL ? new URL(process.env.DIRECT_URL).password : "");
+
+if (!pwd) {
+  console.error("Set NEON_PASSWORD or DIRECT_URL in your environment before running this connectivity helper.");
+  process.exit(1);
+}
+
 const tests = [
   ["pooled-ipv4", `postgresql://neondb_owner:${pwd}@16.58.187.204:5432/neondb?sslmode=require&channel_binding=require&pgbouncer=true&connection_limit=1`],
   ["direct-ipv4", `postgresql://neondb_owner:${pwd}@16.58.187.204:5432/neondb?sslmode=require`],

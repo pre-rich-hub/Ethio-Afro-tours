@@ -10,6 +10,7 @@
   /* Brand palette */
   --color-charcoal: var(--charcoal);
   --color-sand: var(--sand);
+  --color-bg-dark: var(--bg-dark);
 
   /* Semantic tokens */
   --color-background: var(--background);
@@ -78,6 +79,9 @@
   --charcoal: oklch(0.185 0.012 58);
   --sand: oklch(0.925 0.018 82);
 
+  /* Shared dark background for header & footer */
+  --bg-dark: #1C1C1C;
+
   --radius: 0.5rem;
 }
 
@@ -85,19 +89,23 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   html {
     -webkit-tap-highlight-color: transparent;
     scroll-behavior: smooth;
     font-size: 15px;
   }
+
   body {
     @apply bg-background font-sans text-foreground;
     font-feature-settings: 'kern' 1, 'liga' 1;
   }
+
   ::selection {
     background: var(--accent);
     color: var(--accent-foreground);
   }
+
   h1,
   h2,
   h3,
@@ -109,25 +117,28 @@
 }
 
 @layer utilities {
+
   /* Editorial micro-label: uppercase, letterspaced, hairline rule */
   .eyebrow {
     @apply flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.24em] sm:text-[11px];
   }
+
   .rule {
     @apply h-px w-8 shrink-0 bg-current opacity-60 sm:w-10;
   }
+
   .shell {
     @apply mx-auto w-full max-w-[1280px] px-5 sm:px-6 lg:px-10;
   }
+
   .hairline-grid {
-    background-image: linear-gradient(
-        to right,
+    background-image: linear-gradient(to right,
         var(--border) 1px,
-        transparent 1px
-      ),
+        transparent 1px),
       linear-gradient(to bottom, var(--border) 1px, transparent 1px);
     background-size: 88px 88px;
   }
+
   .text-shadow-soft {
     text-shadow: 0 1px 24px oklch(0.185 0.012 58 / 0.35);
   }
@@ -140,6 +151,7 @@
     opacity: 0;
     transform: translate3d(0, 22px, 0);
   }
+
   to {
     opacity: 1;
     transform: none;
@@ -150,6 +162,7 @@
   from {
     transform: scale(1.08);
   }
+
   to {
     transform: scale(1);
   }
@@ -159,6 +172,7 @@
   from {
     transform: translateX(0);
   }
+
   to {
     transform: translateX(-50%);
   }
@@ -172,6 +186,7 @@
     transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
   transition-delay: inherit;
 }
+
 .reveal.is-visible {
   opacity: 1;
   transform: none;
@@ -181,6 +196,7 @@
   html {
     scroll-behavior: auto;
   }
+
   .reveal {
     opacity: 1;
     transform: none;
@@ -201,10 +217,12 @@
     border-color 0.25s ease,
     box-shadow 0.25s ease;
 }
+
 .input::placeholder {
   color: var(--muted-foreground);
   opacity: 0.75;
 }
+
 .input:focus {
   outline: none;
   border-color: var(--primary);

@@ -1,4 +1,5 @@
 import { Hero } from '@/components/hero'
+import { HomeTrustBar } from '@/components/home-trust-bar'
 import { BrandIntro } from '@/components/brand-intro'
 import { Destinations } from '@/components/destinations'
 import { Journeys } from '@/components/journeys'
@@ -17,6 +18,7 @@ export default async function Page() {
   return (
     <>
       <Hero />
+      <HomeTrustBar />
       <BrandIntro />
       <Destinations />
       <Journeys tours={tours} />
@@ -29,6 +31,3 @@ export default async function Page() {
     </>
   )
 }
-
-
-

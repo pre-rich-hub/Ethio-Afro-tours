@@ -3,7 +3,13 @@ import { Phone, Mail, MapPin } from 'lucide-react'
 import { contact, destinations, tours } from '@/lib/site'
 import { NewsletterForm } from '@/components/newsletter-form'
 
-const socials = ['Instagram', 'YouTube', 'LinkedIn']
+const socialLinks = [
+  { name: 'Instagram', href: 'https://instagram.com', icon: '/images/instagram-icon.png' },
+  { name: 'YouTube', href: 'https://youtube.com', icon: '/images/youtube-icon.png' },
+  { name: 'Facebook', href: 'https://facebook.com', icon: '/images/facebook-icon.png' },
+  { name: 'TikTok', href: 'https://tiktok.com', icon: '/images/tiktok-icon.png' },
+  { name: 'X', href: 'https://x.com', icon: '/images/x-icon.png' },
+]
 
 const columns = [
   {
@@ -35,10 +41,10 @@ const columns = [
 
 export function SiteFooter() {
   return (
-    <footer className="bg-charcoal text-background">
-      <div className="shell py-16 sm:py-20">
+    <footer className="bg-bg-dark text-background">
+      <div className="shell pt-16 pb-4 sm:pt-20 sm:pb-6">
         <div className="grid gap-12 lg:grid-cols-[1.3fr_1fr_1fr_1fr] lg:gap-10">
-          <div>
+          <div className="lg:row-span-2">
             <div className="flex items-center gap-3">
               <img
                 src="/images/logo.png"
@@ -64,7 +70,7 @@ export function SiteFooter() {
               </li>
               <li>
                 <a
-                  href={`tel:${contact.phone.replace(/\s/g, '')}`}
+                  href={`tel:${contact.phone.replace(/[^\d+]/g, '')}`}
                   className="flex items-center gap-3 transition-colors hover:text-background"
                 >
                   <Phone className="h-4 w-4 shrink-0 text-accent" />
@@ -82,14 +88,21 @@ export function SiteFooter() {
               </li>
             </ul>
 
-            <div className="mt-7 flex flex-wrap gap-2.5">
-              {socials.map((name) => (
+            <div className="mt-7 flex flex-wrap gap-3">
+              {socialLinks.map((item) => (
                 <a
-                  key={name}
-                  href="#"
-                  className="rounded-full border border-background/20 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-background/70 transition-colors duration-300 hover:border-accent hover:text-accent"
+                  key={item.name}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-full transition-all duration-300 hover:scale-110 hover:-translate-y-0.5"
+                  title={item.name}
                 >
-                  {name}
+                  <img
+                    src={item.icon}
+                    alt={item.name}
+                    className="h-full w-full object-contain rounded-full shadow-md shadow-charcoal/20"
+                  />
                 </a>
               ))}
             </div>
@@ -114,24 +127,112 @@ export function SiteFooter() {
               </ul>
             </nav>
           ))}
-        </div>
 
-        <div className="mt-14 border-t border-background/15 pt-8">
-          <div className="flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-center">
-            <div className="max-w-md">
-              <p className="font-serif text-xl text-background sm:text-2xl">
-                Continue exploring Ethiopia
-              </p>
-              <p className="mt-1.5 text-sm text-background/60">
-                Curated travel stories and seasonal inspiration from our
-                designers. Four letters a year, never more.
-              </p>
+          <div className="lg:col-span-3 lg:col-start-2 border-t border-background/10 pt-8 mt-4 flex flex-col gap-8">
+            <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+              <div>
+                <p className="font-serif text-lg text-background sm:text-xl">
+                  Trusted Travel Platforms
+                </p>
+                <p className="mt-1 text-xs text-background/60">
+                  Find us where discerning travelers plan.
+                </p>
+              </div>
+              <div className="flex flex-wrap md:flex-nowrap items-center gap-3 sm:gap-4">
+                <a
+                  href="https://www.viator.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex h-12 w-[125px] sm:h-13 sm:w-[130px] items-center justify-center rounded-lg bg-[#FAF9F6]/95 p-1.5 transition-all duration-300 hover:scale-[1.03] hover:bg-white shrink-0"
+                >
+                  <img
+                    src="/images/viator-logo.png"
+                    alt="Viator"
+                    className="h-full w-full object-contain"
+                  />
+                </a>
+                <a
+                  href="https://www.tripadvisor.com/Attraction_Review-g293791-d15214552-Reviews-Ethio_Afro_Tours-Addis_Ababa.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex h-12 w-[125px] sm:h-13 sm:w-[130px] items-center justify-center rounded-lg bg-[#FAF9F6]/95 p-1.5 transition-all duration-300 hover:scale-[1.03] hover:bg-white shrink-0"
+                >
+                  <img
+                    src="/images/tripadvisor-logo.png"
+                    alt="TripAdvisor"
+                    className="h-full w-full object-contain"
+                  />
+                </a>
+                <a
+                  href="https://www.safaribookings.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex h-12 w-[125px] sm:h-13 sm:w-[130px] items-center justify-center rounded-lg bg-[#FAF9F6]/95 p-1.5 transition-all duration-300 hover:scale-[1.03] hover:bg-white shrink-0"
+                >
+                  <img
+                    src="/images/safari-bookings-logo.png"
+                    alt="SafariBookings"
+                    className="h-full w-full object-contain"
+                  />
+                </a>
+                <a
+                  href="https://www.getyourguide.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex h-12 w-[125px] sm:h-13 sm:w-[130px] items-center justify-center rounded-lg bg-[#FAF9F6]/95 p-1.5 transition-all duration-300 hover:scale-[1.03] hover:bg-white shrink-0"
+                >
+                  <img
+                    src="/images/getyourguide-logo.png"
+                    alt="GetYourGuide"
+                    className="h-full w-full object-contain"
+                  />
+                </a>
+              </div>
             </div>
-            <NewsletterForm />
+
+            <div className="flex flex-col gap-6 border-t border-background/10 pt-6 md:flex-row md:items-center md:justify-between">
+              <div>
+                <p className="font-serif text-lg text-background sm:text-xl">
+                  We Accept
+                </p>
+                <p className="mt-1 text-xs text-background/60">
+                  Secured payment processing methods.
+                </p>
+              </div>
+              <div className="flex items-center gap-3 sm:gap-4 justify-start md:justify-end">
+                <div className="group flex h-12 w-[125px] sm:h-13 sm:w-[130px] items-center justify-center rounded-lg bg-[#FAF9F6]/95 p-1.5 transition-all duration-300 hover:scale-[1.03] hover:bg-white shrink-0">
+                  <img
+                    src="/images/visa.png"
+                    alt="Visa"
+                    className="h-full w-full object-contain"
+                  />
+                </div>
+                <div className="group flex h-12 w-[125px] sm:h-13 sm:w-[130px] items-center justify-center rounded-lg bg-[#FAF9F6]/95 p-1.5 transition-all duration-300 hover:scale-[1.03] hover:bg-white shrink-0">
+                  <img
+                    src="/images/mastercard.png"
+                    alt="Mastercard"
+                    className="h-full w-full object-contain"
+                  />
+                </div>
+                <div className="group flex h-12 w-[125px] sm:h-13 sm:w-[130px] items-center justify-center rounded-lg bg-[#FAF9F6]/95 p-1.5 transition-all duration-300 hover:scale-[1.03] hover:bg-white shrink-0">
+                  <img
+                    src="/images/paypal.png"
+                    alt="PayPal"
+                    className="h-full w-full object-contain"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
+        <div className="mt-6 border-t border-background/15 pt-4 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <p className="text-lg sm:text-xl md:text-2xl text-background font-serif lg:whitespace-nowrap lg:text-left text-center">
+            Subscribe to our newsletter for curated travel stories
+          </p>
+          <NewsletterForm />
+        </div>
 
-        <div className="mt-12 flex flex-col gap-4 border-t border-background/15 pt-8 text-xs text-background/50 md:flex-row md:items-center md:justify-between">
+        <div className="mt-6 flex flex-col gap-4 border-t border-background/15 pt-4 text-xs text-background/50 md:flex-row md:items-center md:justify-between">
           <p>
             &copy; {new Date().getFullYear()} EthioAfro Tours. All rights
             reserved.
@@ -149,6 +250,6 @@ export function SiteFooter() {
           </div>
         </div>
       </div>
-    </footer>
+    </footer >
   )
 }

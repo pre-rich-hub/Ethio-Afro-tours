@@ -56,7 +56,7 @@ export function FloatingSupport() {
     }, [messages, isTyping])
 
     // Convert contact whatsapp format to wa.me link
-    const formattedWhatsapp = contact.whatsapp.replace(/\s+/g, '').replace(/^\+/, '')
+    const formattedWhatsapp = contact.whatsapp.replace(/[^0-9]/g, '')
     const whatsappUrl = `https://wa.me/${formattedWhatsapp}`
 
     const appendBotMessage = (text: string) => {

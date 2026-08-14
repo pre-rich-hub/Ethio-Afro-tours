@@ -49,7 +49,7 @@ export function NewsletterForm() {
         type="submit"
         className="whitespace-nowrap rounded-full bg-accent px-6 py-3.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-accent-foreground transition-colors duration-300 hover:bg-accent/90"
       >
-        Join
+        Subscribe
       </button>
       {error ? (
         <p className="text-xs text-red-600" role="alert">

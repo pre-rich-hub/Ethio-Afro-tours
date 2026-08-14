@@ -280,7 +280,7 @@ Submits a dynamic itinerary planner or enquiry request fields.
 - **Backend Action**: 
    1. Validates inputs using Schema validation runtime (e.g. Zod).
    2. Writes record to `enquiries` table.
-   3. Sends notification email to `journeys@ethioafrotours.com` using email service (Resend).
+   3. Sends notification email to `info@ethioafrotours.com` using email service (Resend).
    4. Sends confirmation email to user: `alex@mercer.org`.
 - **Response `201 Created`**:
   ```json
