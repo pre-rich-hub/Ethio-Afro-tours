@@ -19,7 +19,7 @@ const prisma = new PrismaClient({
  * Seeds the client catalog and ops data:
  *  - blog categories (4), tour categories (5)
  *  - destinations (20 client destinations from frontend/lib/site.ts)
- *  - tours (6 client tours from frontend/lib/site.ts, mapped into our schema)
+ *  - tours (15 client tours from frontend/lib/site.ts, mapped into our schema)
  *  - layover packages (4 client packages — import-once only, NO prune/clobber:
  *    Phase 3 makes them client-owned, admin edits must survive re-seeds)
  *  - bookings (4, mixed statuses), contacts (4), subscribers (3)
@@ -128,7 +128,7 @@ async function main() {
     destinationsBySlug.find((d) => d.slug === slug)?.id;
 
   let seededTours = 0;
-  let demoPricedTours = 0;
+  let quoteOnlyTours = 0;
 
   const clientTourSlugs = tourSeeds.map((t) => t.slug);
 
@@ -152,10 +152,10 @@ async function main() {
     ];
     const destinationId = destinationIds[0] ?? null;
 
-    if (seed.priceSource === "demo") {
-      // DEMO PLACEHOLDER PRICE: the source document lists 0/0 for this tour;
-      // a plausible demo price was assigned in tours.seed.ts.
-      demoPricedTours += 1;
+    if (seed.priceSource === "quote") {
+      // The public catalog intentionally shows "Custom quote" until the
+      // client supplies confirmed rates. Zero is ignored by the frontend.
+      quoteOnlyTours += 1;
     }
 
     const fields = {
@@ -261,7 +261,7 @@ async function main() {
 
   const tourCount = await prisma.tour.count();
   console.log(
-    `Tours: ${seededTours} seeded (${tourCount} total, ${demoPricedTours} demo-priced, ${prunedTours.count} stale pruned)`
+    `Tours: ${seededTours} seeded (${tourCount} total, ${quoteOnlyTours} quote-only, ${prunedTours.count} stale pruned)`
   );
 
   // ------------------------- Bookings -------------------------

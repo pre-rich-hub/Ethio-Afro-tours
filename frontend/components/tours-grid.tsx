@@ -3,17 +3,12 @@
 import { useMemo, useState } from 'react'
 import { Reveal } from '@/components/reveal'
 import { TourCard } from '@/components/tour-card'
-import type { Tour } from '@/lib/site'
-
-function styleTokens(tour: Tour) {
-  return tour.style.split('·').map((s) => s.trim())
-}
+import { tourCategories, type Tour } from '@/lib/site'
 
 export function ToursGrid({ tours }: { tours: Tour[] }) {
   const filters = useMemo(() => {
-    const set = new Set<string>()
-    tours.forEach((t) => styleTokens(t).forEach((s) => set.add(s)))
-    return ['All Journeys', ...Array.from(set).sort()]
+    const available = new Set(tours.flatMap((tour) => tour.categories))
+    return ['All Journeys', ...tourCategories.filter((category) => available.has(category))]
   }, [tours])
 
   const [active, setActive] = useState('All Journeys')
@@ -21,7 +16,7 @@ export function ToursGrid({ tours }: { tours: Tour[] }) {
   const visible =
     active === 'All Journeys'
       ? tours
-      : tours.filter((t) => styleTokens(t).includes(active))
+      : tours.filter((t) => t.categories.includes(active as Tour['categories'][number]))
 
   return (
     <div>

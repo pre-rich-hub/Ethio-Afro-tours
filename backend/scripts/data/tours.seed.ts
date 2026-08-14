@@ -1,11 +1,5 @@
-// CLIENT CATALOG — EthioAfroTours frontend/lib/site.ts (tours array).
-// All 6 site tours, mapped into the backend Tour schema. Prices are parsed
-// from the client's `from` strings (e.g. "$6,450 per person" -> 6450);
-// childPrice is set equal to adultPrice as a placeholder because the client
-// catalog carries a single price. Rating is a 5.0 placeholder and noOfRates
-// is 0 — the client never exposes ratings. Overview uses the client's
-// `teaser` (it renders as the list description). Itinerary maps the client's
-// [{day, title, text}] shape onto the backend's numeric-day shape.
+// CLIENT CATALOG — mirrors the 15 popularity-ordered tours in frontend/lib/site.ts.
+// Public pricing is quote-only until the client supplies confirmed rates.
 export interface TourSeed {
   slug: string;
   tourName: string;
@@ -13,7 +7,7 @@ export interface TourSeed {
   overview: string;
   included: string[];
   excluded: string[];
-  itinerary: Array<{ day: number; title: string; activities: string; overnight?: string; meals?: string }>;
+  itinerary: Array<{ day: number; title: string; activities: string }>;
   journeyMap: string | null;
   destinationSlugs: string[];
   categorySlugs: string[];
@@ -22,406 +16,308 @@ export interface TourSeed {
   rating: number;
   noOfRates: number;
   isFeatured: boolean;
-  priceSource: "source" | "demo";
+  priceSource: "quote";
   gallery: string[];
 }
 
-// Local place name -> client destination slug. Places that are not part of
-// the 20 client destinations are dropped (for example Bonga Forest). Smaller
-// regional stops are folded into their catalog destination where appropriate.
 const PLACE_SLUG_MAP: Record<string, string> = {
   "Addis Ababa": "addis-ababa",
   "Bahir Dar": "lake-tana",
   "Lake Tana": "lake-tana",
   Gondar: "gondar",
-  "Simien Mountains": "simien-mountains",
   "Simien Mountains National Park": "simien-mountains",
   Lalibela: "lalibela",
-  Axum: "axum",
   Aksum: "axum",
-  "Bale Mountains": "bale-mountains",
-  "Bale Mountains National Park": "bale-mountains",
-  "Sof Omar Cave": "sof-omar-cave",
-  Mekele: "danakil-depression",
   "Danakil Depression": "danakil-depression",
   Dallol: "danakil-depression",
   "Lake Assale": "danakil-depression",
   "Erta Ale": "danakil-depression",
+  "Bale Mountains National Park": "bale-mountains",
+  "Sof Omar Cave": "sof-omar-cave",
+  Hawassa: "hawassa",
   "Arba Minch": "arba-minch",
   Dorze: "dorze",
   Konso: "konso",
   "Omo Valley": "omo-valley",
-  Turmi: "omo-valley",
-  Dimeka: "omo-valley",
-  "Mursi Highlands": "omo-valley",
-  Karo: "omo-valley"
+  "Dire Dawa": "dire-dawa",
+  "Harar Jugol": "harar",
+  "Debre Libanos Monastery": "debre-libanos",
+  "Wonchi Crater Lake": "wonchi-crater-lake",
+  "Tiya Archaeological Site": "tiya",
+  "Adadi Mariam Rock-Hewn Church": "adadi-mariam"
 };
 
-function toSeedItinerary(
-  itinerary: { day: string; title: string; text: string }[]
-): Array<{ day: number; title: string; activities: string }> {
-  return itinerary.map((step, index) => ({
-    day: index + 1,
-    title: step.title,
-    activities: step.text
-  }));
-}
+type SeedInput = {
+  slug: string;
+  name: string;
+  overview: string;
+  places: string[];
+  categorySlugs: string[];
+  featured?: boolean;
+  itinerary: Array<[string, string]>;
+};
 
-function toDestinationSlugs(places: string[]): string[] {
-  const set = new Set<string>();
-  for (const place of places) {
-    const slug = PLACE_SLUG_MAP[place];
-    if (slug) set.add(slug);
-  }
-  return [...set];
+const standardIncluded = [
+  "Private ground transport and airport transfers",
+  "Accommodation in the best available category",
+  "Specialist local guides and listed entrance fees",
+  "Daily breakfast and 24/7 in-country support"
+];
+
+const standardExcluded = [
+  "International flights and visa fees",
+  "Travel insurance (mandatory)",
+  "Gratuities and personal expenses"
+];
+
+function makeTour(input: SeedInput): TourSeed {
+  const destinationSlugs = [...new Set(
+    input.places.map((place) => PLACE_SLUG_MAP[place]).filter(Boolean)
+  )];
+
+  return {
+    slug: input.slug,
+    tourName: input.name,
+    destination: input.places[0] ?? "Addis Ababa",
+    overview: input.overview,
+    included: standardIncluded,
+    excluded: standardExcluded,
+    itinerary: input.itinerary.map(([title, activities], index) => ({
+      day: index + 1,
+      title,
+      activities
+    })),
+    journeyMap: null,
+    destinationSlugs,
+    categorySlugs: input.categorySlugs,
+    adultPrice: 0,
+    childPrice: 0,
+    rating: 5,
+    noOfRates: 0,
+    isFeatured: Boolean(input.featured),
+    priceSource: "quote",
+    gallery: []
+  };
 }
 
 export const tourSeeds: TourSeed[] = [
-  {
+  makeTour({
     slug: "the-historic-route",
-    tourName: "The Historic Route",
-    destination: "Lake Tana",
-    overview:
-      "Follow the pilgrimage of kings from the castles of Gondar to the rock churches of Lalibela.",
-    included: [
-      "All domestic flights within Ethiopia",
-      "Private 4x4 with a senior driver-guide",
-      "Scholar-guides at Lalibela, Axum and Gondar",
-      "Boutique lodges and the best available rooms",
-      "All breakfasts, most lunches and dinners",
-      "24/7 travel designer support line"
-    ],
-    excluded: [
-      "International flights and visa fees",
-      "Travel insurance (mandatory)",
-      "Gratuities and personal spending"
-    ],
-    itinerary: toSeedItinerary([
-      {
-        day: "Day 1",
-        title: "Arrive Addis Ababa",
-        text: "Private transfer, a quiet room, and a first dinner of tibs and honey wine with your travel designer."
-      },
-      {
-        day: "Days 2 – 3",
-        title: "Bahir Dar & Lake Tana",
-        text: "Morning flight north, then a private boat to the island monasteries before the day boats arrive. Tis Issat falls in the afternoon."
-      },
-      {
-        day: "Days 4 – 5",
-        title: "Gondar",
-        text: "The royal enclosure at opening, the painted ceiling of Debre Berhan Selassie, and Kuskuam at golden hour."
-      },
-      {
-        day: "Days 6 – 7",
-        title: "Simien Mountains",
-        text: "Two escarpment walks among gelada troops, with a lodge on the rim and a fire lit by the time you return."
-      },
-      {
-        day: "Days 8 – 9",
-        title: "Lalibela",
-        text: "Dawn liturgy in the northern cluster, the tunnel to Bete Golgotha, and a walk up to Asheton Maryam."
-      },
-      {
-        day: "Day 10",
-        title: "Axum",
-        text: "Stelae field, the Chapel of the Tablet, and the Queen of Sheba's bath with an archaeologist."
-      },
-      {
-        day: "Day 11",
-        title: "Addis & Departure",
-        text: "A last coffee ceremony, a day room at the airport hotel, and an evening flight home."
-      }
-    ]),
-    journeyMap: null,
-    destinationSlugs: toDestinationSlugs(["Bahir Dar", "Lake Tana", "Gondar", "Simien Mountains National Park", "Lalibela", "Aksum"]),
-    categorySlugs: ["historical-tours", "cultural-tours", "religious-pilgrimage-tours"],
-    adultPrice: 6450,
-    childPrice: 6450,
-    rating: 5.0,
-    noOfRates: 0,
-    isFeatured: true,
-    priceSource: "source",
-    gallery: []
-  },
-  {
-    slug: "highlands-and-wildlife",
-    tourName: "Highlands & Wildlife",
-    destination: "Simien Mountains",
-    overview:
-      "Trek the Simien escarpment and track the Ethiopian wolf across the Sanetti Plateau.",
-    included: [
-      "Domestic flights and private 4x4 transfers",
-      "Resident naturalist and endemics specialist",
-      "National park fees, scouts and permits",
-      "Lodges on the Simien rim and Bale escarpment",
-      "Full board on trekking days",
-      "Walking poles and daypack loan"
-    ],
-    excluded: [
-      "International flights and visa fees",
-      "Travel insurance (mandatory)",
-      "Optional Ras Dashen extension"
-    ],
-    itinerary: toSeedItinerary([
-      {
-        day: "Day 1",
-        title: "Arrive Addis Ababa",
-        text: "Briefing with your naturalist over dinner, kit check, and an early night."
-      },
-      {
-        day: "Days 2 – 4",
-        title: "Simien Mountains",
-        text: "Three rim walks of increasing length, gelada troops at close quarters, and sunrise from Imet Gogo."
-      },
-      {
-        day: "Day 5",
-        title: "Transfer south",
-        text: "Flight to Addis, then the Rift Valley road with birding stops at Lake Ziway."
-      },
-      {
-        day: "Days 6 – 8",
-        title: "Bale Mountains",
-        text: "Wolf tracking at first light on Sanetti, nyala at Dinsho, and a day in the Harenna cloud forest."
-      },
-      {
-        day: "Day 9",
-        title: "Addis & Departure",
-        text: "Return flight, National Museum with a curator, and an evening departure."
-      }
-    ]),
-    journeyMap: null,
-    destinationSlugs: toDestinationSlugs(["Simien Mountains National Park", "Bale Mountains National Park"]),
-    categorySlugs: ["trekking-hiking-tours", "wildlife-tours", "nature-tours"],
-    adultPrice: 5780,
-    childPrice: 5780,
-    rating: 5.0,
-    noOfRates: 0,
-    isFeatured: true,
-    priceSource: "source",
-    gallery: []
-  },
-  {
-    slug: "sacred-waters-and-coffee",
-    tourName: "Sacred Waters & Coffee",
-    destination: "Lake Tana",
-    overview:
-      "Drift to island monasteries, then journey into the forests where coffee was born.",
-    included: [
-      "Domestic flights and private transfers",
-      "Private boat charter on Lake Tana",
-      "Farm-to-cup coffee immersion in Kaffa",
-      "Two nights in a forest eco-lodge",
-      "All breakfasts and dinners",
-      "Barista-led cupping session in Addis"
-    ],
-    excluded: [
-      "International flights and visa fees",
-      "Travel insurance (mandatory)",
-      "Coffee purchases and shipping"
-    ],
-    itinerary: toSeedItinerary([
-      {
-        day: "Day 1",
-        title: "Arrive Addis Ababa",
-        text: "A cupping session in the roastery district to calibrate the palate."
-      },
-      {
-        day: "Days 2 – 3",
-        title: "Lake Tana",
-        text: "Private boat to Ura Kidane Mihret at dawn, manuscripts with the monks, and a slow afternoon on the water."
-      },
-      {
-        day: "Days 4 – 6",
-        title: "Kaffa & Bonga forest",
-        text: "Wild coffee under the canopy, harvest and roast with a farming family, and nights in the forest."
-      },
-      {
-        day: "Day 7",
-        title: "Addis & Departure",
-        text: "Mercato with a chef, lunch, and an evening flight."
-      }
-    ]),
-    journeyMap: null,
-    destinationSlugs: toDestinationSlugs(["Bahir Dar", "Lake Tana", "Kaffa", "Bonga Forest", "Addis Ababa"]),
-    categorySlugs: ["cultural-tours", "nature-tours"],
-    adultPrice: 4320,
-    childPrice: 4320,
-    rating: 5.0,
-    noOfRates: 0,
-    isFeatured: true,
-    priceSource: "source",
-    gallery: []
-  },
-  {
-    slug: "danakil-expedition",
-    tourName: "Danakil Expedition",
-    destination: "Danakil Depression",
-    overview:
-      "Sulphur springs, a permanent lava lake, and salt caravans on the white plain.",
-    included: [
-      "Afar regional permits and local liaison",
-      "Expedition vehicles and support truck",
-      "Medic-trained guide and satellite comms",
-      "Camp beds, bedding and full catering",
-      "Erta Ale overnight ascent with porters",
-      "Unlimited chilled water throughout"
-    ],
-    excluded: [
-      "International flights and visa fees",
-      "Travel insurance with evacuation cover",
-      "Sleeping bag hire"
-    ],
-    itinerary: toSeedItinerary([
-      {
-        day: "Day 1",
-        title: "Arrive Addis Ababa",
-        text: "Expedition briefing, kit issue and an early dinner."
-      },
-      {
-        day: "Day 2",
-        title: "Mekele to Hamed Ela",
-        text: "Flight north, then the descent into the Afar depression as the temperature climbs."
-      },
-      {
-        day: "Day 3",
-        title: "Dallol & Lake Assale",
-        text: "Sulphur terraces at first light, salt caravans in the afternoon, camp on the plain."
-      },
-      {
-        day: "Day 4",
-        title: "Erta Ale",
-        text: "Night ascent to the caldera rim and the lava lake, sleeping on the volcano."
-      },
-      {
-        day: "Day 5",
-        title: "Return to Mekele",
-        text: "Long drive out, hot shower, cold beer, and a proper bed."
-      },
-      {
-        day: "Day 6",
-        title: "Addis & Departure",
-        text: "Morning flight and a day room before an evening departure."
-      }
-    ]),
-    journeyMap: null,
-    destinationSlugs: toDestinationSlugs(["Danakil Depression", "Dallol", "Lake Assale", "Erta Ale"]),
-    categorySlugs: ["nature-adventure-tours", "nature-geological-tours"],
-    adultPrice: 5150,
-    childPrice: 5150,
-    rating: 5.0,
-    noOfRates: 0,
-    isFeatured: true,
-    priceSource: "source",
-    gallery: []
-  },
-  {
+    name: "Classic Historic North",
+    overview: "The definitive northern circuit of island monasteries, imperial castles, mountain escarpments and living rock-hewn churches.",
+    places: ["Addis Ababa", "Bahir Dar", "Lake Tana", "Gondar", "Simien Mountains National Park", "Lalibela", "Aksum"],
+    categorySlugs: ["historical-tours", "religious-pilgrimage-tours", "cultural-tours"],
+    featured: true,
+    itinerary: [
+      ["Addis Ababa", "Arrive, meet the guide and explore the capital."],
+      ["Bahir Dar & Lake Tana", "Visit island monasteries and the Blue Nile Falls."],
+      ["Gondar", "Explore Fasil Ghebbi, royal baths and painted churches."],
+      ["Simien Mountains", "Walk the escarpment among geladas and highland scenery."],
+      ["Lalibela", "Experience the rock-hewn churches around the morning liturgy."],
+      ["Aksum", "Discover the stelae, tombs and sacred traditions when access permits."]
+    ]
+  }),
+  makeTour({
     slug: "omo-valley-immersion",
-    tourName: "Omo Valley Immersion",
-    destination: "Omo Valley",
-    overview:
-      "Market days, ceremony and conversation in the most culturally diverse valley on earth.",
-    included: [
-      "Private 4x4 and senior driver-guide",
-      "Resident cultural mediator and translator",
-      "Community fees paid transparently at village level",
-      "Riverside tented camps and the best area lodges",
-      "Full board throughout the south",
-      "Photography guidance and consent protocol"
-    ],
-    excluded: [
-      "International flights and visa fees",
-      "Travel insurance (mandatory)",
-      "Personal gifts and purchases"
-    ],
-    itinerary: toSeedItinerary([
-      {
-        day: "Day 1",
-        title: "Arrive Addis Ababa",
-        text: "Context evening with an anthropologist from Addis Ababa University."
-      },
-      {
-        day: "Days 2 – 3",
-        title: "Rift Valley south",
-        text: "Lakes, hot springs and the Dorze highlands with a weaving family."
-      },
-      {
-        day: "Days 4 – 7",
-        title: "Turmi, Dimeka & the Hamar",
-        text: "Market days, an invited bull-jumping ceremony if the season allows, and long evenings by the river."
-      },
-      {
-        day: "Days 8 – 9",
-        title: "Mursi highlands & Karo",
-        text: "A slow two days with a resident anthropologist, and the Omo escarpment at dusk."
-      },
-      {
-        day: "Day 10",
-        title: "Addis & Departure",
-        text: "Flight north, a farewell lunch, and an evening departure."
-      }
-    ]),
-    journeyMap: null,
-    destinationSlugs: toDestinationSlugs(["Arba Minch", "Dorze", "Konso", "Omo Valley", "Turmi", "Dimeka", "Mursi Highlands", "Karo"]),
-    categorySlugs: ["cultural-tours", "omo-valley-tours"],
-    adultPrice: 6980,
-    childPrice: 6980,
-    rating: 5.0,
-    noOfRates: 0,
-    isFeatured: true,
-    priceSource: "source",
-    gallery: []
-  },
-  {
+    name: "Omo Valley Cultural Discovery",
+    overview: "A carefully mediated southern journey built around market days, local invitations and respectful cultural encounters.",
+    places: ["Addis Ababa", "Hawassa", "Arba Minch", "Dorze", "Konso", "Omo Valley"],
+    categorySlugs: ["cultural-tours", "nature-adventure-tours", "omo-valley-tours"],
+    featured: true,
+    itinerary: [
+      ["Addis Ababa", "Meet the cultural guide and review the southern route."],
+      ["Hawassa", "Travel through the Rift Valley for lake life and Sidama coffee."],
+      ["Arba Minch & Dorze", "Explore Lake Chamo and the Dorze highlands."],
+      ["Konso", "Visit the terraced cultural landscape with a local guide."],
+      ["Lower Omo", "Build several days around markets and locally arranged community visits."],
+      ["Return to Addis", "Fly north for onward travel."]
+    ]
+  }),
+  makeTour({
+    slug: "danakil-expedition",
+    name: "Danakil Depression & Erta Ale Expedition",
+    overview: "A supported expedition into salt flats, geothermal fields and the volcanic landscapes of the Afar lowlands.",
+    places: ["Danakil Depression", "Dallol", "Lake Assale", "Erta Ale"],
+    categorySlugs: ["nature-adventure-tours", "nature-tours"],
+    featured: true,
+    itinerary: [
+      ["Enter the Afar lowlands", "Meet the expedition team at the confirmed seasonal gateway."],
+      ["Dallol & Lake Assale", "Visit mineral terraces, salt flats and caravan routes."],
+      ["Erta Ale", "Approach the caldera with local support and camp near the volcano."],
+      ["Return from the desert", "Break camp and return to the operational gateway."]
+    ]
+  }),
+  makeTour({
+    slug: "bale-mountains-and-sof-omar",
+    name: "Bale Mountains & Sof Omar Adventure",
+    overview: "Ethiopian-wolf country, Harenna cloud forest and the limestone chambers of Sof Omar in one southeastern adventure.",
+    places: ["Addis Ababa", "Bale Mountains National Park", "Sof Omar Cave"],
+    categorySlugs: ["nature-tours", "trekking-hiking-tours", "nature-adventure-tours"],
+    featured: true,
+    itinerary: [
+      ["Addis to Dinsho", "Drive into the Bale highlands and look for mountain nyala."],
+      ["Sanetti Plateau", "Track endemic wildlife with a specialist guide."],
+      ["Harenna Forest", "Descend into cloud forest and wild-coffee habitat."],
+      ["Sof Omar Cave", "Follow the Web River through the limestone cave system."],
+      ["Bale highlands", "Choose a final wildlife walk or cultural visit."],
+      ["Return to Addis", "Travel back to the capital."]
+    ]
+  }),
+  makeTour({
+    slug: "simien-mountains-trek",
+    name: "Simien Mountains Trek",
+    overview: "A focused trek along the Simien escarpment among geladas, waterfalls and immense highland views.",
+    places: ["Gondar", "Simien Mountains National Park"],
+    categorySlugs: ["trekking-hiking-tours", "nature-tours", "nature-adventure-tours"],
+    featured: true,
+    itinerary: [
+      ["Gondar", "Meet the guide and prepare for the trek."],
+      ["Sankaber", "Enter the park for a first escarpment walk."],
+      ["Geech", "Walk through highland grassland and giant-lobelia country."],
+      ["Imet Gogo", "Reach the great viewpoints on a full trekking day."],
+      ["Return to Gondar", "Complete a final walk and drive back."]
+    ]
+  }),
+  makeTour({
+    slug: "lalibela-sacred-journey",
+    name: "Lalibela Sacred Journey",
+    overview: "Four unhurried days of rock-hewn churches, living liturgy and mountain monasteries.",
+    places: ["Addis Ababa", "Lalibela"],
+    categorySlugs: ["historical-tours", "religious-pilgrimage-tours", "cultural-tours"],
+    itinerary: [
+      ["Addis to Lalibela", "Fly north and settle into the Lasta highlands."],
+      ["Northern churches", "Explore Bete Medhane Alem and Bete Maryam around the liturgy."],
+      ["Southern churches", "Continue through the southern cluster and a mountain monastery."],
+      ["Return to Addis", "Fly back to the capital."]
+    ]
+  }),
+  makeTour({
+    slug: "grand-ethiopia-highlights",
+    name: "Grand Ethiopia Highlights",
+    overview: "The historic north, eastern cities, southern cultures and highland wildlife in one grand journey.",
+    places: ["Addis Ababa", "Bahir Dar", "Lake Tana", "Gondar", "Simien Mountains National Park", "Lalibela", "Dire Dawa", "Harar Jugol", "Bale Mountains National Park", "Arba Minch", "Dorze", "Konso", "Omo Valley"],
+    categorySlugs: ["ethiopia-holiday-packages", "cultural-tours", "nature-tours", "nature-adventure-tours"],
+    featured: true,
+    itinerary: [
+      ["Addis Ababa", "Museums, food and a route briefing."],
+      ["Historic North", "Lake Tana, Gondar, the Simiens and Lalibela."],
+      ["Harar & Dire Dawa", "Railway heritage, Harari homes and old-city markets."],
+      ["Bale Mountains", "Sanetti wildlife and Harenna Forest."],
+      ["Southern cultures", "Arba Minch, Dorze, Konso and selected Omo communities."],
+      ["Addis & departure", "Return to the capital for onward travel."]
+    ]
+  }),
+  makeTour({
+    slug: "historic-north-and-danakil",
+    name: "Historic North & Danakil Adventure",
+    overview: "Island monasteries and ancient capitals followed by salt flats, geothermal fields and Erta Ale.",
+    places: ["Addis Ababa", "Bahir Dar", "Lake Tana", "Gondar", "Simien Mountains National Park", "Lalibela", "Aksum", "Danakil Depression", "Erta Ale"],
+    categorySlugs: ["historical-tours", "religious-pilgrimage-tours", "nature-adventure-tours"],
+    itinerary: [
+      ["Addis Ababa", "Arrival and expedition briefing."],
+      ["Historic circuit", "Travel through Bahir Dar, Gondar, the Simiens and Lalibela."],
+      ["Aksum", "Explore the ancient capital when access permits."],
+      ["Danakil Depression", "Visit Dallol, salt flats and Erta Ale with expedition support."],
+      ["Return to Addis", "Connect from the confirmed gateway to the capital."]
+    ]
+  }),
+  makeTour({
+    slug: "historic-north-and-omo-valley",
+    name: "Historic North & Omo Valley",
+    overview: "A sweeping cultural route from northern kingdoms to the communities and landscapes of southern Ethiopia.",
+    places: ["Addis Ababa", "Bahir Dar", "Lake Tana", "Gondar", "Lalibela", "Hawassa", "Arba Minch", "Dorze", "Konso", "Omo Valley"],
+    categorySlugs: ["ethiopia-holiday-packages", "historical-tours", "cultural-tours"],
+    itinerary: [
+      ["Addis Ababa", "Arrival and cultural orientation."],
+      ["Historic North", "Lake Tana, Gondar and Lalibela."],
+      ["Rift Valley", "Continue through Hawassa to Arba Minch and Dorze."],
+      ["Konso & Omo", "Explore terraced landscapes and arranged community visits."],
+      ["Return to Addis", "Fly north for onward travel."]
+    ]
+  }),
+  makeTour({
+    slug: "harar-and-dire-dawa",
+    name: "Harar & Dire Dawa Cultural Journey",
+    overview: "Railway heritage, Harari homes, old-city lanes and the trading cultures of eastern Ethiopia.",
+    places: ["Addis Ababa", "Dire Dawa", "Harar Jugol"],
+    categorySlugs: ["cultural-tours", "historical-tours", "religious-pilgrimage-tours"],
+    itinerary: [
+      ["Addis to Dire Dawa", "Explore the railway quarter and Kafira market."],
+      ["Harar Jugol", "Walk the old gates, markets and traditional homes."],
+      ["Harar & Aweday", "Meet artisans and visit the regional market."],
+      ["Return to Addis", "Connect from Dire Dawa."]
+    ]
+  }),
+  makeTour({
+    slug: "rift-valley-southern-highlands",
+    name: "Rift Valley Lakes & Southern Highlands",
+    overview: "Lakeside cities, highland villages and southern landscapes at a comfortable pace.",
+    places: ["Addis Ababa", "Hawassa", "Arba Minch", "Dorze", "Konso"],
+    categorySlugs: ["nature-tours", "cultural-tours"],
+    itinerary: [
+      ["Addis to Hawassa", "Travel through the Rift Valley."],
+      ["Hawassa", "Birding, lake life and Sidama coffee."],
+      ["Arba Minch", "Explore Lake Chamo and Nech Sar landscapes."],
+      ["Dorze", "Visit the highlands with a local host."],
+      ["Konso", "Discover the terraced cultural landscape."],
+      ["Southern highlands", "A flexible nature and culture day."],
+      ["Return to Addis", "Fly or drive north."]
+    ]
+  }),
+  makeTour({
+    slug: "ethiopia-coffee-origins",
+    name: "Ethiopia Coffee Origins Journey",
+    overview: "Follow coffee from Addis roasteries to the farms and forests of Jimma, Kaffa and Sidama.",
+    places: ["Addis Ababa", "Hawassa"],
+    categorySlugs: ["cultural-tours", "nature-tours"],
+    itinerary: [
+      ["Addis coffee culture", "Begin with a guided cupping."],
+      ["Jimma", "Visit farms, washing stations and local roasters."],
+      ["Kaffa", "Walk wild-coffee forests around Bonga."],
+      ["Farm hospitality", "Join a hosted harvest or preparation experience."],
+      ["Sidama", "Continue to southern coffee country."],
+      ["Hawassa", "Rest by the lake and meet local producers."],
+      ["Return to Addis", "Close with a final tasting."]
+    ]
+  }),
+  makeTour({
+    slug: "addis-ababa-central-highlands",
+    name: "Addis Ababa & Central Highlands",
+    overview: "The capital, sacred highlands, a crater lake and archaeology within one compact route.",
+    places: ["Addis Ababa", "Debre Libanos Monastery", "Wonchi Crater Lake", "Tiya Archaeological Site", "Adadi Mariam Rock-Hewn Church"],
+    categorySlugs: ["cultural-tours", "historical-tours", "religious-pilgrimage-tours", "nature-tours"],
+    itinerary: [
+      ["Addis Ababa", "Museums, Entoto and a welcome coffee ceremony."],
+      ["Debre Libanos", "Monastery, Portuguese Bridge and the Jemma Gorge."],
+      ["Wonchi", "Descend into the crater and cross to the island monastery."],
+      ["Tiya & Adadi Mariam", "Combine megalithic stelae with the rock-hewn church."],
+      ["Addis & departure", "Choose markets or galleries before the airport transfer."]
+    ]
+  }),
+  makeTour({
     slug: "timkat-festival-journey",
-    tourName: "Timkat Festival Journey",
-    destination: "Gondar",
-    overview:
-      "Ethiopia's Epiphany — processions, white robes and the flooding of the royal bath.",
-    included: [
-      "Reserved viewing positions at Fasilides' Bath",
-      "Domestic flights and private transfers",
-      "Rooms held twelve months in advance",
-      "Orthodox scholar as festival guide",
-      "All breakfasts and festival-day catering",
-      "Processional photography guidance"
-    ],
-    excluded: [
-      "International flights and visa fees",
-      "Travel insurance (mandatory)",
-      "Gratuities"
-    ],
-    itinerary: toSeedItinerary([
-      {
-        day: "Days 1 – 2",
-        title: "Addis Ababa",
-        text: "Arrival, Holy Trinity Cathedral, and a briefing on the liturgical calendar."
-      },
-      {
-        day: "Days 3 – 5",
-        title: "Gondar for Timkat",
-        text: "Ketera eve procession, the night vigil, and the flooding of the bath at dawn."
-      },
-      {
-        day: "Days 6 – 7",
-        title: "Lalibela",
-        text: "The rock churches in festival season, with the northern cluster before sunrise."
-      },
-      {
-        day: "Day 8",
-        title: "Departure",
-        text: "Return flight to Addis and an evening departure."
-      }
-    ]),
-    journeyMap: null,
-    destinationSlugs: toDestinationSlugs(["Addis Ababa", "Gondar", "Lalibela"]),
-    categorySlugs: ["festival-tours", "religious-pilgrimage-tours", "historical-tours"],
-    adultPrice: 5940,
-    childPrice: 5940,
-    rating: 5.0,
-    noOfRates: 0,
-    isFeatured: true,
-    priceSource: "source",
-    gallery: []
-  }
+    name: "Timkat Festival Journey",
+    overview: "Ethiopia's Epiphany through processions, vigils and the flooding of the royal bath.",
+    places: ["Addis Ababa", "Gondar", "Lalibela"],
+    categorySlugs: ["festival-tours", "historical-tours", "religious-pilgrimage-tours"],
+    itinerary: [
+      ["Addis Ababa", "Arrival and festival orientation."],
+      ["Gondar", "Experience Ketera, the vigil and Timkat morning."],
+      ["Lalibela", "Continue to the rock-hewn churches in festival season."],
+      ["Return to Addis", "Fly back for onward travel."]
+    ]
+  }),
+  makeTour({
+    slug: "genna-in-lalibela",
+    name: "Genna in Lalibela",
+    overview: "Ethiopian Christmas among candlelit processions and white-robed pilgrims in Lalibela.",
+    places: ["Addis Ababa", "Lalibela"],
+    categorySlugs: ["festival-tours", "historical-tours", "religious-pilgrimage-tours"],
+    itinerary: [
+      ["Arrive Lalibela", "Fly from Addis and review the festival calendar."],
+      ["Rock-hewn churches", "Explore the clusters before the main ceremonies."],
+      ["Genna vigil", "Follow the processions with a scholar-guide."],
+      ["Christmas morning", "Experience the celebrations before returning to Addis."]
+    ]
+  })
 ];

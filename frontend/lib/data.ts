@@ -27,7 +27,7 @@ import {
 } from '@/lib/api'
 
 function formatPrice(price: number | null): string | null {
-  if (price === null || price === undefined) return null
+  if (price === null || price === undefined || price <= 0) return null
   return `$${price.toLocaleString('en-US')} per person`
 }
 
