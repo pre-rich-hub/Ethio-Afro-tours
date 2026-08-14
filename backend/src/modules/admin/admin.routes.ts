@@ -56,6 +56,8 @@ const tourTitleSchema = z.string().trim().min(1, "Tour name is required").max(25
 const tourDestinationSchema = z.coerce.number().int().positive("A destination is required");
 const layoverTitleSchema = z.string().trim().min(1, "Title is required").max(255);
 const layoverHoursSchema = z.string().trim().min(1, "Hours are required").max(255);
+const layoverMinimumConnectionSchema = z.string().trim().min(1, "Minimum connection is required").max(255);
+const layoverPackageTypeSchema = z.enum(["layover", "stopover"]);
 const layoverPriceSchema = z.string().trim().min(1, "Price is required").max(255);
 
 function parseTourDestinationIds(body: Record<string, unknown>): number[] {
@@ -796,17 +798,22 @@ adminRouter.post(
     const imageUrl = req.file ? urlForFile(req.file) : undefined;
     const title = layoverTitleSchema.parse(req.body.title);
     const hours = layoverHoursSchema.parse(req.body.hours);
+    const minimumConnection = layoverMinimumConnectionSchema.parse(req.body.minimumConnection);
+    const packageType = layoverPackageTypeSchema.parse(req.body.packageType);
     const price = layoverPriceSchema.parse(req.body.price);
     const slug = await uniqueLayoverSlug(title);
     const created = await prisma.layoverPackage.create({
       data: {
         slug,
         hours,
+        minimumConnection,
+        packageType,
         title,
         price,
         teaser: String(req.body.teaser ?? ""),
         itinerary: JSON.stringify(parseLineList(req.body.itinerary)),
         includes: JSON.stringify(parseLineList(req.body.includes)),
+        excludes: JSON.stringify(parseLineList(req.body.excludes)),
         bestFor: String(req.body.bestFor ?? ""),
         sortOrder: toNumber(req.body.sortOrder) ?? 0,
         ...(imageUrl ? { imageUrl } : {})
@@ -828,6 +835,8 @@ adminRouter.put(
     // required in the UI); fields absent from the body keep their old behavior.
     const title = req.body.title === undefined ? "" : layoverTitleSchema.parse(req.body.title);
     const hours = req.body.hours === undefined ? "" : layoverHoursSchema.parse(req.body.hours);
+    const minimumConnection = req.body.minimumConnection === undefined ? "" : layoverMinimumConnectionSchema.parse(req.body.minimumConnection);
+    const packageType = req.body.packageType === undefined ? "layover" : layoverPackageTypeSchema.parse(req.body.packageType);
     const price = req.body.price === undefined ? "" : layoverPriceSchema.parse(req.body.price);
 
     const newImageUrl = req.file ? urlForFile(req.file) : undefined;
@@ -844,11 +853,14 @@ adminRouter.put(
       data: {
         // slug deliberately preserved: renaming a package must not change its identity.
         hours,
+        minimumConnection,
+        packageType,
         title,
         price,
         teaser: String(req.body.teaser ?? ""),
         itinerary: JSON.stringify(parseLineList(req.body.itinerary)),
         includes: JSON.stringify(parseLineList(req.body.includes)),
+        excludes: JSON.stringify(parseLineList(req.body.excludes)),
         bestFor: String(req.body.bestFor ?? ""),
         sortOrder: toNumber(req.body.sortOrder) ?? 0,
         imageUrl

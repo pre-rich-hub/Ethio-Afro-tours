@@ -18,12 +18,15 @@ type LayoverPackageItem = {
   id: number
   slug: string
   hours: string
+  minimumConnection: string
+  packageType: 'layover' | 'stopover'
   title: string
   price: string
   image: string | null
   teaser: string
   itinerary: string[]
   includes: string[]
+  excludes: string[]
   best: string
 }
 
@@ -93,11 +96,14 @@ export function AdminLayoverPackages() {
   function rowPayload(item: LayoverPackageItem, sortOrder: number): FormData {
     const data = new FormData()
     data.set('hours', item.hours)
+    data.set('minimumConnection', item.minimumConnection)
+    data.set('packageType', item.packageType)
     data.set('title', item.title)
     data.set('price', item.price)
     data.set('teaser', item.teaser)
     data.set('itinerary', item.itinerary.join('\n'))
     data.set('includes', item.includes.join('\n'))
+    data.set('excludes', item.excludes.join('\n'))
     data.set('bestFor', item.best)
     data.set('sortOrder', String(sortOrder))
     return data
@@ -161,7 +167,7 @@ export function AdminLayoverPackages() {
           <div className="mb-5 flex items-center justify-between">
             <div>
               <h2 className="font-serif text-xl text-foreground">{editing ? 'Edit package' : 'New package'}</h2>
-              <p className="mt-1 text-xs text-muted-foreground">Hours, price, copy, itinerary and included points.</p>
+              <p className="mt-1 text-xs text-muted-foreground">Connection window, duration, type, quote, itinerary and included points.</p>
             </div>
             <button type="button" onClick={() => setFormOpen(false)} className="rounded-lg p-2 text-muted-foreground hover:bg-muted" aria-label="Close form">
               <X className="size-4" />
@@ -173,12 +179,23 @@ export function AdminLayoverPackages() {
               <input name="title" defaultValue={editing?.title ?? ''} className={adminInputClass} required />
             </label>
             <label>
-              <span className={adminLabelClass}>Hours label</span>
-              <input name="hours" defaultValue={editing?.hours ?? ''} className={adminInputClass} placeholder="6 Hours" required />
+              <span className={adminLabelClass}>Experience duration</span>
+              <input name="hours" defaultValue={editing?.hours ?? ''} className={adminInputClass} placeholder="About 4 hours" required />
+            </label>
+            <label>
+              <span className={adminLabelClass}>Minimum connection</span>
+              <input name="minimumConnection" defaultValue={editing?.minimumConnection ?? ''} className={adminInputClass} placeholder="8–10 hours" required />
+            </label>
+            <label>
+              <span className={adminLabelClass}>Package type</span>
+              <select name="packageType" defaultValue={editing?.packageType ?? 'layover'} className={adminInputClass} required>
+                <option value="layover">Layover</option>
+                <option value="stopover">Stopover extension</option>
+              </select>
             </label>
             <label>
               <span className={adminLabelClass}>Price</span>
-              <input name="price" defaultValue={editing?.price ?? ''} className={adminInputClass} placeholder="$95 per person" required />
+              <input name="price" defaultValue={editing?.price ?? 'Custom quote'} className={adminInputClass} placeholder="Custom quote" required />
             </label>
             <label>
               <span className={adminLabelClass}>Best for</span>
@@ -209,6 +226,10 @@ export function AdminLayoverPackages() {
             <label className="md:col-span-2">
               <span className={adminLabelClass}>Includes (one item per line)</span>
               <textarea name="includes" defaultValue={editing?.includes.join('\n') ?? ''} className={`${adminInputClass} min-h-32 resize-y`} placeholder={'Private vehicle and driver-guide\nAll entrance fees'} required />
+            </label>
+            <label className="md:col-span-2">
+              <span className={adminLabelClass}>Excludes (one item per line)</span>
+              <textarea name="excludes" defaultValue={editing?.excludes.join('\n') ?? ''} className={`${adminInputClass} min-h-32 resize-y`} placeholder={'Ethiopian visa\nPersonal expenses'} required />
             </label>
           </div>
           <div className="mt-5 flex justify-end gap-3">
@@ -258,12 +279,12 @@ export function AdminLayoverPackages() {
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                   <h2 className="font-serif text-lg text-foreground">{item.title}</h2>
-                  <span className="text-xs font-medium uppercase tracking-wider text-accent">{item.hours}</span>
+                  <span className="text-xs font-medium uppercase tracking-wider text-accent">{item.packageType} · {item.minimumConnection}</span>
                   {reorderingId === item.id && <Loader2 className="size-3.5 animate-spin text-accent" />}
                 </div>
                 <p className="mt-1 truncate text-sm text-muted-foreground">{item.teaser}</p>
                 <p className="mt-0.5 text-xs text-muted-foreground">
-                  {item.price} · {item.itinerary.length} steps · {item.includes.length} included
+                  {item.price} · {item.hours} · {item.itinerary.length} steps · {item.includes.length} included
                 </p>
               </div>
               <div className="flex shrink-0 gap-1">

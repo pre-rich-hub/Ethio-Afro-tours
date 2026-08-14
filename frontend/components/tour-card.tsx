@@ -27,7 +27,7 @@ export function TourCard({
       {/* Top Left: Price & Season Details */}
       <div className="absolute left-4 top-4 flex flex-col gap-1.5 sm:left-5 sm:top-5 z-20">
         <span className="rounded-full bg-background/90 px-3 py-1 text-[9px] font-semibold uppercase tracking-[0.14em] text-foreground backdrop-blur-sm shadow-sm w-fit">
-          {t.from.split(' per')[0]}
+          {t.from}
         </span>
         <span className="rounded-full bg-charcoal/70 border border-sand/10 px-3 py-1 text-[9px] font-semibold uppercase tracking-[0.14em] text-sand backdrop-blur-sm shadow-sm w-fit">
           {t.season}

@@ -139,12 +139,15 @@ export type ApiLayoverPackage = {
   id: number
   slug: string
   hours: string
+  minimumConnection: string
+  packageType: 'layover' | 'stopover'
   title: string
   price: string
   image: string | null
   teaser: string
   itinerary: string[]
   includes: string[]
+  excludes: string[]
   best: string
 }
 

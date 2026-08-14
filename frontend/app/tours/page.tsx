@@ -24,14 +24,14 @@ export default async function ToursPage() {
     <>
       <PageHero
         eyebrow="Tours & Journeys"
-        title="Six routes, and none of them fixed"
+        title="Fifteen routes, and none of them fixed"
         lede="Consider these starting points rather than packages. Each one has been run dozens of times, and each one gets redrawn around the guests travelling it."
         image="/images/luxury-lodge.png"
         imageAlt="A terrace at a highland lodge above the Ethiopian escarpment at dusk"
         crumbs={[{ label: 'Home', href: '/' }, { label: 'Tours' }]}
         meta={[
-          { label: 'Journeys', value: '6' },
-          { label: 'Length', value: '6 – 11 Days' },
+          { label: 'Journeys', value: '15' },
+          { label: 'Length', value: '4 – 18 Days' },
           { label: 'Group Size', value: '2 – 10 Guests' },
           { label: 'Guiding', value: 'Private' },
         ]}
@@ -73,7 +73,7 @@ export default async function ToursPage() {
                 { label: 'Duration', value: hero.days },
                 { label: 'Season', value: hero.season },
                 { label: 'Group', value: hero.group },
-                { label: 'From', value: hero.from.split(' ')[0] },
+                { label: 'Pricing', value: hero.from },
               ].map((m) => (
                 <div key={m.label} className="border-t border-border pt-4">
                   <dt className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">

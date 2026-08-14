@@ -57,7 +57,7 @@ export default async function TourPage({
           { label: 'Duration', value: t.days },
           { label: 'Season', value: t.season },
           { label: 'Group Size', value: t.group },
-          { label: 'From', value: t.from.split(' ')[0] },
+          { label: 'Pricing', value: t.from },
         ]}
       />
 
@@ -100,10 +100,10 @@ export default async function TourPage({
               Indicative price
             </p>
             <p className="mt-2 font-serif text-3xl text-foreground sm:text-4xl">
-              {t.from.split(' per')[0]}
+              {t.from}
             </p>
             <p className="mt-1 text-sm text-muted-foreground">
-              per person, twin share
+              tailored to your dates, group and room preferences
             </p>
 
             <dl className="mt-8 space-y-4 border-t border-border pt-8 text-sm">
@@ -242,7 +242,7 @@ export default async function TourPage({
               were our own trip.
             </p>
             <p className="mt-8 border-l-2 border-accent pl-5 text-sm leading-relaxed text-background/70">
-              Runs {t.season} · {t.group} · from{' '}
+              Runs {t.season} · {t.group} ·{' '}
               <span className="text-background">{t.from}</span>
             </p>
           </Reveal>

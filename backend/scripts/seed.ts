@@ -18,9 +18,10 @@ const prisma = new PrismaClient({
 /**
  * Seeds the client catalog and ops data:
  *  - blog categories (4), tour categories (5)
- *  - destinations (8 client destinations from frontend/lib/site.ts)
- *  - tours (6 client tours from frontend/lib/site.ts, mapped into our schema)
- *  - layover packages (4 client packages — import-once only, NO prune/clobber:
+ *  - destinations (20 client destinations from frontend/lib/site.ts)
+ *  - tours (15 client tours from frontend/lib/site.ts, mapped into our schema)
+ *  - layover packages (6 client packages — import-once, with a one-time legacy
+ *    four-package catalog replacement; admin-managed catalogs are preserved)
  *    Phase 3 makes them client-owned, admin edits must survive re-seeds)
  *  - bookings (4, mixed statuses), contacts (4), subscribers (3)
  *  - testimonials (tops up to 3)
@@ -29,7 +30,7 @@ const prisma = new PrismaClient({
  * the seed values, so the second run changes nothing), destinations upsert by
  * slug, and bookings/contacts/subscribers are guarded by row counts. Stale
  * rows (tours/destinations whose slug is no longer in the client catalog,
- * e.g. the reference catalog's Harar or Debre Libanos rows) are pruned so
+ * e.g. destinations outside the approved 20-entry catalog) are pruned so
  * the API surface matches the client catalog exactly.
  */
 async function main() {
@@ -62,7 +63,7 @@ async function main() {
   console.log(`Tour categories: ${tourCategories.length}`);
 
   // ------------------------- Destinations -------------------------
-  // All 8 client destinations (from frontend/lib/site.ts destinations array).
+  // All 20 client destinations (from frontend/lib/site.ts destinations array).
   // Upsert by the seed's explicit slug: the client slug is the API contract
   // (e.g. "lake-tana", NOT the slugified name "lake-tana-blue-nile").
   const clientDestinationSlugs = destinationSeeds.map((d) => d.slug);
@@ -82,8 +83,8 @@ async function main() {
       }
     });
   }
-  // Prune stale destinations (reference-catalog rows like "harar" or
-  // "simien-mountains-national-park"). Tour.destinationId is SetNull by the
+  // Prune stale destinations outside the approved client catalog. The
+  // Tour.destinationId relation is SetNull by the
   // schema, so surviving tours simply lose their fallback pointer.
   const prunedDestinations = await prisma.destination.deleteMany({
     where: { slug: { notIn: clientDestinationSlugs } }
@@ -119,8 +120,7 @@ async function main() {
 
   // Tours carry client destination slugs directly (see tours.seed.ts); the
   // seeded destinations use those same slugs, so no translation map is needed.
-  // Slugs not present in the client catalog (e.g. "addis-ababa") resolve to
-  // nothing and are skipped.
+  // Slugs not present in the client catalog resolve to nothing and are skipped.
   const tourCategoriesBySlug = await prisma.tourCategory.findMany();
   const destinationsBySlug = await prisma.destination.findMany();
   const categoryIdFor = (slug: string) =>
@@ -129,7 +129,7 @@ async function main() {
     destinationsBySlug.find((d) => d.slug === slug)?.id;
 
   let seededTours = 0;
-  let demoPricedTours = 0;
+  let quoteOnlyTours = 0;
 
   const clientTourSlugs = tourSeeds.map((t) => t.slug);
 
@@ -153,10 +153,10 @@ async function main() {
     ];
     const destinationId = destinationIds[0] ?? null;
 
-    if (seed.priceSource === "demo") {
-      // DEMO PLACEHOLDER PRICE: the source document lists 0/0 for this tour;
-      // a plausible demo price was assigned in tours.seed.ts.
-      demoPricedTours += 1;
+    if (seed.priceSource === "quote") {
+      // The public catalog intentionally shows "Custom quote" until the
+      // client supplies confirmed rates. Zero is ignored by the frontend.
+      quoteOnlyTours += 1;
     }
 
     const fields = {
@@ -262,7 +262,7 @@ async function main() {
 
   const tourCount = await prisma.tour.count();
   console.log(
-    `Tours: ${seededTours} seeded (${tourCount} total, ${demoPricedTours} demo-priced, ${prunedTours.count} stale pruned)`
+    `Tours: ${seededTours} seeded (${tourCount} total, ${quoteOnlyTours} quote-only, ${prunedTours.count} stale pruned)`
   );
 
   // ------------------------- Bookings -------------------------
@@ -476,26 +476,36 @@ async function main() {
   //    admin-created packages on the next seed run.
   //  - NO scalar clobber (no update) — re-running the seed must not revert
   //    admin edits (title, price, itinerary, ordering) made in the admin UI.
-  // The seed only ever fills the table when it is empty.
-  const layoverExisting = await prisma.layoverPackage.count();
-  if (layoverExisting === 0) {
+  // The seed fills an empty table. It also recognizes the original four static
+  // slugs and replaces that exact legacy set once; any admin-managed catalog is
+  // left untouched.
+  const existingLayovers = await prisma.layoverPackage.findMany({ select: { slug: true } });
+  const legacyLayoverSlugs = new Set(["6-hour", "12-hour", "24-hour", "48-hour"]);
+  const isLegacyCatalog = existingLayovers.length === legacyLayoverSlugs.size
+    && existingLayovers.every(({ slug }) => legacyLayoverSlugs.has(slug));
+
+  if (existingLayovers.length === 0 || isLegacyCatalog) {
+    if (isLegacyCatalog) await prisma.layoverPackage.deleteMany();
     await prisma.layoverPackage.createMany({
       data: layoverPackageSeeds.map((seed) => ({
         slug: seed.slug,
         hours: seed.hours,
+        minimumConnection: seed.minimumConnection,
+        packageType: seed.packageType,
         title: seed.title,
         price: seed.price,
         teaser: seed.teaser,
         itinerary: JSON.stringify(seed.itinerary),
         includes: JSON.stringify(seed.includes),
+        excludes: JSON.stringify(seed.excludes),
         bestFor: seed.bestFor,
         sortOrder: seed.sortOrder,
         imageUrl: seed.imageUrl
       }))
     });
-    console.log(`Layover packages: ${layoverPackageSeeds.length} created`);
+    console.log(`Layover packages: ${layoverPackageSeeds.length} ${isLegacyCatalog ? "replaced from legacy catalog" : "created"}`);
   } else {
-    console.log(`Layover packages: ${layoverExisting} existing, skipped (guard: count != 0)`);
+    console.log(`Layover packages: ${existingLayovers.length} existing, skipped (admin catalog preserved)`);
   }
 
   console.log("Seed complete");

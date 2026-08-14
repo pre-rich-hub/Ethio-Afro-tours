@@ -49,19 +49,22 @@ model Tour {
 }
 
 model LayoverPackage {
-  id        Int      @id @default(autoincrement())
-  slug      String   @unique @db.VarChar(255)
-  hours     String
-  title     String
-  price     String
-  imageUrl  String?  @map("image_url")
-  teaser    String   @db.Text
-  itinerary String   @db.Text
-  includes  String   @db.Text
-  bestFor   String   @map("best_for")
-  sortOrder Int      @default(0) @map("sort_order")
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  id                Int      @id @default(autoincrement())
+  slug              String   @unique @db.VarChar(255)
+  hours             String
+  minimumConnection String   @map("minimum_connection")
+  packageType       String   @default("layover") @map("package_type")
+  title             String
+  price             String
+  imageUrl          String?  @map("image_url")
+  teaser            String   @db.Text
+  itinerary         String   @db.Text
+  includes          String   @db.Text
+  excludes          String   @default("[]") @db.Text
+  bestFor           String   @map("best_for")
+  sortOrder         Int      @default(0) @map("sort_order")
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
 
   @@map("layover_packages")
 }

@@ -1,121 +1,161 @@
-// CLIENT CATALOG — EthioAfroTours frontend/lib/site.ts (layoverPackages array).
-// All 4 site layover packages, mapped into the backend LayoverPackage schema.
-// Content is verbatim from the client catalog: hours, title, price, teaser,
-// itinerary steps, includes and best-for copy. sortOrder 1-4 mirrors the
-// client's display order. imageUrl is deliberately null: the seeded packages
-// keep the static client images (the public page only overlays live images
-// served via /api/v1/), and no local /assets copy exists at seed time.
 export interface LayoverPackageSeed {
   slug: string;
   hours: string;
+  minimumConnection: string;
+  packageType: "layover" | "stopover";
   title: string;
   price: string;
   teaser: string;
   itinerary: string[];
   includes: string[];
+  excludes: string[];
   bestFor: string;
   sortOrder: number;
   imageUrl: string | null;
 }
 
+const sharedIncludes = [
+  "Airport pickup and return transfer",
+  "Private vehicle and English-speaking guide",
+  "Itinerary planning around confirmed flight times"
+];
+
+const sharedExcludes = [
+  "Ethiopian visa and travel insurance",
+  "Personal purchases, tips and unlisted services",
+  "Meals and entrance fees unless confirmed in your quote"
+];
+
 export const layoverPackageSeeds: LayoverPackageSeed[] = [
   {
-    slug: "6-hour",
-    hours: "6 Hours",
-    title: "The Espresso",
-    price: "$95 per person",
-    teaser:
-      "A tight, elegant loop of the capital for a short connection — city, coffee, and back with time to spare.",
+    slug: "addis-highlights-layover",
+    hours: "About 4 hours",
+    minimumConnection: "8–10 hours",
+    packageType: "layover",
+    title: "Addis Highlights Layover",
+    price: "Custom quote",
+    teaser: "A carefully timed introduction to Addis Ababa with a highland viewpoint, city landmarks and Ethiopian coffee.",
     itinerary: [
-      "Meet at arrivals with a name board and a cold towel",
-      "Drive to Entoto ridge for the city panorama and eucalyptus air",
-      "A private coffee ceremony in a family home in Shiro Meda",
-      "Late lunch of injera and tibs at a designers’ favourite",
-      "Return to the terminal three hours before departure"
+      "Meet after immigration and confirm the return schedule",
+      "Drive to Entoto for a city panorama when conditions allow",
+      "Follow a flexible landmark loop through central Addis Ababa",
+      "Pause for an Ethiopian coffee experience",
+      "Return to Bole with the agreed international check-in buffer"
     ],
-    includes: [
-      "Private air-conditioned vehicle and driver-guide",
-      "All entrance fees",
-      "Lunch and the coffee ceremony",
-      "Airport meet-and-greet both ways"
-    ],
-    bestFor: "Connections of 8 hours or more",
+    includes: sharedIncludes,
+    excludes: sharedExcludes,
+    bestFor: "First-time visitors with a daytime connection",
     sortOrder: 1,
     imageUrl: null
   },
   {
-    slug: "12-hour",
-    hours: "12 Hours",
-    title: "The Capital",
-    price: "$165 per person",
-    teaser:
-      "The full Addis day: Lucy at the National Museum, the Mercato, Holy Trinity, and a long lunch.",
+    slug: "addis-culture-and-coffee",
+    hours: "About 5–6 hours",
+    minimumConnection: "10–12 hours",
+    packageType: "layover",
+    title: "Addis Culture & Coffee",
+    price: "Custom quote",
+    teaser: "A deeper look at the capital through a museum or cultural site, local craft traditions, lunch and coffee.",
     itinerary: [
-      "Arrivals meet, breakfast at a rooftop above Bole",
-      "The National Museum with a curator — Lucy, in person",
-      "Holy Trinity Cathedral and the imperial tombs",
-      "Mercato with a chef, then a spice-market tasting",
-      "Late lunch, hammam or hotel day room to reset",
-      "Evening return with priority check-in assistance"
+      "Meet at Bole and review traffic and opening hours",
+      "Visit the National Museum or the best available cultural alternative",
+      "Explore a craft, textile or historic quarter with your guide",
+      "Enjoy a traditional Ethiopian meal",
+      "Finish with coffee before the timed airport return"
     ],
-    includes: [
-      "Private vehicle, driver-guide and curator access",
-      "Hotel day room for showering and rest",
-      "All meals and entrance fees",
-      "Departure check-in assistance"
-    ],
-    bestFor: "Connections of 14 hours or more",
+    includes: sharedIncludes,
+    excludes: sharedExcludes,
+    bestFor: "Travellers who want culture, history and food in one visit",
     sortOrder: 2,
     imageUrl: null
   },
   {
-    slug: "24-hour",
-    hours: "24 Hours",
-    title: "The Overnight",
-    price: "$395 per person",
-    teaser:
-      "A night in a proper bed, a highland morning outside the city, and a proper dinner with live azmari music.",
+    slug: "full-day-addis-experience",
+    hours: "About 8–9 hours",
+    minimumConnection: "14–18 hours",
+    packageType: "layover",
+    title: "Full-Day Addis Experience",
+    price: "Custom quote",
+    teaser: "A flexible full day combining Addis Ababa’s viewpoints, heritage, neighbourhoods, cuisine and coffee culture.",
     itinerary: [
-      "Arrivals meet and transfer to a boutique hotel",
-      "Dinner with live azmari music in Kazanchis",
-      "Sunrise drive to the Debre Libanos monastery and Portuguese Bridge",
-      "Gelada troops on the Jemma gorge rim",
-      "Lunch on the escarpment, return to Addis",
-      "Spa hour, then evening transfer to the airport"
+      "Airport welcome and a route check based on the day’s conditions",
+      "Begin at Entoto or another panoramic city viewpoint",
+      "Visit selected museums, monuments or places of worship that are open",
+      "Explore a market or artisan district with your private guide",
+      "Take time for lunch and an Ethiopian coffee ceremony",
+      "Optional day-room stop when requested and available",
+      "Return to Bole with the agreed check-in buffer"
     ],
-    includes: [
-      "One night in a boutique hotel with breakfast",
-      "Private vehicle and driver-guide throughout",
-      "All meals, park and monastery fees",
-      "Spa session before departure"
-    ],
-    bestFor: "Overnight connections and stopovers",
+    includes: sharedIncludes,
+    excludes: [...sharedExcludes, "Hotel day room unless included in the confirmed quote"],
+    bestFor: "Long daytime connections with room for a relaxed city visit",
     sortOrder: 3,
     imageUrl: null
   },
   {
-    slug: "48-hour",
-    hours: "48 Hours",
-    title: "The Stopover",
-    price: "$890 per person",
-    teaser:
-      "Two days is enough for Lalibela. A dawn flight north, the rock churches, and back for your onward leg.",
+    slug: "addis-evening-experience",
+    hours: "About 4–5 hours",
+    minimumConnection: "8–12 hours",
+    packageType: "layover",
+    title: "Addis Evening Experience",
+    price: "Custom quote",
+    teaser: "An after-hours alternative built around Ethiopian food, coffee, music and Addis Ababa after dark.",
     itinerary: [
-      "Arrivals meet, hotel, and an early night",
-      "Dawn flight to Lalibela with your scholar-guide",
-      "The northern and eastern church clusters, quietly",
-      "Night in a lodge above the Lasta mountains",
-      "Sunrise liturgy, then the flight back to Addis",
-      "Day room, dinner and evening departure"
+      "Meet after immigration and confirm the evening schedule",
+      "Take a short illuminated city drive or viewpoint stop",
+      "Enjoy an Ethiopian dinner selected for your preferences",
+      "Experience coffee and an optional cultural performance when available",
+      "Return to Bole with the agreed check-in buffer"
     ],
-    includes: [
-      "Domestic flights Addis – Lalibela – Addis",
-      "Two nights accommodation with breakfast",
-      "Scholar-guide and all church entrance fees",
-      "All transfers and a departure day room"
-    ],
-    bestFor: "Stopovers of two nights or more",
+    includes: sharedIncludes,
+    excludes: sharedExcludes,
+    bestFor: "Evening arrivals when museums and daytime attractions are closed",
     sortOrder: 4,
+    imageUrl: null
+  },
+  {
+    slug: "overnight-addis-and-highlands",
+    hours: "One night",
+    minimumConnection: "24–36 hours",
+    packageType: "layover",
+    title: "Overnight Addis & Highlands",
+    price: "Custom quote",
+    teaser: "Rest overnight, then explore Addis or make a carefully timed highland excursion before returning to Bole.",
+    itinerary: [
+      "Airport welcome and private hotel transfer",
+      "Dinner or rest according to your arrival time",
+      "Choose an Addis morning or a highland excursion after a route and weather check",
+      "Lunch and a flexible final stop",
+      "Return to Bole with the agreed international departure buffer"
+    ],
+    includes: sharedIncludes,
+    excludes: [...sharedExcludes, "Accommodation unless included in the confirmed quote"],
+    bestFor: "Overnight connections that allow a hotel stay and a flexible second day",
+    sortOrder: 5,
+    imageUrl: null
+  },
+  {
+    slug: "lalibela-stopover-extension",
+    hours: "Two nights",
+    minimumConnection: "60–72 hours minimum",
+    packageType: "stopover",
+    title: "Lalibela Stopover Extension",
+    price: "Custom quote",
+    teaser: "Turn a multi-day stopover into a privately guided visit to Lalibela, subject to domestic schedules and a safe onward-flight buffer.",
+    itinerary: [
+      "Arrive in Addis and review the confirmed domestic-flight plan",
+      "Fly to Lalibela and meet your local guide",
+      "Explore the rock-hewn church groups around opening and service times",
+      "Stay overnight in Lalibela and continue the visit the next morning",
+      "Fly back to Addis with a pre-agreed buffer before the onward journey"
+    ],
+    includes: sharedIncludes,
+    excludes: [
+      ...sharedExcludes,
+      "Domestic flights and accommodation unless included in the confirmed quote"
+    ],
+    bestFor: "Planned stopovers of at least 60–72 hours with flexible onward travel",
+    sortOrder: 6,
     imageUrl: null
   }
 ];

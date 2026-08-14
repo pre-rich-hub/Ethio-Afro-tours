@@ -58,11 +58,15 @@ function destinationRow(overrides: Record<string, unknown> = {}) {
 
 function packageRow(overrides: Record<string, unknown> = {}) {
   return {
-    title: "The Espresso",
-    price: "$95 per person",
+    title: "Addis Highlights Layover",
+    hours: "About 4 hours",
+    minimumConnection: "8–10 hours",
+    packageType: "layover",
+    price: "Custom quote",
     teaser: "A tight loop of the capital.",
     itinerary: '["Meet at arrivals", "Entoto ridge"]',
     includes: '["Private vehicle", "Lunch"]',
+    excludes: '["Visa"]',
     bestFor: "Connections of 8 hours or more",
     ...overrides
   };
@@ -100,7 +104,7 @@ describe("CatalogContextBuilder", () => {
       orderBy: { id: "asc" }
     });
     expect(db.prisma.layoverPackage.findMany).toHaveBeenCalledWith({
-      select: { title: true, price: true, teaser: true, itinerary: true, includes: true, bestFor: true },
+      select: { title: true, hours: true, minimumConnection: true, packageType: true, price: true, teaser: true, itinerary: true, includes: true, excludes: true, bestFor: true },
       orderBy: [{ sortOrder: "asc" }, { id: "asc" }]
     });
     expect(db.prisma.blog.findMany).toHaveBeenCalledWith({
@@ -115,7 +119,7 @@ describe("CatalogContextBuilder", () => {
 
     const joined = context.sections.join("\n\n");
     expect(joined).toContain("Lalibela & the Northern Circuit");
-    expect(joined).toContain("The Espresso");
+    expect(joined).toContain("Addis Highlights Layover");
     expect(joined).toContain("Lalibela");
     expect(joined).toContain("A First-Timer's Guide to Addis");
     expect(context.tokenEstimate).toBeGreaterThan(0);

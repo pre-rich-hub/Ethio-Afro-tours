@@ -9,7 +9,7 @@ import { destinations } from '@/lib/site'
 export const metadata: Metadata = {
   title: 'Destinations',
   description:
-    'Rock-hewn churches, Afro-alpine plateaus, sulphur springs below sea level and the most culturally dense valley on earth — the eight regions of Ethiopia we know best.',
+    'Explore twenty of Ethiopia’s defining destinations, from rock-hewn churches and ancient cities to volcanic lowlands, highland parks and living cultural landscapes.',
 }
 
 const regions = Array.from(new Set(destinations.map((d) => d.region)))
@@ -19,14 +19,14 @@ export default function DestinationsPage() {
     <>
       <PageHero
         eyebrow="Where We Travel"
-        title="Eight Ethiopias, and the routes between them"
-        lede="From churches carved downward into the rock to a lava lake burning below sea level. These are the places our designers know by name, season and hour of day."
+        title="Twenty places, and the routes between them"
+        lede="From churches carved downward into the rock to a lava lake burning below sea level. These are twenty places our designers connect into thoughtful journeys across Ethiopia."
         image="/images/gondar.png"
         imageAlt="The royal enclosure of Fasil Ghebbi in Gondar at golden hour"
         crumbs={[{ label: 'Home', href: '/' }, { label: 'Destinations' }]}
         meta={[
-          { label: 'Destinations', value: '8' },
-          { label: 'UNESCO Sites', value: '4' },
+          { label: 'Destinations', value: '20' },
+          { label: 'UNESCO Sites', value: '9' },
           { label: 'Altitude Range', value: '-125 – 4,533 m' },
           { label: 'Best Months', value: 'Oct – Mar' },
         ]}

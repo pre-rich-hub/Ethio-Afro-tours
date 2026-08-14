@@ -284,7 +284,7 @@ export function SiteNav() {
                                 </p>
                                 <div className="mt-2.5 flex items-center justify-between border-t border-border/60 pt-2">
                                   <span className="text-[10px] text-muted-foreground uppercase tracking-wider">From</span>
-                                  <span className="text-xs font-bold text-accent">{t.from.split(' per ')[0]}</span>
+                                  <span className="text-xs font-bold text-accent">{t.from}</span>
                                 </div>
                               </div>
                             </Link>
