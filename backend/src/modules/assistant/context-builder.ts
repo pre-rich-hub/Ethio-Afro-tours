@@ -32,7 +32,7 @@ export class CatalogContextBuilder implements ContextBuilder {
         orderBy: { id: "asc" }
       }),
       this.client.layoverPackage.findMany({
-        select: { title: true, price: true, teaser: true, itinerary: true, includes: true, bestFor: true },
+        select: { title: true, hours: true, minimumConnection: true, packageType: true, price: true, teaser: true, itinerary: true, includes: true, excludes: true, bestFor: true },
         orderBy: [{ sortOrder: "asc" }, { id: "asc" }]
       }),
       this.client.blog.findMany({
@@ -47,7 +47,7 @@ export class CatalogContextBuilder implements ContextBuilder {
       "## Destinations",
       ...safe(destinations).map((destination) => this.formatEntry(destination, ["destinationName", "description"])),
       "## Layover packages",
-      ...safe(packages).map((tour) => this.formatEntry(tour, ["title", "price", "teaser", "itinerary", "includes", "bestFor"])),
+      ...safe(packages).map((tour) => this.formatEntry(tour, ["title", "hours", "minimumConnection", "packageType", "price", "teaser", "itinerary", "includes", "excludes", "bestFor"])),
       "## Travel journal",
       ...safe(posts).map((post) => this.formatEntry(post, ["blogTitle", "description", "content"]))
     ];

@@ -18,24 +18,23 @@ export async function LayoverTeaser() {
             Addis Layover Tours
           </p>
           <h2 className="max-w-[20ch] text-balance font-serif text-[2.1rem] leading-[1.08] text-foreground sm:text-[2.6rem] lg:text-5xl">
-            Six hours in Addis is not a waiting room
+            Turn a long connection into an introduction
           </h2>
           <p className="mt-6 max-w-lg text-pretty leading-relaxed text-muted-foreground">
-            Ethiopian Airlines connects half of Africa through Bole. If your
-            connection is long enough for coffee, it is long enough for a
-            private city loop — visa on arrival, met at the gate, back at
-            check-in with time to spare.
+            Share both flights and your passport nationality. We will check the
+            usable window and shape a private Addis visit around immigration,
+            traffic and a protected airport return.
           </p>
 
-          <dl className="mt-10 grid grid-cols-2 gap-x-6 gap-y-6 sm:grid-cols-4">
+          <dl className="mt-10 grid grid-cols-2 gap-x-6 gap-y-6 sm:grid-cols-3">
             {packages.map((p) => (
               <div key={p.slug} className="border-t border-border pt-4">
                 <dt className="flex items-center gap-1.5 font-serif text-xl text-primary">
                   <Plane className="h-3.5 w-3.5 text-accent" aria-hidden />
-                  {p.hours}
+                  {p.minimumConnection}
                 </dt>
                 <dd className="mt-1 text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
-                  {p.title}
+                  {p.packageType === 'stopover' ? 'Stopover' : p.title}
                 </dd>
               </div>
             ))}

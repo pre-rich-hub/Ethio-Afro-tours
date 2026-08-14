@@ -4,58 +4,65 @@ import { Check, Plane, ShieldCheck, Clock3, BadgeCheck } from 'lucide-react'
 import { PageHero } from '@/components/page-hero'
 import { Reveal } from '@/components/reveal'
 import { SectionHeading } from '@/components/section-heading'
-import { EnquiryForm } from '@/components/enquiry-form'
+import { LayoverEnquiryForm, LayoverPackageLink } from '@/components/layover-enquiry-form'
 import { CtaBand } from '@/components/cta-band'
 import { getLayoverPackagesData } from '@/lib/data'
 
 export const metadata: Metadata = {
   title: 'Addis Ababa Layover Tours',
   description:
-    'Private 6, 12, 24 and 48-hour layover tours from Bole International. Met at the gate, visa on arrival, back at check-in with time to spare.',
+    'Private Addis Ababa layover tours and multi-day stopover extensions from Bole International Airport, planned around your confirmed flights.',
 }
 
 const assurances = [
   {
     icon: Plane,
     title: 'We track your inbound flight',
-    text: 'If you land two hours late, your driver is still there and the day is reshaped around the time you actually have.',
+    text: 'Share your flight number and we will monitor the arrival, then reshape the route around the usable time that remains.',
   },
   {
     icon: BadgeCheck,
-    title: 'Visa on arrival, handled',
-    text: 'Most nationalities can buy a visa at Bole. We send the exact steps, the cost, and someone waiting on the other side of it.',
+    title: 'Visa guidance before arrival',
+    text: 'We help you check the current official requirements for your passport. Entry approval and obtaining the correct visa remain the traveller’s responsibility.',
   },
   {
     icon: Clock3,
-    title: 'Back three hours early',
-    text: 'Every itinerary is timed to return you to the terminal three hours before your onward departure. We do not gamble with connections.',
+    title: 'A protected return buffer',
+    text: 'We agree the airport return time before departure and shorten the route when traffic, immigration or flight timing requires it.',
   },
   {
     icon: ShieldCheck,
-    title: 'Luggage stays safe',
-    text: 'Checked through to your final destination in most cases. Hand luggage travels locked in the vehicle or in a day-room safe.',
+    title: 'Luggage checked case by case',
+    text: 'Through-checking depends on your tickets and airlines. Tell us your baggage arrangement so we can plan collection, storage or vehicle space.',
   },
+]
+
+const faqs = [
+  { question: 'Can every transit passenger leave Bole Airport?', answer: 'No. It depends on passport nationality, visa status, immigration approval, baggage and the time between flights. We review the itinerary, but travellers must obtain the correct permission to enter Ethiopia.' },
+  { question: 'What happens if the inbound flight is delayed?', answer: 'We track the flight number you provide and adjust, shorten or cancel the sightseeing plan when the safe operating window changes. Your onward connection always takes priority.' },
+  { question: 'Are meals, entrance fees and hotels included?', answer: 'Your proposal will state exactly what is included. Package ideas are flexible, and no meal, entrance fee, room or domestic flight is included unless it appears in the confirmed quote.' },
+  { question: 'Can I book an evening layover?', answer: 'Yes. The evening route focuses on food, coffee, music and available viewpoints because museums and many heritage sites may be closed.' },
+  { question: 'Is Lalibela suitable for a 48-hour connection?', answer: 'We recommend at least 60–72 hours and only confirm the extension after checking domestic schedules and a safe return buffer before the international flight.' },
 ]
 
 export default async function LayoverPage() {
   const packages = await getLayoverPackagesData()
   const packageCount = packages.length
-  const shortest = packages[0]?.hours ?? '6 Hours'
-  const from = packages[0]?.price ?? '$95 pp'
+  const layoverCount = packages.filter((item) => item.packageType === 'layover').length
 
   return (
     <>
       <PageHero
         eyebrow="Addis Layover Tours"
-        title="Six hours in Addis is not a waiting room"
-        lede="Ethiopian Airlines connects half of Africa through Bole. If your connection is long enough for coffee, it is long enough for a private city loop — met at the gate, back at check-in with time to spare."
+        title="A long connection is not a waiting room"
+        lede="A long connection can become a private introduction to Ethiopia — planned around your confirmed flights, entry requirements and a protected return to Bole."
         image="/images/addis-skyline.png"
         imageAlt="The Addis Ababa skyline at dusk seen from the Entoto hills"
         crumbs={[{ label: 'Home', href: '/' }, { label: 'Layover' }]}
         meta={[
           { label: 'Packages', value: String(packageCount) },
-          { label: 'Shortest', value: shortest },
-          { label: 'From', value: from },
+          { label: 'Minimum', value: packages[0]?.minimumConnection ?? '8–10 hours' },
+          { label: 'Pricing', value: 'Custom quote' },
           { label: 'Airport', value: 'Bole (ADD)' },
         ]}
       />
@@ -64,8 +71,8 @@ export default async function LayoverPage() {
       <section className="shell py-16 sm:py-20 lg:py-28">
         <SectionHeading
           eyebrow="Choose Your Window"
-          title="Four packages, sized to your connection"
-          aside="Tell us your inbound and onward flight numbers and we will tell you honestly which of these fits."
+          title={`${layoverCount} layovers and one longer stopover`}
+          aside="Tell us both flight numbers and we will confirm honestly what fits after immigration, traffic and the required airport return buffer."
         />
 
         <div className="space-y-6 sm:space-y-8">
@@ -83,7 +90,7 @@ export default async function LayoverPage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-charcoal/60 to-transparent" />
                   <span className="absolute left-5 top-5 flex items-center gap-2 bg-accent px-3.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-accent-foreground">
                     <Plane className="h-3 w-3" />
-                    {p.hours}
+                    {p.packageType === 'stopover' ? 'Stopover' : 'Layover'} · {p.minimumConnection}
                   </span>
                 </div>
 
@@ -99,8 +106,12 @@ export default async function LayoverPage() {
                   <p className="mt-3 max-w-xl text-pretty leading-relaxed text-muted-foreground">
                     {p.teaser}
                   </p>
+                  <dl className="mt-5 flex flex-wrap gap-x-8 gap-y-3 border-y border-border py-4 text-sm">
+                    <div><dt className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">Minimum connection</dt><dd className="mt-1 text-foreground">{p.minimumConnection}</dd></div>
+                    <div><dt className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">Experience length</dt><dd className="mt-1 text-foreground">{p.hours}</dd></div>
+                  </dl>
 
-                  <div className="mt-7 grid gap-7 sm:grid-cols-2">
+                  <div className="mt-7 grid gap-7 sm:grid-cols-2 xl:grid-cols-3">
                     <div>
                       <p className="mb-3.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-accent">
                         The Day
@@ -136,12 +147,20 @@ export default async function LayoverPage() {
                         ))}
                       </ul>
                     </div>
+                    <div>
+                      <p className="mb-3.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-accent">Not Included</p>
+                      <ul className="space-y-2.5">
+                        {p.excludes.map((item) => (
+                          <li key={item} className="text-sm leading-relaxed text-muted-foreground">{item}</li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
 
-                  <p className="mt-8 border-t border-border pt-6 text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
-                    Best for:{' '}
-                    <span className="text-foreground">{p.best}</span>
-                  </p>
+                  <div className="mt-8 flex flex-wrap items-center justify-between gap-5 border-t border-border pt-6">
+                    <p className="max-w-lg text-[11px] uppercase tracking-[0.14em] text-muted-foreground">Best for: <span className="text-foreground">{p.best}</span></p>
+                    <LayoverPackageLink title={p.title} />
+                  </div>
                 </div>
               </article>
             </Reveal>
@@ -179,7 +198,7 @@ export default async function LayoverPage() {
       </section>
 
       {/* Enquiry */}
-      <section className="shell grid gap-12 py-16 sm:py-20 lg:grid-cols-[1fr_1.15fr] lg:gap-20 lg:py-28">
+      <section id="layover-enquiry" className="shell grid scroll-mt-24 gap-12 py-16 sm:py-20 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16 lg:py-28">
         <Reveal>
           <p className="eyebrow mb-5 text-accent">
             <span className="rule" />
@@ -189,15 +208,13 @@ export default async function LayoverPage() {
             Send us your flight numbers
           </h2>
           <p className="mt-6 max-w-md text-pretty leading-relaxed text-muted-foreground sm:text-lg">
-            That is genuinely all we need to start. We will confirm the visa
-            position for your passport, propose the right package, and hold a
-            driver for the window.
+            Send both flights and your passport nationality. We will assess the usable window, explain what still needs confirming and propose the right package.
           </p>
           <ul className="mt-10 space-y-4">
             {[
-              'Confirmed within a few hours, not days',
-              'No charge if your inbound flight is cancelled',
-              'Private vehicle — never a shared coach',
+              'Feasibility checked before any booking is confirmed',
+              'A private route built around your connection',
+              'Clear inclusions, exclusions and airport return time',
             ].map((item) => (
               <li
                 key={item}
@@ -212,13 +229,27 @@ export default async function LayoverPage() {
           </ul>
         </Reveal>
         <Reveal delay={120}>
-          <EnquiryForm subject="Addis Ababa layover tour" defaultStyles={['Layover']} />
+          <LayoverEnquiryForm packages={packages.map(({ slug, title }) => ({ slug, title }))} />
         </Reveal>
       </section>
 
+      <section className="border-y border-border bg-muted/40">
+        <div className="shell py-16 sm:py-20 lg:py-24">
+          <SectionHeading eyebrow="Before You Leave the Airport" title="Layover questions, answered plainly" />
+          <div className="grid gap-5 lg:grid-cols-2">
+            {faqs.map((item, index) => (
+              <Reveal key={item.question} delay={(index % 2) * 80} className="border border-border bg-card p-6 sm:p-8">
+                <h3 className="font-serif text-xl text-foreground sm:text-2xl">{item.question}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">{item.answer}</p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <CtaBand
-        title="Long stopover? Go north instead."
-        text="With two nights you can fly to Lalibela, see the rock churches at dawn and be back at Bole for your onward leg. It is the best 48 hours in the country."
+        title="Have at least 60–72 hours? Consider Lalibela."
+        text="A longer stopover can include the rock-hewn churches when domestic schedules and a safe buffer before your onward flight line up. We confirm it only after checking both."
         primary={{ label: 'Plan a Stopover', href: '/contact' }}
         secondary={{ label: 'See Tours', href: '/tours' }}
         image="/images/lalibela.png"

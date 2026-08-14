@@ -113,7 +113,7 @@ a JWT signed with `JWT_SECRET`. `tokenVersion` bumps invalidate old sessions.
 | GET | `/auth/me` | current admin |
 | PUT | `/auth/profile`, `/auth/change-password` | profile / password |
 | GET/POST/PUT/DELETE | `/admin/tours`, `/admin/tours/:id` | CRUD, multipart `tourImages`, `tourDestinations`, `tourCategories` |
-| GET/POST/PUT/DELETE | `/admin/layover-packages`, `/admin/layover-packages/:id` | CRUD, multipart `layoverImage` (optional), `removeImage` flag, textarea `itinerary`/`includes` (one line per entry), `sortOrder` |
+| GET/POST/PUT/DELETE | `/admin/layover-packages`, `/admin/layover-packages/:id` | CRUD, multipart `layoverImage` (optional), `removeImage` flag, `hours`, `minimumConnection`, `packageType`, textarea `itinerary`/`includes`/`excludes` (one line per entry), `sortOrder` |
 | GET/POST/PUT/DELETE | `/admin/destinations[...]` | CRUD (multipart `destinationImage`) |
 | GET/POST/PUT/DELETE | `/admin/categories[...]` | tour categories |
 | GET/POST/DELETE | `/admin/gallery`, `/admin/gallery/:id` | gallery (multipart `galleryImage`) |
@@ -138,15 +138,18 @@ Public `GET /layover-packages` envelope data is an array of:
 ```json
 {
   "id": 1,
-  "slug": "6-hour",
-  "hours": "6 Hours",
-  "title": "The Espresso",
-  "price": "$95 per person",
+  "slug": "addis-highlights-layover",
+  "hours": "About 4 hours",
+  "minimumConnection": "8–10 hours",
+  "packageType": "layover",
+  "title": "Addis Highlights Layover",
+  "price": "Custom quote",
   "image": null,
   "teaser": "…",
   "itinerary": ["…"],
   "includes": ["…"],
-  "best": "Connections of 8 hours or more"
+  "excludes": ["…"],
+  "best": "First-time visitors with a daytime connection"
 }
 ```
 
@@ -161,8 +164,9 @@ the stored file; neither leaves the current image untouched.
 `/api/v1/media/<uuid>` paths that the backend itself serves in production.
 With the `local` driver (dev) it emits `/assets/...` paths that only the
 backend process serves — the Next frontend does not. The public layover page
-overlays a live `image` only when it starts with `/api/v1/`; seeded packages
-have `image: null`, so the client's static images render instead.
+uses backend-hosted `/api/v1/` images and otherwise falls back to a matching
+static package image. A successful API response is authoritative; the static
+six-package catalog is used only when the API request fails.
 
 ---
 

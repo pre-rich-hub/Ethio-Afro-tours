@@ -20,7 +20,8 @@ const prisma = new PrismaClient({
  *  - blog categories (4), tour categories (5)
  *  - destinations (20 client destinations from frontend/lib/site.ts)
  *  - tours (15 client tours from frontend/lib/site.ts, mapped into our schema)
- *  - layover packages (4 client packages — import-once only, NO prune/clobber:
+ *  - layover packages (6 client packages — import-once, with a one-time legacy
+ *    four-package catalog replacement; admin-managed catalogs are preserved)
  *    Phase 3 makes them client-owned, admin edits must survive re-seeds)
  *  - bookings (4, mixed statuses), contacts (4), subscribers (3)
  *  - testimonials (tops up to 3)
@@ -475,26 +476,36 @@ async function main() {
   //    admin-created packages on the next seed run.
   //  - NO scalar clobber (no update) — re-running the seed must not revert
   //    admin edits (title, price, itinerary, ordering) made in the admin UI.
-  // The seed only ever fills the table when it is empty.
-  const layoverExisting = await prisma.layoverPackage.count();
-  if (layoverExisting === 0) {
+  // The seed fills an empty table. It also recognizes the original four static
+  // slugs and replaces that exact legacy set once; any admin-managed catalog is
+  // left untouched.
+  const existingLayovers = await prisma.layoverPackage.findMany({ select: { slug: true } });
+  const legacyLayoverSlugs = new Set(["6-hour", "12-hour", "24-hour", "48-hour"]);
+  const isLegacyCatalog = existingLayovers.length === legacyLayoverSlugs.size
+    && existingLayovers.every(({ slug }) => legacyLayoverSlugs.has(slug));
+
+  if (existingLayovers.length === 0 || isLegacyCatalog) {
+    if (isLegacyCatalog) await prisma.layoverPackage.deleteMany();
     await prisma.layoverPackage.createMany({
       data: layoverPackageSeeds.map((seed) => ({
         slug: seed.slug,
         hours: seed.hours,
+        minimumConnection: seed.minimumConnection,
+        packageType: seed.packageType,
         title: seed.title,
         price: seed.price,
         teaser: seed.teaser,
         itinerary: JSON.stringify(seed.itinerary),
         includes: JSON.stringify(seed.includes),
+        excludes: JSON.stringify(seed.excludes),
         bestFor: seed.bestFor,
         sortOrder: seed.sortOrder,
         imageUrl: seed.imageUrl
       }))
     });
-    console.log(`Layover packages: ${layoverPackageSeeds.length} created`);
+    console.log(`Layover packages: ${layoverPackageSeeds.length} ${isLegacyCatalog ? "replaced from legacy catalog" : "created"}`);
   } else {
-    console.log(`Layover packages: ${layoverExisting} existing, skipped (guard: count != 0)`);
+    console.log(`Layover packages: ${existingLayovers.length} existing, skipped (admin catalog preserved)`);
   }
 
   console.log("Seed complete");

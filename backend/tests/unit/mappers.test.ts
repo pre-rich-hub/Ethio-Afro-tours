@@ -121,12 +121,15 @@ describe("mapLayoverPackage", () => {
     id: 9,
     slug: "6-hour",
     hours: "6 Hours",
+    minimumConnection: "8–10 hours",
+    packageType: "layover",
     title: "The Espresso",
     price: "$95 per person",
     imageUrl: null,
     teaser: "A tight, elegant loop of the capital.",
     itinerary: '["Meet at arrivals", "Entoto ridge", "Coffee ceremony", "Late lunch", "Back to the terminal"]',
     includes: '["Private vehicle", "All entrance fees", "Lunch", "Meet-and-greet"]',
+    excludes: '["Visa", "Insurance"]',
     bestFor: "Connections of 8 hours or more"
   } as any;
 
@@ -136,12 +139,15 @@ describe("mapLayoverPackage", () => {
       id: 9,
       slug: "6-hour",
       hours: "6 Hours",
+      minimumConnection: "8–10 hours",
+      packageType: "layover",
       title: "The Espresso",
       price: "$95 per person",
       image: null,
       teaser: "A tight, elegant loop of the capital.",
       itinerary: ["Meet at arrivals", "Entoto ridge", "Coffee ceremony", "Late lunch", "Back to the terminal"],
       includes: ["Private vehicle", "All entrance fees", "Lunch", "Meet-and-greet"],
+      excludes: ["Visa", "Insurance"],
       best: "Connections of 8 hours or more"
     });
   });
@@ -151,11 +157,13 @@ describe("mapLayoverPackage", () => {
       ...row,
       imageUrl: "/assets/images/layover/LAY-1.png",
       itinerary: "not json",
-      includes: null
+      includes: null,
+      excludes: null
     } as any);
     expect(mapped.image).toBe("/assets/images/layover/LAY-1.png");
     expect(mapped.itinerary).toEqual([]);
     expect(mapped.includes).toEqual([]);
+    expect(mapped.excludes).toEqual([]);
   });
 
   it("emits image (never imageUrl) for the frontend contract", () => {

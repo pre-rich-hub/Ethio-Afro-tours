@@ -38,12 +38,15 @@ function row(overrides: Record<string, unknown> = {}) {
     id: 1,
     slug: "6-hour",
     hours: "6 Hours",
+    minimumConnection: "8–10 hours",
+    packageType: "layover",
     title: "The Espresso",
     price: "$95 per person",
     imageUrl: null,
     teaser: "A tight, elegant loop of the capital.",
     itinerary: '["Meet at arrivals", "Entoto ridge"]',
     includes: '["Private vehicle", "Lunch"]',
+    excludes: '["Visa"]',
     bestFor: "Connections of 8 hours or more",
     sortOrder: 1,
     createdAt: new Date("2026-01-01"),
@@ -96,12 +99,15 @@ describe("public layover packages (mocked prisma)", () => {
       id: 1,
       slug: "6-hour",
       hours: "6 Hours",
+      minimumConnection: "8–10 hours",
+      packageType: "layover",
       title: "The Espresso",
       price: "$95 per person",
       image: null,
       teaser: "A tight, elegant loop of the capital.",
       itinerary: ["Meet at arrivals", "Entoto ridge"],
       includes: ["Private vehicle", "Lunch"],
+      excludes: ["Visa"],
       best: "Connections of 8 hours or more"
     });
   });
@@ -122,11 +128,14 @@ describe("admin layover packages (mocked prisma)", () => {
 
     const res = await agent.post("/api/v1/admin/layover-packages").send({
       hours: "6 Hours",
+      minimumConnection: "8–10 hours",
+      packageType: "layover",
       title: "The Espresso",
       price: "$95 per person",
       teaser: "A tight loop.",
       itinerary: "Meet at arrivals\nEntoto ridge",
       includes: "Private vehicle\nLunch",
+      excludes: "Visa\nInsurance",
       bestFor: "Connections of 8 hours or more",
       sortOrder: "1"
     });
@@ -141,11 +150,14 @@ describe("admin layover packages (mocked prisma)", () => {
       data: {
         slug: "the-espresso",
         hours: "6 Hours",
+        minimumConnection: "8–10 hours",
+        packageType: "layover",
         title: "The Espresso",
         price: "$95 per person",
         teaser: "A tight loop.",
         itinerary: '["Meet at arrivals","Entoto ridge"]',
         includes: '["Private vehicle","Lunch"]',
+        excludes: '["Visa","Insurance"]',
         bestFor: "Connections of 8 hours or more",
         sortOrder: 1
       }
@@ -164,6 +176,8 @@ describe("admin layover packages (mocked prisma)", () => {
 
     const res = await agent.post("/api/v1/admin/layover-packages").send({
       hours: "6 Hours",
+      minimumConnection: "8–10 hours",
+      packageType: "layover",
       title: "The Espresso",
       price: "$95 per person"
     });
@@ -201,11 +215,14 @@ describe("admin layover packages (mocked prisma)", () => {
     const res = await agent.put("/api/v1/admin/layover-packages/5").send({
       removeImage: "true",
       hours: "12 Hours",
+      minimumConnection: "14–18 hours",
+      packageType: "layover",
       title: "The Capital",
       price: "$165 per person",
       teaser: "Updated teaser.",
       itinerary: "a\nb",
       includes: "x\ny",
+      excludes: "visa\ntips",
       bestFor: "Connections of 14 hours or more",
       sortOrder: "2"
     });
@@ -216,11 +233,14 @@ describe("admin layover packages (mocked prisma)", () => {
       where: { id: 5 },
       data: {
         hours: "12 Hours",
+        minimumConnection: "14–18 hours",
+        packageType: "layover",
         title: "The Capital",
         price: "$165 per person",
         teaser: "Updated teaser.",
         itinerary: '["a","b"]',
         includes: '["x","y"]',
+        excludes: '["visa","tips"]',
         bestFor: "Connections of 14 hours or more",
         sortOrder: 2,
         imageUrl: null
@@ -246,11 +266,14 @@ describe("admin layover packages (mocked prisma)", () => {
       where: { id: 5 },
       data: {
         hours: "",
+        minimumConnection: "",
+        packageType: "layover",
         title: "Renamed",
         price: "",
         teaser: "",
         itinerary: "[]",
         includes: "[]",
+        excludes: "[]",
         bestFor: "",
         sortOrder: 0,
         imageUrl: "/assets/images/layover/LAY-7.png"

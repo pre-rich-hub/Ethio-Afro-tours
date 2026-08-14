@@ -157,12 +157,15 @@ export function mapLayoverPackage(row: any) {
     id: row.id,
     slug: row.slug,
     hours: row.hours,
+    minimumConnection: row.minimumConnection,
+    packageType: row.packageType,
     title: row.title,
     price: row.price,
     image: row.imageUrl,
     teaser: row.teaser,
     itinerary: parseJsonArray(row.itinerary),
     includes: parseJsonArray(row.includes),
+    excludes: parseJsonArray(row.excludes),
     best: row.bestFor
   };
 }
