@@ -1,6 +1,6 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
+import { OptimizedImage as Image } from '@/components/optimized-image'
 import type { Tour } from '@/lib/site'
 
 export function TourCard({

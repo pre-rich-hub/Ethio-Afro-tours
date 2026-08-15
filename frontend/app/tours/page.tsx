@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
-import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight, Clock, Users } from 'lucide-react'
+import { OptimizedImage as Image } from '@/components/optimized-image'
 import { PageHero } from '@/components/page-hero'
 import { Reveal } from '@/components/reveal'
 import { SectionHeading } from '@/components/section-heading'
@@ -26,8 +26,8 @@ export default async function ToursPage() {
         eyebrow="Tours & Journeys"
         title="Fifteen routes, and none of them fixed"
         lede="Consider these starting points rather than packages. Each one has been run dozens of times, and each one gets redrawn around the guests travelling it."
-        image="/images/luxury-lodge.png"
-        imageAlt="A terrace at a highland lodge above the Ethiopian escarpment at dusk"
+        image="https://res.cloudinary.com/q16lm8mo/image/upload/v1786801385/gondar.jpg"
+        imageAlt="The historic royal enclosure of Gondar, Ethiopia"
         crumbs={[{ label: 'Home', href: '/' }, { label: 'Tours' }]}
         meta={[
           { label: 'Journeys', value: '15' },

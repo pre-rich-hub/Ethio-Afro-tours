@@ -13,6 +13,8 @@ export const metadata: Metadata = {
 }
 
 const regions = Array.from(new Set(destinations.map((d) => d.region)))
+const lalibelaImage = destinations.find((d) => d.slug === 'lalibela')?.image ?? '/placeholder.svg'
+const simienImage = destinations.find((d) => d.slug === 'simien-mountains')?.image ?? '/placeholder.svg'
 
 export default function DestinationsPage() {
   return (
@@ -21,8 +23,8 @@ export default function DestinationsPage() {
         eyebrow="Where We Travel"
         title="Twenty places, and the routes between them"
         lede="From churches carved downward into the rock to a lava lake burning below sea level. These are twenty places our designers connect into thoughtful journeys across Ethiopia."
-        image="/images/gondar.png"
-        imageAlt="The royal enclosure of Fasil Ghebbi in Gondar at golden hour"
+        image={lalibelaImage}
+        imageAlt="The rock-hewn churches of Lalibela, Ethiopia"
         crumbs={[{ label: 'Home', href: '/' }, { label: 'Destinations' }]}
         meta={[
           { label: 'Destinations', value: '20' },
@@ -71,7 +73,7 @@ export default function DestinationsPage() {
         title="Not sure which Ethiopia is yours?"
         text="Send us a sentence about the trip you have in mind — the altitude, the pace, the time of year — and a designer will come back with two or three routes worth considering."
         secondary={{ label: 'Browse Tours', href: '/tours' }}
-        image="/images/hero-simien.png"
+        image={simienImage}
       />
     </>
   )

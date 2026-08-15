@@ -1,6 +1,6 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
+import { OptimizedImage as Image } from '@/components/optimized-image'
 
 export function Hero() {
   return (
@@ -10,7 +10,7 @@ export function Hero() {
     >
       <div className="absolute inset-0 -z-10">
         <Image
-          src="/images/hero-lalibela.png"
+          src="https://res.cloudinary.com/q16lm8mo/image/upload/v1786801491/lalibela.jpg"
           alt="Bet Giyorgis (Church of St. George) in Lalibela, Ethiopia, a historic monolithic rock-hewn church"
           fill
           priority
@@ -50,5 +50,4 @@ export function Hero() {
     </section>
   )
 }
-
 

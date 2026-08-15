@@ -37,7 +37,7 @@ export const destinations: Destination[] = [
     name: 'Lalibela',
     region: 'Northern Highlands',
     tag: 'UNESCO Heritage',
-    image: '/images/lalibela.png',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801491/lalibela.jpg',
     teaser:
       'Eleven churches carved downward into living rock, still alive with prayer.',
     intro:
@@ -62,7 +62,7 @@ export const destinations: Destination[] = [
     name: 'Addis Ababa',
     region: 'Central Ethiopia',
     tag: 'Capital City',
-    image: '/images/addis-skyline.png',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801407/addis-ababa.jpg',
     teaser:
       'Museums, markets and modern Ethiopian life at the gateway to the country.',
     intro:
@@ -87,7 +87,7 @@ export const destinations: Destination[] = [
     name: 'Simien Mountains National Park',
     region: 'Northern Highlands',
     tag: 'National Park',
-    image: '/images/hero-simien.png',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786804467/simien-mountains.png',
     teaser:
       'A roof of Africa where gelada monkeys graze above a two-thousand-metre drop.',
     intro:
@@ -112,7 +112,7 @@ export const destinations: Destination[] = [
     name: 'Danakil Depression & Erta Ale',
     region: 'Afar Lowlands',
     tag: 'Expedition',
-    image: '/images/danakil.png',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801428/danakil-depression.jpg',
     teaser: 'The hottest inhabited place on earth, painted in sulphur and salt.',
     intro:
       'One hundred metres below sea level: acid springs the colour of egg yolk, a permanent lava lake, and salt caravans that have not changed in a thousand years.',
@@ -136,7 +136,7 @@ export const destinations: Destination[] = [
     name: 'Omo Valley',
     region: 'Southern Rift',
     tag: 'Cultural Immersion',
-    image: '/images/omo-valley.png',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801395/omo-valley.jpg',
     teaser:
       'A living mosaic of communities who have shaped this land for millennia.',
     intro:
@@ -161,7 +161,7 @@ export const destinations: Destination[] = [
     name: 'Gondar',
     region: 'Northern Highlands',
     tag: 'Imperial City',
-    image: '/images/gondar.png',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801385/gondar.jpg',
     teaser:
       'The Camelot of Africa — palaces, baths and painted ceilings of a highland empire.',
     intro:
@@ -186,7 +186,7 @@ export const destinations: Destination[] = [
     name: 'Aksum',
     region: 'Tigray',
     tag: 'Ancient Capital',
-    image: '/images/festival-timkat.png',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801243/axum.jpg',
     teaser:
       'Granite obelisks, submerged tombs, and the claimed resting place of the Ark.',
     intro:
@@ -211,7 +211,7 @@ export const destinations: Destination[] = [
     name: 'Bahir Dar, Lake Tana & Blue Nile Falls',
     region: 'Amhara',
     tag: 'Slow Travel',
-    image: '/images/lake-tana.png',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786804466/lake-tana.png',
     teaser:
       'Island monasteries, papyrus boats, and the source of the Blue Nile.',
     intro:
@@ -236,7 +236,7 @@ export const destinations: Destination[] = [
     name: 'Bale Mountains National Park',
     region: 'Oromia Highlands',
     tag: 'Wildlife',
-    image: '/images/bale-gelada.png',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801477/bale-mountains.png',
     teaser:
       'Afro-alpine moorland holding the rarest canid on earth — the Ethiopian wolf.',
     intro:
@@ -261,7 +261,7 @@ export const destinations: Destination[] = [
     name: 'Harar Jugol',
     region: 'Eastern Ethiopia',
     tag: 'UNESCO Heritage',
-    image: '/placeholder.jpg',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801283/harar.jpg',
     teaser:
       'A walled city of painted homes, narrow lanes and centuries of Islamic scholarship.',
     intro:
@@ -286,7 +286,7 @@ export const destinations: Destination[] = [
     name: 'Arba Minch',
     region: 'Southern Ethiopia',
     tag: 'Lakes & Wildlife',
-    image: '/placeholder.jpg',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801292/arba-minch.jpg',
     teaser:
       'A green escarpment above twin Rift Valley lakes and the forests of Nech Sar.',
     intro:
@@ -311,7 +311,7 @@ export const destinations: Destination[] = [
     name: 'Konso Cultural Landscape',
     region: 'Southern Ethiopia',
     tag: 'UNESCO Heritage',
-    image: '/placeholder.jpg',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801355/konso.jpg',
     teaser:
       'Stone-walled settlements and terraced hills shaped by generations of skilled farmers.',
     intro:
@@ -336,7 +336,7 @@ export const destinations: Destination[] = [
     name: 'Sof Omar Cave',
     region: 'Oromia',
     tag: 'Geological Wonder',
-    image: '/placeholder.jpg',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801283/sof-omar-cave.jpg',
     teaser:
       'A river-cut limestone world of soaring chambers, pillars and sacred memory.',
     intro:
@@ -361,7 +361,7 @@ export const destinations: Destination[] = [
     name: 'Hawassa',
     region: 'Sidama',
     tag: 'Rift Valley',
-    image: '/placeholder.jpg',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801520/hawassa.jpg',
     teaser:
       'A relaxed lakeside city of fish markets, gardens and abundant birdlife.',
     intro:
@@ -386,7 +386,7 @@ export const destinations: Destination[] = [
     name: 'Wonchi Crater Lake',
     region: 'Oromia',
     tag: 'Volcanic Landscape',
-    image: '/placeholder.jpg',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801471/wonchi-crater-lake.jpg',
     teaser:
       'A blue crater lake ringed by farms, forest paths and mineral springs.',
     intro:
@@ -411,7 +411,7 @@ export const destinations: Destination[] = [
     name: 'Dorze Village',
     region: 'Gamo Highlands',
     tag: 'Living Culture',
-    image: '/placeholder.jpg',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801478/dorze.jpg',
     teaser:
       'Highland weaving traditions and remarkable bamboo homes above the Rift Valley.',
     intro:
@@ -436,7 +436,7 @@ export const destinations: Destination[] = [
     name: 'Tiya Archaeological Site',
     region: 'Central Ethiopia',
     tag: 'UNESCO Heritage',
-    image: '/placeholder.jpg',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801289/tiya.png',
     teaser:
       'Carved standing stones preserving the symbols of a still-mysterious past.',
     intro:
@@ -461,7 +461,7 @@ export const destinations: Destination[] = [
     name: 'Debre Libanos Monastery',
     region: 'Oromia',
     tag: 'Sacred Heritage',
-    image: '/placeholder.jpg',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801363/debre-libanos.png',
     teaser:
       'A major Orthodox monastery set above the immense gorge of the Blue Nile.',
     intro:
@@ -486,7 +486,7 @@ export const destinations: Destination[] = [
     name: 'Dire Dawa',
     region: 'Eastern Ethiopia',
     tag: 'Railway City',
-    image: '/placeholder.jpg',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801349/dire-dawa.png',
     teaser:
       'Railway heritage, colorful markets and a warm lowland gateway to Harar.',
     intro:
@@ -511,7 +511,7 @@ export const destinations: Destination[] = [
     name: 'Adadi Mariam Rock-Hewn Church',
     region: 'Oromia',
     tag: 'Sacred Heritage',
-    image: '/placeholder.jpg',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801355/adadi-mariam.png',
     teaser:
       'A quietly active rock-hewn sanctuary hidden in the countryside south of Addis.',
     intro:
@@ -571,7 +571,7 @@ const tourCatalog: Tour[] = [
     popularityRank: 1,
     slug: 'the-historic-route',
     title: 'Classic Historic North',
-    image: '/images/gondar.png',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801491/lalibela.jpg',
     days: '11 Days',
     nights: 10,
     style: 'Cultural · Private',
@@ -648,7 +648,7 @@ const tourCatalog: Tour[] = [
     popularityRank: 4,
     slug: 'bale-mountains-and-sof-omar',
     title: 'Bale Mountains & Sof Omar Adventure',
-    image: '/images/bale-gelada.png',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801477/bale-mountains.png',
     days: '6 Days',
     nights: 5,
     style: 'Adventure · Private',
@@ -765,7 +765,7 @@ const tourCatalog: Tour[] = [
     popularityRank: 3,
     slug: 'danakil-expedition',
     title: 'Danakil Depression & Erta Ale Expedition',
-    image: '/images/danakil.png',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801428/danakil-depression.jpg',
     days: '4 Days',
     nights: 3,
     style: 'Expedition · Small Group',
@@ -819,7 +819,7 @@ const tourCatalog: Tour[] = [
     popularityRank: 2,
     slug: 'omo-valley-immersion',
     title: 'Omo Valley Cultural Discovery',
-    image: '/images/omo-valley.png',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801395/omo-valley.jpg',
     days: '10 Days',
     nights: 9,
     style: 'Cultural · Private',
@@ -931,7 +931,7 @@ const tourCatalog: Tour[] = [
     popularityRank: 5,
     slug: 'simien-mountains-trek',
     title: 'Simien Mountains Trek',
-    image: '/images/hero-simien.png',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786804467/simien-mountains.png',
     days: '5 Days',
     nights: 4,
     style: 'Trekking · Private',
@@ -957,7 +957,7 @@ const tourCatalog: Tour[] = [
     popularityRank: 6,
     slug: 'lalibela-sacred-journey',
     title: 'Lalibela Sacred Journey',
-    image: '/images/lalibela.png',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801491/lalibela.jpg',
     days: '4 Days',
     nights: 3,
     style: 'Cultural · Private',
@@ -1008,7 +1008,7 @@ const tourCatalog: Tour[] = [
     popularityRank: 8,
     slug: 'historic-north-and-danakil',
     title: 'Historic North & Danakil Adventure',
-    image: '/images/danakil.png',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801428/danakil-depression.jpg',
     days: '14 Days',
     nights: 13,
     style: 'Expedition · Private',
@@ -1033,7 +1033,7 @@ const tourCatalog: Tour[] = [
     popularityRank: 9,
     slug: 'historic-north-and-omo-valley',
     title: 'Historic North & Omo Valley',
-    image: '/images/gondar.png',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801395/omo-valley.jpg',
     days: '15 Days',
     nights: 14,
     style: 'Cultural · Private',
@@ -1058,7 +1058,7 @@ const tourCatalog: Tour[] = [
     popularityRank: 10,
     slug: 'harar-and-dire-dawa',
     title: 'Harar & Dire Dawa Cultural Journey',
-    image: '/images/textile.png',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801283/harar.jpg',
     days: '4 Days',
     nights: 3,
     style: 'Cultural · Private',
@@ -1107,7 +1107,7 @@ const tourCatalog: Tour[] = [
     popularityRank: 13,
     slug: 'addis-ababa-central-highlands',
     title: 'Addis Ababa & Central Highlands',
-    image: '/images/addis-skyline.png',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801407/addis-ababa.jpg',
     days: '5 Days',
     nights: 4,
     style: 'Cultural · Private',
@@ -1132,7 +1132,7 @@ const tourCatalog: Tour[] = [
     popularityRank: 15,
     slug: 'genna-in-lalibela',
     title: 'Genna in Lalibela',
-    image: '/images/hero-lalibela.png',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801491/lalibela.jpg',
     days: '4 Days',
     nights: 3,
     style: 'Festival · Private',
