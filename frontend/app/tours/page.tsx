@@ -26,8 +26,8 @@ export default async function ToursPage() {
         eyebrow="Tours & Journeys"
         title="Fifteen routes, and none of them fixed"
         lede="Consider these starting points rather than packages. Each one has been run dozens of times, and each one gets redrawn around the guests travelling it."
-        image="https://res.cloudinary.com/q16lm8mo/image/upload/v1786801243/axum.jpg"
-        imageAlt="The ancient stelae of Aksum, Ethiopia"
+        image="https://res.cloudinary.com/q16lm8mo/image/upload/v1786801385/gondar.jpg"
+        imageAlt="The historic royal enclosure of Gondar, Ethiopia"
         crumbs={[{ label: 'Home', href: '/' }, { label: 'Tours' }]}
         meta={[
           { label: 'Journeys', value: '15' },
