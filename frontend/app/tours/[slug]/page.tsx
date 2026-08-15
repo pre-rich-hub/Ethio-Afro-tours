@@ -7,6 +7,7 @@ import { Reveal } from '@/components/reveal'
 import { TourCard } from '@/components/tour-card'
 import { EnquiryForm } from '@/components/enquiry-form'
 import { CtaBand } from '@/components/cta-band'
+import { cloudinaryImageUrl } from '@/lib/cloudinary'
 import { getTour, tours } from '@/lib/site'
 import { getTourData } from '@/lib/data'
 
@@ -25,7 +26,11 @@ export async function generateMetadata({
   return {
     title: t.title,
     description: t.summary,
-    openGraph: { title: t.title, description: t.summary, images: [t.image] },
+    openGraph: {
+      title: t.title,
+      description: t.summary,
+      images: [cloudinaryImageUrl(t.image, { width: 1200, quality: 82 })],
+    },
   }
 }
 

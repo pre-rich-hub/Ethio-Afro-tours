@@ -14,6 +14,7 @@ import {
   ArrowRight,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { OptimizedImage } from '@/components/optimized-image'
 import { navLinks, contact, destinations, tours } from '@/lib/site'
 
 const languages = [
@@ -263,9 +264,11 @@ export function SiteNav() {
                               className="group/item flex flex-col gap-3.5 rounded-lg overflow-hidden p-2.5 transition-all duration-300 hover:bg-muted/50"
                             >
                               <div className="relative aspect-[16/9] w-full overflow-hidden rounded-[4px]">
-                                <img
+                                <OptimizedImage
                                   src={t.image}
                                   alt={t.title}
+                                  fill
+                                  sizes="(max-width: 1024px) 0px, 220px"
                                   className="h-full w-full object-cover transition-transform duration-700 group-hover/item:scale-105"
                                 />
                                 <span className="absolute left-2.5 top-2.5 rounded-full bg-accent px-3 py-1 text-[9px] font-semibold uppercase tracking-wider text-primary-foreground">
