@@ -12,7 +12,7 @@ const shots = [
     description: 'Sunlight falling into the rock cut Bete Maryam church.',
   },
   {
-    src: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801433/simien-mountains.jpg',
+    src: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786804467/simien-mountains.png',
     location: 'Simien Mountains',
     description: 'Gelada troops foraging along the vertical basalt rim.',
   },
@@ -32,7 +32,7 @@ const shots = [
     description: 'White-robed processional crowds around Fasilides’ Pool.',
   },
   {
-    src: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801395/lake-tana.jpg',
+    src: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786804466/lake-tana.png',
     location: 'Lake Tana',
     description: 'Parchment gospels preserved on thatched island sanctuaries.',
   },

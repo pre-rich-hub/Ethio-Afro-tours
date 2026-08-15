@@ -29,7 +29,7 @@ export const destinationSeeds: DestinationSeed[] = [
     destinationName: "Simien Mountains National Park",
     description:
       "Jagged basalt pinnacles, escarpments that fall away into cloud, and the largest primate troops you will ever walk beside.",
-    imageUrl: "https://res.cloudinary.com/q16lm8mo/image/upload/v1786801433/simien-mountains.jpg"
+    imageUrl: "https://res.cloudinary.com/q16lm8mo/image/upload/v1786804467/simien-mountains.png"
   },
   {
     slug: "danakil-depression",
@@ -64,7 +64,7 @@ export const destinationSeeds: DestinationSeed[] = [
     destinationName: "Bahir Dar, Lake Tana & Blue Nile Falls",
     description:
       "Ethiopia's largest lake hides historic island monasteries, while nearby Blue Nile Falls reveals the seasonal power of the river.",
-    imageUrl: "https://res.cloudinary.com/q16lm8mo/image/upload/v1786801395/lake-tana.jpg"
+    imageUrl: "https://res.cloudinary.com/q16lm8mo/image/upload/v1786804466/lake-tana.png"
   },
   {
     slug: "bale-mountains",

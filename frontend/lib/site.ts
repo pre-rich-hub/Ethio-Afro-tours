@@ -87,7 +87,7 @@ export const destinations: Destination[] = [
     name: 'Simien Mountains National Park',
     region: 'Northern Highlands',
     tag: 'National Park',
-    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801433/simien-mountains.jpg',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786804467/simien-mountains.png',
     teaser:
       'A roof of Africa where gelada monkeys graze above a two-thousand-metre drop.',
     intro:
@@ -211,7 +211,7 @@ export const destinations: Destination[] = [
     name: 'Bahir Dar, Lake Tana & Blue Nile Falls',
     region: 'Amhara',
     tag: 'Slow Travel',
-    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801395/lake-tana.jpg',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786804466/lake-tana.png',
     teaser:
       'Island monasteries, papyrus boats, and the source of the Blue Nile.',
     intro:
