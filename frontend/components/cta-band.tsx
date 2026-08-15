@@ -1,6 +1,6 @@
-import Image from 'next/image'
 import { Reveal } from '@/components/reveal'
 import { LinkButton } from '@/components/link-button'
+import { OptimizedImage as Image } from '@/components/optimized-image'
 import { contact } from '@/lib/site'
 
 interface CtaBandProps {

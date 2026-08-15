@@ -8,7 +8,14 @@ const nextConfig = {
   // Next must not compress; Vercel's CDN handles static-asset compression.
   compress: false,
   images: {
-    unoptimized: true,
+    formats: ['image/avif', 'image/webp'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        pathname: '/q16lm8mo/image/upload/**',
+      },
+    ],
   },
   async redirects() {
     return [

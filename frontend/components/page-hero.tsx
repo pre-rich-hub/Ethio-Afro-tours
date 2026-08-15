@@ -1,6 +1,6 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import { ChevronRight } from 'lucide-react'
+import { OptimizedImage as Image } from '@/components/optimized-image'
 
 type Crumb = { label: string; href?: string }
 

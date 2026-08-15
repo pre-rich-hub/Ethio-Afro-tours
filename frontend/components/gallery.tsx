@@ -1,38 +1,38 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Image from 'next/image'
 import { Play, Pause, ChevronLeft, ChevronRight } from 'lucide-react'
+import { OptimizedImage as Image } from '@/components/optimized-image'
 import { Reveal } from '@/components/reveal'
 
 const shots = [
   {
-    src: '/images/lalibela.png',
+    src: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801491/lalibela.jpg',
     location: 'Lalibela',
     description: 'Sunlight falling into the rock cut Bete Maryam church.',
   },
   {
-    src: '/images/hero-simien.png',
+    src: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801433/simien-mountains.jpg',
     location: 'Simien Mountains',
     description: 'Gelada troops foraging along the vertical basalt rim.',
   },
   {
-    src: '/images/danakil.png',
+    src: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801428/danakil-depression.jpg',
     location: 'Danakil Depression',
     description: 'Acid deposits and salt pans 100 meters below sea level.',
   },
   {
-    src: '/images/omo-valley.png',
+    src: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801395/omo-valley.jpg',
     location: 'Omo Valley',
     description: 'Morning light crossing the winding Omo River.',
   },
   {
-    src: '/images/festival-timkat.png',
+    src: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801385/gondar.jpg',
     location: 'Gondar',
     description: 'White-robed processional crowds around Fasilides’ Pool.',
   },
   {
-    src: '/images/lake-tana.png',
+    src: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801395/lake-tana.jpg',
     location: 'Lake Tana',
     description: 'Parchment gospels preserved on thatched island sanctuaries.',
   },

@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight, Check, Mountain } from 'lucide-react'
 import { PageHero } from '@/components/page-hero'
@@ -8,6 +7,8 @@ import { Reveal } from '@/components/reveal'
 import { TourCard } from '@/components/tour-card'
 import { EnquiryForm } from '@/components/enquiry-form'
 import { CtaBand } from '@/components/cta-band'
+import { OptimizedImage as Image } from '@/components/optimized-image'
+import { cloudinaryImageUrl } from '@/lib/cloudinary'
 import { destinations, getDestination, tours } from '@/lib/site'
 
 export function generateStaticParams() {
@@ -25,7 +26,11 @@ export async function generateMetadata({
   return {
     title: d.name,
     description: d.intro,
-    openGraph: { title: d.name, description: d.intro, images: [d.image] },
+    openGraph: {
+      title: d.name,
+      description: d.intro,
+      images: [cloudinaryImageUrl(d.image, { width: 1200, quality: 82 })],
+    },
   }
 }
 
