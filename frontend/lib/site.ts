@@ -1321,7 +1321,7 @@ export const posts: Post[] = [
     category: 'Planning',
     date: 'June 18, 2026',
     readTime: '9 min read',
-    image: '/images/hero-simien.png',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786804467/simien-mountains.png',
     author: 'Selam Bekele',
     authorRole: 'Head of Journey Design',
     excerpt:
@@ -1341,7 +1341,7 @@ export const posts: Post[] = [
     category: 'Destinations',
     date: 'May 30, 2026',
     readTime: '7 min read',
-    image: '/images/lalibela.png',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801491/lalibela.jpg',
     author: 'Yohannes Tesfaye',
     authorRole: 'Senior Guide, Northern Circuit',
     excerpt:
@@ -1359,7 +1359,7 @@ export const posts: Post[] = [
     category: 'Culture',
     date: 'May 9, 2026',
     readTime: '6 min read',
-    image: '/images/coffee-ceremony.png',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786967896/ethiopia-coffee-origins.jpg',
     author: 'Marta Alemu',
     authorRole: 'Culture & Community Lead',
     excerpt:
@@ -1377,7 +1377,7 @@ export const posts: Post[] = [
     category: 'Practical',
     date: 'April 22, 2026',
     readTime: '5 min read',
-    image: '/images/danakil.png',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786966781/danakil-expedition.jpg',
     author: 'Selam Bekele',
     authorRole: 'Head of Journey Design',
     excerpt:
@@ -1395,7 +1395,7 @@ export const posts: Post[] = [
     category: 'Responsible Travel',
     date: 'April 3, 2026',
     readTime: '8 min read',
-    image: '/images/omo-valley.png',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801395/omo-valley.jpg',
     author: 'Marta Alemu',
     authorRole: 'Culture & Community Lead',
     excerpt:
@@ -1413,7 +1413,7 @@ export const posts: Post[] = [
     category: 'Layover',
     date: 'March 14, 2026',
     readTime: '6 min read',
-    image: '/images/textile.png',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786969347/full-day-addis-experience.jpg',
     author: 'Yohannes Tesfaye',
     authorRole: 'Senior Guide, Northern Circuit',
     excerpt:

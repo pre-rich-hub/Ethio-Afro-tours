@@ -1,5 +1,5 @@
-import Image from 'next/image'
 import { Plane } from 'lucide-react'
+import { OptimizedImage as Image } from '@/components/optimized-image'
 import { Reveal } from '@/components/reveal'
 import { LinkButton } from '@/components/link-button'
 import { getLayoverPackagesData } from '@/lib/data'
@@ -48,8 +48,8 @@ export async function LayoverTeaser() {
         <Reveal delay={120} className="order-1 lg:order-2">
           <div className="relative aspect-[4/3] overflow-hidden rounded-xl lg:aspect-[5/6]">
             <Image
-              src="/images/addis-skyline.png"
-              alt="The Addis Ababa skyline at dusk seen from the Entoto hills"
+              src="https://res.cloudinary.com/q16lm8mo/image/upload/v1786970122/Bole_International.jpg"
+              alt="Bole International Airport in Addis Ababa, Ethiopia"
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover"

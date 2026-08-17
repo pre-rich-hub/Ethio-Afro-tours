@@ -56,8 +56,8 @@ export default async function LayoverPage() {
         eyebrow="Addis Layover Tours"
         title="A long connection is not a waiting room"
         lede="A long connection can become a private introduction to Ethiopia — planned around your confirmed flights, entry requirements and a protected return to Bole."
-        image="https://res.cloudinary.com/q16lm8mo/image/upload/v1786969347/full-day-addis-experience.jpg"
-        imageAlt="A full-day experience in Addis Ababa, Ethiopia"
+        image="https://res.cloudinary.com/q16lm8mo/image/upload/v1786970122/Bole_International.jpg"
+        imageAlt="Bole International Airport in Addis Ababa, Ethiopia"
         crumbs={[{ label: 'Home', href: '/' }, { label: 'Layover' }]}
         meta={[
           { label: 'Packages', value: String(packageCount) },

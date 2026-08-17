@@ -42,8 +42,8 @@ export default function ContactPage() {
         eyebrow="Speak With a Designer"
         title="Every journey begins with a conversation"
         lede="No call centres and no templates. Write to us and an Addis-based designer replies personally, usually the same day."
-        image="/images/traveler-portrait.png"
-        imageAlt="A traveller looking out over the Ethiopian highlands at dawn"
+        image="https://res.cloudinary.com/q16lm8mo/image/upload/v1786801407/addis-ababa.jpg"
+        imageAlt="Addis Ababa, home of the EthioAfro journey design team"
         crumbs={[{ label: 'Home', href: '/' }, { label: 'Contact' }]}
         meta={[
           { label: 'Reply Time', value: 'Within 24 hrs' },

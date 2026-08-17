@@ -4,7 +4,7 @@
 //   - blogTitle: post.title, description: post.excerpt
 //   - content: post.body paragraphs joined into one text block (new Blog
 //     column added in Phase 4 for the AI assistant catalog context)
-//   - imageUrl: the client image path (static, served by the frontend)
+//   - imageUrl: the version-pinned Cloudinary asset used by the frontend
 // The category is resolved and created-by-name by scripts/seed.ts.
 export interface BlogPostSeed {
   slug: string;
@@ -28,7 +28,7 @@ export const blogPostSeeds: BlogPostSeed[] = [
       "March to May is our quiet secret. Hot in the lowlands, occasional afternoon storms in the north, but the light is dramatic, the sites are empty and the rates are softer. If you have travelled before and want the churches to yourself, come in April.",
       "June to September is the kiremt, the long rains. We stop running the north almost entirely: roads soften, flights cancel and cloud sits on the escarpments. But the south is open and the Omo is at its most beautiful, green and full, with fewer visitors than any other month."
     ].join("\n\n"),
-    imageUrl: "/images/hero-simien.png",
+    imageUrl: "https://res.cloudinary.com/q16lm8mo/image/upload/v1786804467/simien-mountains.png",
     categoryName: "Planning"
   },
   {
@@ -42,7 +42,7 @@ export const blogPostSeeds: BlogPostSeed[] = [
       "Practically: this means a lodge within ten minutes of the site, a guide who is on good terms with the priests, and a willingness to be cold for an hour. We bring blankets and flasks. Nobody ever regrets it.",
       "By seven, when the light finally drops into the trench at Bete Maryam and lands on the north wall, you will have had two hours in a working sanctuary. The groups arriving as you leave are welcome to the monument."
     ].join("\n\n"),
-    imageUrl: "/images/lalibela.png",
+    imageUrl: "https://res.cloudinary.com/q16lm8mo/image/upload/v1786801491/lalibela.jpg",
     categoryName: "Destinations"
   },
   {
@@ -56,7 +56,7 @@ export const blogPostSeeds: BlogPostSeed[] = [
       "The three rounds have names: abol, tona and baraka. Leaving before the third is a small rudeness, and staying for it is the entire point. Baraka means blessing.",
       "What to do: accept the popcorn, drink slowly, praise the roast rather than the room, and let the conversation wander. What not to do: photograph first. Ask on the second round, when you have earned it."
     ].join("\n\n"),
-    imageUrl: "/images/coffee-ceremony.png",
+    imageUrl: "https://res.cloudinary.com/q16lm8mo/image/upload/v1786967896/ethiopia-coffee-origins.jpg",
     categoryName: "Culture"
   },
   {
@@ -70,7 +70,7 @@ export const blogPostSeeds: BlogPostSeed[] = [
       "For the lowlands: loose long sleeves in light cotton or linen, a wide brim, and closed shoes for the salt crust, which is sharper than it looks. Sandals are a mistake at Dallol.",
       "Everywhere: modest shoulders and knees for churches and monasteries, slip-on shoes because you will remove them often, and a headlamp. And leave 3kg for the coffee."
     ].join("\n\n"),
-    imageUrl: "/images/danakil.png",
+    imageUrl: "https://res.cloudinary.com/q16lm8mo/image/upload/v1786966781/danakil-expedition.jpg",
     categoryName: "Practical"
   },
   {
@@ -84,7 +84,7 @@ export const blogPostSeeds: BlogPostSeed[] = [
       "A cultural mediator travels with every Omo journey. Their job is not translation alone — it is to arrange the visit in advance, explain who we are, and give people a genuine ability to decline.",
       "What we ask of guests is simple: put the camera down for the first half hour, ask before every portrait, accept a no without negotiation, and send prints back with us. Half of our returning guests come back partly to deliver them."
     ].join("\n\n"),
-    imageUrl: "/images/omo-valley.png",
+    imageUrl: "https://res.cloudinary.com/q16lm8mo/image/upload/v1786801395/omo-valley.jpg",
     categoryName: "Responsible Travel"
   },
   {
@@ -98,7 +98,7 @@ export const blogPostSeeds: BlogPostSeed[] = [
       "The single best thing in the city is not a building. It is a coffee ceremony in a family home in Shiro Meda, an hour long, in a room with a corrugated roof and a bowl of popcorn.",
       "Logistics matter more than sights on a layover. Visa on arrival, a driver who tracks your inbound flight, a hotel day room for a shower, and back at the terminal three hours before departure. That is the whole trick."
     ].join("\n\n"),
-    imageUrl: "/images/textile.png",
+    imageUrl: "https://res.cloudinary.com/q16lm8mo/image/upload/v1786969347/full-day-addis-experience.jpg",
     categoryName: "Layover"
   }
 ];

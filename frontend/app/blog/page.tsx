@@ -24,8 +24,8 @@ export default function BlogPage() {
         eyebrow="The Journal"
         title="Field notes from the highlands"
         lede="Written by the people who run these journeys — when to come, what to pack, how to sit through a coffee ceremony properly, and why we work the way we do."
-        image="/images/coffee-ceremony.png"
-        imageAlt="Green coffee beans roasting over coals during an Ethiopian coffee ceremony"
+        image="https://res.cloudinary.com/q16lm8mo/image/upload/v1786967896/ethiopia-coffee-origins.jpg"
+        imageAlt="Coffee growing in Ethiopia, the birthplace of coffee"
         crumbs={[{ label: 'Home', href: '/' }, { label: 'Journal' }]}
       />
 
@@ -81,7 +81,7 @@ export default function BlogPage() {
         title="Read something that changed your mind?"
         text="Most of these essays started as an answer to a guest question. Ask us yours and it may well become the next one."
         secondary={{ label: 'Browse Tours', href: '/tours' }}
-        image="/images/hero-simien.png"
+        image="https://res.cloudinary.com/q16lm8mo/image/upload/v1786804467/simien-mountains.png"
       />
     </>
   )
