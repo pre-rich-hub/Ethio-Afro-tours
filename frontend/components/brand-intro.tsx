@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import { OptimizedImage as Image } from '@/components/optimized-image'
 import { Reveal } from '@/components/reveal'
 
 export function BrandIntro() {
@@ -44,8 +44,8 @@ export function BrandIntro() {
         <Reveal delay={120} className="order-1 lg:order-2">
           <div className="relative aspect-[4/5] overflow-hidden rounded-xl">
             <Image
-              src="/images/coffee-ceremony.png"
-              alt="Hands pouring coffee from a traditional Ethiopian jebena during a coffee ceremony"
+              src="https://res.cloudinary.com/q16lm8mo/image/upload/v1786801407/addis-ababa.jpg"
+              alt="Addis Ababa, Ethiopia"
               fill
               sizes="(max-width: 1024px) 100vw, 45vw"
               className="object-cover"

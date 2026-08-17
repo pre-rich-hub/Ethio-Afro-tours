@@ -1,5 +1,5 @@
-import Image from 'next/image'
 import Link from 'next/link'
+import { OptimizedImage as Image } from '@/components/optimized-image'
 import type { Post } from '@/lib/site'
 
 export function PostCard({ post, wide }: { post: Post; wide?: boolean }) {

@@ -1,11 +1,12 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { OptimizedImage as Image } from '@/components/optimized-image'
 import { Reveal } from '@/components/reveal'
 import { PostCard } from '@/components/post-card'
 import { CtaBand } from '@/components/cta-band'
+import { cloudinaryImageUrl } from '@/lib/cloudinary'
 import { getPost, posts } from '@/lib/site'
 
 export function generateStaticParams() {
@@ -28,7 +29,7 @@ export async function generateMetadata({
       title: p.title,
       description: p.excerpt,
       type: 'article',
-      images: [p.image],
+      images: [cloudinaryImageUrl(p.image, { width: 1200, quality: 82 })],
     },
   }
 }
