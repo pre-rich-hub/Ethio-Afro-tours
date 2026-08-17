@@ -1179,7 +1179,7 @@ export const layoverPackages: LayoverPackage[] = [
     packageType: 'layover',
     title: 'Addis Highlights Layover',
     price: 'Custom quote',
-    image: '/images/addis-skyline.png',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786969308/addis-highlights-layover.jpg',
     teaser: 'A carefully timed introduction to Addis Ababa with a highland viewpoint, city landmarks and Ethiopian coffee.',
     itinerary: [
       'Meet after immigration and confirm the return schedule',
@@ -1203,7 +1203,7 @@ export const layoverPackages: LayoverPackage[] = [
     packageType: 'layover',
     title: 'Addis Culture & Coffee',
     price: 'Custom quote',
-    image: '/images/coffee-ceremony.png',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786967896/ethiopia-coffee-origins.jpg',
     teaser: 'A deeper look at the capital through a museum or cultural site, local craft traditions, lunch and coffee.',
     itinerary: [
       'Meet at Bole and review traffic and opening hours',
@@ -1227,7 +1227,7 @@ export const layoverPackages: LayoverPackage[] = [
     packageType: 'layover',
     title: 'Full-Day Addis Experience',
     price: 'Custom quote',
-    image: '/images/textile.png',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786969347/full-day-addis-experience.jpg',
     teaser: 'A flexible full day combining Addis Ababa’s viewpoints, heritage, neighbourhoods, cuisine and coffee culture.',
     itinerary: [
       'Airport welcome and a route check based on the day’s conditions',
@@ -1253,7 +1253,7 @@ export const layoverPackages: LayoverPackage[] = [
     packageType: 'layover',
     title: 'Addis Evening Experience',
     price: 'Custom quote',
-    image: '/images/addis-skyline.png',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786969310/addis-evening-experience.jpg',
     teaser: 'An after-hours alternative built around Ethiopian food, coffee, music and Addis Ababa after dark.',
     itinerary: [
       'Meet after immigration and confirm the evening schedule',
@@ -1277,7 +1277,7 @@ export const layoverPackages: LayoverPackage[] = [
     packageType: 'layover',
     title: 'Overnight Addis & Highlands',
     price: 'Custom quote',
-    image: '/images/luxury-lodge.png',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786969323/overnight-addis-and-highlands.jpg',
     teaser: 'Rest overnight, then explore Addis or make a carefully timed highland excursion before returning to Bole.',
     itinerary: ['Airport welcome and private hotel transfer', 'Dinner or rest according to your arrival time', 'Choose an Addis morning or a highland excursion after a route and weather check', 'Lunch and a flexible final stop', 'Return to Bole with the agreed international departure buffer'],
     includes: ['Airport pickup and return transfer', 'Private vehicle and English-speaking guide', 'Itinerary planning around confirmed flight times'],
@@ -1291,7 +1291,7 @@ export const layoverPackages: LayoverPackage[] = [
     packageType: 'stopover',
     title: 'Lalibela Stopover Extension',
     price: 'Custom quote',
-    image: '/images/lalibela.png',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801491/lalibela.jpg',
     teaser: 'Turn a multi-day stopover into a privately guided visit to Lalibela, subject to domestic schedules and a safe onward-flight buffer.',
     itinerary: ['Arrive in Addis and review the confirmed domestic-flight plan', 'Fly to Lalibela and meet your local guide', 'Explore the rock-hewn church groups around opening and service times', 'Stay overnight in Lalibela and continue the visit the next morning', 'Fly back to Addis with a pre-agreed buffer before the onward journey'],
     includes: ['Airport pickup and return transfer', 'Private vehicle and English-speaking guide', 'Itinerary planning around confirmed flight times'],

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
-import Image from 'next/image'
 import { Check, Plane, ShieldCheck, Clock3, BadgeCheck } from 'lucide-react'
+import { OptimizedImage as Image } from '@/components/optimized-image'
 import { PageHero } from '@/components/page-hero'
 import { Reveal } from '@/components/reveal'
 import { SectionHeading } from '@/components/section-heading'
@@ -56,8 +56,8 @@ export default async function LayoverPage() {
         eyebrow="Addis Layover Tours"
         title="A long connection is not a waiting room"
         lede="A long connection can become a private introduction to Ethiopia — planned around your confirmed flights, entry requirements and a protected return to Bole."
-        image="/images/addis-skyline.png"
-        imageAlt="The Addis Ababa skyline at dusk seen from the Entoto hills"
+        image="https://res.cloudinary.com/q16lm8mo/image/upload/v1786969347/full-day-addis-experience.jpg"
+        imageAlt="A full-day experience in Addis Ababa, Ethiopia"
         crumbs={[{ label: 'Home', href: '/' }, { label: 'Layover' }]}
         meta={[
           { label: 'Packages', value: String(packageCount) },
