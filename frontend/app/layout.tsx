@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from 'next'
 import { SiteNav } from '@/components/site-nav'
 import { SiteFooter } from '@/components/site-footer'
 import { FloatingSupport } from '@/components/floating-support'
+import { LanguageProvider } from '@/components/language-provider'
 import { JsonLd } from '@/components/json-ld'
 import { siteUrl } from '@/lib/seo'
 import { globalStructuredData } from '@/lib/structured-data'
@@ -57,10 +58,12 @@ export default function RootLayout({
         >
           Skip to content
         </a>
-        <SiteNav />
-        <main id="main">{children}</main>
-        <SiteFooter />
-        <FloatingSupport />
+        <LanguageProvider>
+          <SiteNav />
+          <main id="main">{children}</main>
+          <SiteFooter />
+          <FloatingSupport />
+        </LanguageProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>

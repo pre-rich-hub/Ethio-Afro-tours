@@ -1,7 +1,10 @@
+'use client'
+
 import { Reveal } from '@/components/reveal'
 import { LinkButton } from '@/components/link-button'
 import { OptimizedImage as Image } from '@/components/optimized-image'
 import { contact } from '@/lib/site'
+import { useLanguage } from '@/components/language-provider'
 
 interface CtaBandProps {
   eyebrow?: string
@@ -20,6 +23,12 @@ export function CtaBand({
   secondary,
   image = '/images/luxury-lodge.png',
 }: CtaBandProps) {
+  const { t } = useLanguage()
+  const eyebrowText =
+    eyebrow === 'Speak With a Designer' ? t('blog.cta.eyebrow', eyebrow) : eyebrow
+  const primaryLabel =
+    primary.label === 'Plan Your Journey' ? t('blog.cta.primary', primary.label) : primary.label
+
   return (
     <section className="relative isolate overflow-hidden bg-primary text-primary-foreground">
       <div className="absolute inset-0 -z-10 opacity-25">
@@ -39,7 +48,7 @@ export function CtaBand({
           <div className="max-w-2xl">
             <p className="eyebrow mb-5 text-accent">
               <span className="rule" />
-              {eyebrow}
+              {eyebrowText}
             </p>
             <h2 className="text-balance text-3xl leading-[1.1] sm:text-4xl lg:text-5xl">
               {title}
@@ -48,7 +57,7 @@ export function CtaBand({
               {text}
             </p>
             <p className="mt-6 text-sm text-primary-foreground/70">
-              Or call us directly on{' '}
+              {t('cta.call', 'Or call us directly on')}{' '}
               <a
                 href={`tel:${contact.phone.replace(/[^\d+]/g, '')}`}
                 className="border-b border-accent/50 pb-0.5 text-background transition-colors hover:border-accent hover:text-accent"
@@ -60,7 +69,7 @@ export function CtaBand({
 
           <div className="flex w-full flex-col gap-3 sm:flex-row sm:flex-wrap lg:w-auto lg:shrink-0">
             <LinkButton href={primary.href} variant="gold">
-              {primary.label}
+              {primaryLabel}
             </LinkButton>
             {secondary && (
               <LinkButton

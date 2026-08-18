@@ -1,8 +1,13 @@
+'use client'
+
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { OptimizedImage as Image } from '@/components/optimized-image'
+import { useLanguage } from '@/components/language-provider'
 
 export function Hero() {
+  const { t } = useLanguage()
+
   return (
     <section
       id="top"
@@ -11,7 +16,7 @@ export function Hero() {
       <div className="absolute inset-0 -z-10">
         <Image
           src="https://res.cloudinary.com/q16lm8mo/image/upload/v1786801491/lalibela.jpg"
-          alt="Bet Giyorgis (Church of St. George) in Lalibela, Ethiopia, a historic monolithic rock-hewn church"
+          alt={t('hero.alt', 'Bet Giyorgis (Church of St. George) in Lalibela, Ethiopia, a historic monolithic rock-hewn church')}
           fill
           priority
           sizes="100vw"
@@ -23,12 +28,11 @@ export function Hero() {
 
       <div className="shell flex flex-1 flex-col items-center justify-center text-center pb-10 pt-32 sm:pb-14 lg:pb-16">
         <h1 className="max-w-[20ch] text-balance text-[2.6rem] font-medium leading-[1.04] text-background text-shadow-soft [animation:fade-up_1s_ease_0.1s_both] sm:text-6xl lg:text-7xl xl:text-[5.25rem]">
-          Discover the Soul of Ethiopia
+          {t('hero.title', 'Discover the Soul of Ethiopia')}
         </h1>
 
         <p className="mt-5 max-w-[56ch] text-pretty leading-relaxed text-background/85 [animation:fade-up_1s_ease_0.25s_both] sm:mt-7 sm:text-lg">
-          Journey through ancient civilizations, dramatic landscapes, and living
-          traditions with privately crafted experiences designed around you.
+          {t('hero.copy', 'Journey through ancient civilizations, dramatic landscapes, and living traditions with privately crafted experiences designed around you.')}
         </p>
 
         <div className="mt-8 flex flex-col items-stretch gap-3 [animation:fade-up_1s_ease_0.4s_both] sm:mt-10 sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-4">
@@ -36,18 +40,17 @@ export function Hero() {
             href="/contact"
             className="group inline-flex items-center justify-center gap-2.5 rounded-sm bg-primary px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-primary-foreground transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary/90 sm:text-xs"
           >
-            Craft My Trip
+            {t('hero.primary', 'Craft My Trip')}
             <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
           <Link
             href="/tours"
             className="group inline-flex items-center justify-center gap-2.5 rounded-sm border border-background/40 px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-background transition-colors duration-305 hover:bg-background/10 sm:text-xs"
           >
-            Explore Ethiopia
+            {t('hero.secondary', 'Explore Ethiopia')}
           </Link>
         </div>
       </div>
     </section>
   )
 }
-

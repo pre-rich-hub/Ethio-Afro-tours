@@ -1,7 +1,10 @@
+'use client'
+
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { OptimizedImage as Image } from '@/components/optimized-image'
 import { Reveal } from '@/components/reveal'
+import { useLanguage } from '@/components/language-provider'
 
 const experiences = [
   {
@@ -31,20 +34,27 @@ const experiences = [
 ]
 
 export function Experiences() {
+  const { t } = useLanguage()
+
   return (
     <section id="experiences" className="mx-auto max-w-[1280px] px-6 py-24 lg:px-10 lg:py-36">
       <Reveal className="mb-14 max-w-2xl">
         <p className="mb-5 flex items-center gap-3 text-[12px] font-medium uppercase tracking-[0.24em] text-accent">
           <span className="h-px w-10 bg-accent" />
-          Luxury Experiences
+          {t('experiences.eyebrow', 'Luxury Experiences')}
         </p>
         <h2 className="text-balance font-serif text-4xl leading-[1.1] text-foreground sm:text-5xl">
-          The moments that stay with you
+          {t('experiences.title', 'The moments that stay with you')}
         </h2>
       </Reveal>
 
       <div className="grid gap-6 md:grid-cols-2">
-        {experiences.map((e, i) => (
+        {experiences.map((e, i) => {
+          const slug = e.href.split('/').pop()
+          const title = t(`experience.${slug}.title`, e.title)
+          const text = t(`experience.${slug}.text`, e.text)
+
+          return (
           <Reveal key={e.title} delay={(i % 2) * 120}>
             <Link
               href={e.href}
@@ -52,7 +62,7 @@ export function Experiences() {
             >
               <Image
                 src={e.image}
-                alt={e.title}
+                alt={title}
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105"
@@ -60,19 +70,20 @@ export function Experiences() {
               <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/40 to-transparent" />
               <div className="relative p-8">
                 <h3 className="font-serif text-2xl text-background lg:text-3xl">
-                  {e.title}
+                  {title}
                 </h3>
                 <p className="mt-3 max-w-[46ch] text-pretty leading-relaxed text-background/85">
-                  {e.text}
+                  {text}
                 </p>
                 <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.1em] text-accent">
-                  Discover
+                  {t('discover', 'Discover')}
                   <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                 </span>
               </div>
             </Link>
           </Reveal>
-        ))}
+          )
+        })}
       </div>
     </section>
   )

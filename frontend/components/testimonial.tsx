@@ -1,21 +1,23 @@
+'use client'
+
 import Image from 'next/image'
 import { Reveal } from '@/components/reveal'
+import { useLanguage } from '@/components/language-provider'
 
 export function Testimonial() {
+  const { t } = useLanguage()
+
   return (
     <section className="bg-muted/40 py-24 lg:py-36">
       <div className="mx-auto max-w-[900px] px-6 text-center lg:px-10">
         <Reveal>
           <p className="mb-10 flex items-center justify-center gap-3 text-[12px] font-medium uppercase tracking-[0.24em] text-accent">
             <span className="h-px w-10 bg-accent" />
-            In Their Words
+            {t('testimonial.eyebrow', 'In Their Words')}
             <span className="h-px w-10 bg-accent" />
           </p>
           <blockquote className="text-balance font-serif text-3xl leading-[1.3] text-foreground sm:text-4xl lg:text-[2.75rem]">
-            &ldquo;We have traveled the world, yet nothing prepared us for
-            Ethiopia. Every detail was considered, every guide extraordinary. We
-            did not feel like tourists — we felt like guests of an old
-            friend.&rdquo;
+            {t('testimonial.quote', '“We have traveled the world, yet nothing prepared us for Ethiopia. Every detail was considered, every guide extraordinary. We did not feel like tourists — we felt like guests of an old friend.”')}
           </blockquote>
           <figcaption className="mt-10 flex items-center justify-center gap-4">
             <span className="relative h-14 w-14 overflow-hidden rounded-full">
@@ -32,7 +34,7 @@ export function Testimonial() {
                 Eleanor Whitmore
               </span>
               <span className="block text-sm text-muted-foreground">
-                The Historic Route · United Kingdom
+                {t('testimonial.route', 'The Historic Route · United Kingdom')}
               </span>
             </span>
           </figcaption>

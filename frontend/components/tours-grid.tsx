@@ -3,9 +3,11 @@
 import { useMemo, useState } from 'react'
 import { Reveal } from '@/components/reveal'
 import { TourCard } from '@/components/tour-card'
+import { useLanguage } from '@/components/language-provider'
 import { tourCategories, type Tour } from '@/lib/site'
 
 export function ToursGrid({ tours }: { tours: Tour[] }) {
+  const { t } = useLanguage()
   const filters = useMemo(() => {
     const available = new Set(tours.flatMap((tour) => tour.categories))
     return ['All Journeys', ...tourCategories.filter((category) => available.has(category))]
@@ -22,7 +24,7 @@ export function ToursGrid({ tours }: { tours: Tour[] }) {
     <div>
       <div
         role="group"
-        aria-label="Filter journeys by style"
+        aria-label={t('toursGrid.aria', 'Filter journeys by style')}
         className="mb-12 flex flex-wrap gap-2 sm:mb-16"
       >
         {filters.map((f) => {
@@ -39,7 +41,7 @@ export function ToursGrid({ tours }: { tours: Tour[] }) {
                   : 'border-border bg-card text-muted-foreground hover:border-primary/50 hover:text-foreground'
               }`}
             >
-              {f}
+              {t(`tourCategory.${f}`, f)}
             </button>
           )
         })}
@@ -55,7 +57,7 @@ export function ToursGrid({ tours }: { tours: Tour[] }) {
 
       {visible.length === 0 && (
         <p className="py-16 text-center text-muted-foreground">
-          No journeys in this style yet — but we will design one.
+          {t('toursGrid.empty', 'No journeys in this style yet; but we will design one.')}
         </p>
       )}
     </div>

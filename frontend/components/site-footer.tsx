@@ -1,7 +1,10 @@
+'use client'
+
 import Link from 'next/link'
 import { Phone, Mail, MapPin } from 'lucide-react'
 import { contact, destinations, tours } from '@/lib/site'
 import { NewsletterForm } from '@/components/newsletter-form'
+import { useLanguage } from '@/components/language-provider'
 
 const socialLinks = [
   { name: 'Instagram', href: 'https://instagram.com', icon: '/images/instagram-icon.png' },
@@ -11,36 +14,42 @@ const socialLinks = [
   { name: 'X', href: 'https://x.com', icon: '/images/x-icon.png' },
 ]
 
-const columns = [
-  {
-    title: 'Destinations',
-    links: destinations
-      .slice(0, 5)
-      .map((d) => ({ label: d.name, href: `/destinations/${d.slug}` })),
-  },
-  {
-    title: 'Tours',
-    links: [
-      ...tours
-        .slice(0, 4)
-        .map((t) => ({ label: t.title, href: `/tours/${t.slug}` })),
-      { label: 'Custom Itineraries', href: '/contact' },
-    ],
-  },
-  {
-    title: 'Explore',
-    links: [
-      { label: 'About Us', href: '/about' },
-      { label: 'Layover in Addis', href: '/layover' },
-      { label: 'Travel Journal', href: '/blog' },
-      { label: 'Responsible Tourism', href: '/blog/responsible-travel-in-the-omo' },
-      { label: 'When to Visit', href: '/blog/when-to-visit-ethiopia' },
-      { label: 'Contact Us', href: '/contact' },
-    ],
-  },
-]
-
 export function SiteFooter() {
+  const { t } = useLanguage()
+  const columns = [
+    {
+      title: t('footer.destinations', 'Destinations'),
+      links: destinations.slice(0, 5).map((d) => ({
+        label: t(`destination.${d.slug}.name`, d.name),
+        href: `/destinations/${d.slug}`,
+      })),
+    },
+    {
+      title: t('footer.tours', 'Tours'),
+      links: [
+        ...tours.slice(0, 4).map((tour) => ({
+          label: t(`tour.${tour.slug}.title`, tour.title),
+          href: `/tours/${tour.slug}`,
+        })),
+        { label: t('footer.custom', 'Custom Itineraries'), href: '/contact' },
+      ],
+    },
+    {
+      title: t('footer.explore', 'Explore'),
+      links: [
+        { label: t('footer.about', 'About Us'), href: '/about' },
+        { label: t('footer.layover', 'Layover in Addis'), href: '/layover' },
+        { label: t('footer.journal', 'Travel Journal'), href: '/blog' },
+        {
+          label: t('footer.responsible', 'Responsible Tourism'),
+          href: '/blog/responsible-travel-in-the-omo',
+        },
+        { label: t('footer.when', 'When to Visit'), href: '/blog/when-to-visit-ethiopia' },
+        { label: t('footer.contact', 'Contact Us'), href: '/contact' },
+      ],
+    },
+  ]
+
   return (
     <footer className="bg-bg-dark text-background">
       <div className="shell pt-16 pb-4 sm:pt-20 sm:pb-6">
@@ -60,14 +69,13 @@ export function SiteFooter() {
               </div>
             </div>
             <p className="mt-5 max-w-xs text-pretty text-sm leading-relaxed text-background/60">
-              Introducing travellers to one of humanity&apos;s oldest
-              civilisations — with care, knowledge, and quiet luxury.
+              {t('footer.copy', "Introducing travellers to one of humanity's oldest civilisations — with care, knowledge, and quiet luxury.")}
             </p>
 
             <ul className="mt-7 space-y-3 text-sm text-background/70">
               <li className="flex items-start gap-3">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
-                <span>{contact.address}</span>
+                <span>{t('contact.address', contact.address)}</span>
               </li>
               <li>
                 <a
@@ -133,10 +141,10 @@ export function SiteFooter() {
             <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
               <div>
                 <p className="font-serif text-lg text-background sm:text-xl">
-                  Trusted Travel Platforms
+                  {t('footer.platforms', 'Trusted Travel Platforms')}
                 </p>
                 <p className="mt-1 text-xs text-background/60">
-                  Find us where discerning travelers plan.
+                  {t('footer.platformsCopy', 'Find us where discerning travelers plan.')}
                 </p>
               </div>
               <div className="flex flex-wrap md:flex-nowrap items-center gap-3 sm:gap-4">
@@ -194,10 +202,10 @@ export function SiteFooter() {
             <div className="flex flex-col gap-6 border-t border-background/10 pt-6 md:flex-row md:items-center md:justify-between">
               <div>
                 <p className="font-serif text-lg text-background sm:text-xl">
-                  We Accept
+                  {t('footer.accept', 'We Accept')}
                 </p>
                 <p className="mt-1 text-xs text-background/60">
-                  Secured payment processing methods.
+                  {t('footer.acceptCopy', 'Secured payment processing methods.')}
                 </p>
               </div>
               <div className="flex items-center gap-3 sm:gap-4 justify-start md:justify-end">
@@ -228,25 +236,24 @@ export function SiteFooter() {
         </div>
         <div className="mt-6 border-t border-background/15 pt-4 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <p className="text-lg sm:text-xl md:text-2xl text-background font-serif lg:whitespace-nowrap lg:text-left text-center">
-            Subscribe to our newsletter for curated travel stories
+            {t('footer.newsletter', 'Subscribe to our newsletter for curated travel stories')}
           </p>
           <NewsletterForm />
         </div>
 
         <div className="mt-6 flex flex-col gap-4 border-t border-background/15 pt-4 text-xs text-background/50 md:flex-row md:items-center md:justify-between">
           <p>
-            &copy; {new Date().getFullYear()} EthioAfro Tours. All rights
-            reserved.
+            &copy; {new Date().getFullYear()} EthioAfro Tours. {t('footer.rights', 'All rights reserved.')}
           </p>
           <div className="flex flex-wrap gap-x-6 gap-y-2">
             <Link href="/contact" className="hover:text-background/80">
-              Privacy
+              {t('footer.privacy', 'Privacy')}
             </Link>
             <Link href="/contact" className="hover:text-background/80">
-              Terms
+              {t('footer.terms', 'Terms')}
             </Link>
             <Link href="/blog/responsible-travel-in-the-omo" className="hover:text-background/80">
-              Responsible Tourism
+              {t('footer.responsible', 'Responsible Tourism')}
             </Link>
           </div>
         </div>

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Check, ArrowRight } from 'lucide-react'
 import { journeyStyles } from '@/lib/site'
 import { submitContact } from '@/lib/api'
+import { useLanguage } from '@/components/language-provider'
 
 export function EnquiryForm({
   defaultStyles = ['Luxury'],
@@ -12,6 +13,7 @@ export function EnquiryForm({
   defaultStyles?: string[]
   subject?: string
 }) {
+  const { t } = useLanguage()
   const [selected, setSelected] = useState<string[]>(defaultStyles)
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -28,12 +30,10 @@ export function EnquiryForm({
           <Check className="h-6 w-6" />
         </span>
         <h3 className="font-serif text-3xl text-foreground">
-          Your journey begins here
+          {t('form.successTitle', 'Your journey begins here')}
         </h3>
         <p className="mt-4 max-w-sm text-pretty leading-relaxed text-muted-foreground">
-          A travel designer is already reviewing your vision and will begin
-          crafting a personalised itinerary. Expect to hear from us within 24
-          hours.
+          {t('form.successCopy', 'A travel designer is already reviewing your vision and will begin crafting a personalised itinerary. Expect to hear from us within 24 hours.')}
         </p>
       </div>
     )
@@ -65,7 +65,7 @@ export function EnquiryForm({
             setSubmitted(true)
           } catch (err) {
             setError(
-              err instanceof Error ? err.message : 'Something went wrong — please try again.',
+              err instanceof Error ? err.message : t('form.error', 'Something went wrong — please try again.'),
             )
           }
         }}
@@ -73,16 +73,16 @@ export function EnquiryForm({
       >
         {subject ? (
           <p className="border-l-2 border-accent bg-muted/60 px-4 py-3 text-sm leading-relaxed text-muted-foreground">
-            Enquiry about{' '}
+            {t('form.enquiryAbout', 'Enquiry about')}{' '}
             <span className="font-medium text-foreground">{subject}</span>
           </p>
         ) : null}
 
         <div className="grid gap-5 sm:grid-cols-2">
-          <Field label="Full name" id="name">
-            <input id="name" name="name" required className="input" placeholder="Your name" />
+          <Field label={t('form.fullName', 'Full name')} id="name">
+            <input id="name" name="name" required className="input" placeholder={t('form.yourName', 'Your name')} />
           </Field>
-          <Field label="Email address" id="email">
+          <Field label={t('form.email', 'Email address')} id="email">
             <input
               id="email"
               name="email"
@@ -95,17 +95,17 @@ export function EnquiryForm({
         </div>
 
         <div className="grid gap-5 sm:grid-cols-2">
-          <Field label="Preferred travel dates" id="when">
-            <input id="when" name="when" className="input" placeholder="e.g. March 2026" />
+          <Field label={t('form.dates', 'Preferred travel dates')} id="when">
+            <input id="when" name="when" className="input" placeholder={t('form.datesPlaceholder', 'e.g. March 2026')} />
           </Field>
-          <Field label="Number of travellers" id="travellers">
-            <input id="travellers" name="travellers" className="input" placeholder="2 adults" />
+          <Field label={t('form.travellers', 'Number of travellers')} id="travellers">
+            <input id="travellers" name="travellers" className="input" placeholder={t('form.travellersPlaceholder', '2 adults')} />
           </Field>
         </div>
 
         <div>
           <span className="mb-3 block text-sm font-medium text-foreground">
-            What kind of journey do you imagine?
+            {t('form.kind', 'What kind of journey do you imagine?')}
           </span>
           <div className="flex flex-wrap gap-2">
             {journeyStyles.map((style) => {
@@ -122,20 +122,20 @@ export function EnquiryForm({
                       : 'border-border bg-background text-muted-foreground hover:border-primary/50 hover:text-foreground'
                   }`}
                 >
-                  {style}
+                  {t(`journeyStyle.${style}`, style)}
                 </button>
               )
             })}
           </div>
         </div>
 
-        <Field label="Tell us about the journey you've imagined" id="dream">
+        <Field label={t('form.dream', "Tell us about the journey you've imagined")} id="dream">
           <textarea
             id="dream"
             name="dream"
             rows={4}
             className="input resize-none"
-            placeholder="A private coffee journey, mornings above the clouds, evenings by the fire..."
+            placeholder={t('form.dreamPlaceholder', 'A private coffee journey, mornings above the clouds, evenings by the fire...')}
           />
         </Field>
 
@@ -149,11 +149,11 @@ export function EnquiryForm({
           type="submit"
           className="group inline-flex w-full items-center justify-center gap-2.5 bg-primary px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary-foreground transition-colors duration-300 hover:bg-charcoal sm:w-auto"
         >
-          Begin the conversation
+          {t('form.submit', 'Begin the conversation')}
           <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
         </button>
         <p className="text-xs leading-relaxed text-muted-foreground">
-          We reply personally within 24 hours. Your details are never shared.
+          {t('form.note', 'We reply personally within 24 hours. Your details are never shared.')}
         </p>
       </form>
     </div>

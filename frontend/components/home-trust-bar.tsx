@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Car,
   Gem,
@@ -7,6 +9,7 @@ import {
   Users,
 } from 'lucide-react'
 import { Reveal } from '@/components/reveal'
+import { useLanguage } from '@/components/language-provider'
 
 const highlights = [
   {
@@ -42,6 +45,8 @@ const highlights = [
 ]
 
 export function HomeTrustBar() {
+  const { t } = useLanguage()
+
   return (
     <section className="relative z-20 pt-8 pb-4 lg:pt-12 lg:pb-6 bg-background">
       <div className="shell">
@@ -49,7 +54,7 @@ export function HomeTrustBar() {
           <div className="mx-auto max-w-6xl">
             <div className="overflow-hidden rounded-xl border border-border/60 bg-white shadow-[0_8px_30px_rgba(0,0,0,0.03)]">
               <div className="grid grid-cols-2 divide-x divide-y divide-border/60 sm:grid-cols-3 lg:grid-cols-6 lg:divide-y-0">
-                {highlights.map((item) => {
+                {highlights.map((item, index) => {
                   const Icon = item.icon
                   return (
                     <div
@@ -58,8 +63,8 @@ export function HomeTrustBar() {
                     >
                       <Icon className="h-8 w-8 shrink-0 text-accent lg:h-9 lg:w-9" />
                       <p className="text-[11px] font-bold uppercase leading-snug tracking-[0.04em] text-foreground">
-                        <span className="block">{item.title}</span>
-                        <span className="block">{item.label}</span>
+                        <span className="block">{t(`trust.${index}.title`, item.title)}</span>
+                        <span className="block">{t(`trust.${index}.label`, item.label)}</span>
                       </p>
                     </div>
                   )

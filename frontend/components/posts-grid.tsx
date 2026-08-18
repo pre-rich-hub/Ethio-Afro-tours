@@ -4,8 +4,10 @@ import { useMemo, useState } from 'react'
 import { Reveal } from '@/components/reveal'
 import { PostCard } from '@/components/post-card'
 import type { Post } from '@/lib/site'
+import { useLanguage } from '@/components/language-provider'
 
 export function PostsGrid({ posts }: { posts: Post[] }) {
+  const { t } = useLanguage()
   const categories = useMemo(
     () => ['All Writing', ...Array.from(new Set(posts.map((p) => p.category)))],
     [posts],
@@ -21,7 +23,7 @@ export function PostsGrid({ posts }: { posts: Post[] }) {
     <div>
       <div
         role="group"
-        aria-label="Filter articles by category"
+        aria-label={t('blog.filter.aria', 'Filter articles by category')}
         className="mb-12 flex flex-wrap gap-2 sm:mb-16"
       >
         {categories.map((c) => {
@@ -38,7 +40,7 @@ export function PostsGrid({ posts }: { posts: Post[] }) {
                   : 'border-border bg-card text-muted-foreground hover:border-primary/50 hover:text-foreground'
               }`}
             >
-              {c}
+              {c === 'All Writing' ? t('blog.filter.all', c) : t(`postCategory.${c}`, c)}
             </button>
           )
         })}
@@ -54,7 +56,7 @@ export function PostsGrid({ posts }: { posts: Post[] }) {
 
       {visible.length === 0 && (
         <p className="py-16 text-center text-muted-foreground">
-          Nothing filed under this yet.
+          {t('blog.empty', 'Nothing filed under this yet.')}
         </p>
       )}
     </div>

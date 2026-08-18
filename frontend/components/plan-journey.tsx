@@ -1,9 +1,14 @@
+'use client'
+
 import Image from 'next/image'
 import { Check } from 'lucide-react'
 import { EnquiryForm } from '@/components/enquiry-form'
 import { Reveal } from '@/components/reveal'
+import { useLanguage } from '@/components/language-provider'
 
 export function PlanJourney() {
+  const { t } = useLanguage()
+
   return (
     <section
       id="plan"
@@ -25,22 +30,20 @@ export function PlanJourney() {
         <Reveal>
           <p className="eyebrow mb-6 text-accent">
             <span className="rule" />
-            Plan Your Journey
+            {t('plan.eyebrow', 'Plan Your Journey')}
           </p>
           <h2 className="max-w-[16ch] text-balance font-serif text-[2.1rem] leading-[1.08] sm:text-5xl lg:text-[3.4rem]">
-            Let&apos;s design your Ethiopian journey
+            {t('plan.title', "Let's design your Ethiopian journey")}
           </h2>
           <p className="mt-7 max-w-md text-pretty text-base leading-relaxed text-primary-foreground/80 sm:text-lg">
-            Every itinerary begins with a conversation. No templates, no
-            compromises — only a journey designed entirely around you. A travel
-            designer replies within 24 hours.
+            {t('plan.copy', 'Every itinerary begins with a conversation. No templates, no compromises — only a journey designed entirely around you. A travel designer replies within 24 hours.')}
           </p>
           <ul className="mt-10 space-y-4">
             {[
               'Locally designed, privately guided',
               'Transparent, tailor-made pricing',
               '24/7 concierge before, during & after',
-            ].map((item) => (
+            ].map((item, index) => (
               <li
                 key={item}
                 className="flex items-start gap-3 text-sm leading-relaxed text-primary-foreground/90 sm:text-base"
@@ -48,7 +51,7 @@ export function PlanJourney() {
                 <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent text-accent-foreground">
                   <Check className="h-3 w-3" />
                 </span>
-                {item}
+                {t(`plan.point.${index}`, item)}
               </li>
             ))}
           </ul>

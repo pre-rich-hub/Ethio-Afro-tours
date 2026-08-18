@@ -16,14 +16,16 @@ import {
 import { cn } from '@/lib/utils'
 import { OptimizedImage } from '@/components/optimized-image'
 import { navLinks, contact, destinations, tours } from '@/lib/site'
+import { languageOptions, useLanguage } from '@/components/language-provider'
 
-const languages = [
-  { code: 'EN', label: 'English' },
-  { code: 'ES', label: 'Español' },
-  { code: 'FR', label: 'Français' },
-  { code: 'DE', label: 'Deutsch' },
-  { code: 'ZH', label: '中文' },
-]
+const navKeyByHref: Record<string, string> = {
+  '/': 'nav.home',
+  '/about': 'nav.about',
+  '/destinations': 'nav.destinations',
+  '/tours': 'nav.tours',
+  '/layover': 'nav.layover',
+  '/blog': 'nav.journal',
+}
 
 function Wordmark({
   tone,
@@ -50,14 +52,17 @@ function Wordmark({
 
 export function SiteNav() {
   const pathname = usePathname()
+  const { language, setLanguage, t } = useLanguage()
   const [scrolled, setScrolled] = useState(false)
   const [hidden, setHidden] = useState(false)
   const [open, setOpen] = useState(false)
   const [langOpen, setLangOpen] = useState(false)
-  const [lang, setLang] = useState(languages[0])
   const langRef = useRef<HTMLDivElement>(null)
   const lastScrollY = useRef(0)
   const ticking = useRef(false)
+  const lang =
+    languageOptions.find((option) => option.code === language) ??
+    languageOptions[0]
 
   useEffect(() => {
     const heroThreshold = window.innerHeight * 0.85 // ~85vh — past the hero
@@ -159,7 +164,7 @@ export function SiteNav() {
         >
           <div className="shell flex h-11 items-center justify-between text-[11px] tracking-[0.12em] text-background/70">
             <p className="uppercase">
-              Locally owned in Addis Ababa · Private journeys since 2008
+              {t('nav.rail', 'Locally owned in Addis Ababa · Private journeys since 2008')}
             </p>
             <div className="flex items-center gap-6">
               <a
@@ -191,6 +196,7 @@ export function SiteNav() {
           <ul className="hidden items-center gap-7 lg:flex xl:gap-9">
             {navLinks.map((link) => {
               const active = isActive(link.href)
+              const label = t(navKeyByHref[link.href] ?? link.label, link.label)
               const hasDropdown = link.label === 'Destinations' || link.label === 'Tours'
               return (
                 <li key={link.href} className="group py-5">
@@ -198,16 +204,12 @@ export function SiteNav() {
                     href={link.href}
                     className={cn(
                       'relative py-2 text-[11px] font-semibold uppercase tracking-[0.16em] transition-colors duration-300 flex items-center gap-1',
-                      tone === 'dark'
-                        ? active
-                          ? 'text-foreground'
-                          : 'text-foreground/65 hover:text-foreground'
-                        : active
-                          ? 'text-background'
-                          : 'text-background/75 hover:text-background',
+                      active
+                        ? 'text-background'
+                        : 'text-background/75 hover:text-background',
                     )}
                   >
-                    {link.label}
+                    {label}
                     {hasDropdown && (
                       <ChevronDown className="h-3 w-3 transition-transform duration-300 group-hover:rotate-180" />
                     )}
@@ -225,17 +227,17 @@ export function SiteNav() {
                       <div className="shell grid grid-cols-[1fr_3.2fr] gap-12 py-10">
                         <div className="flex flex-col justify-between">
                           <div>
-                            <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-accent mb-2 block">Ethiopia</span>
-                            <h3 className="font-serif text-2xl text-foreground mb-4">Our Destinations</h3>
+                            <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-accent mb-2 block">{t('nav.destinations.eyebrow', 'Ethiopia')}</span>
+                            <h3 className="font-serif text-2xl text-foreground mb-4">{t('nav.destinations.title', 'Our Destinations')}</h3>
                             <p className="text-xs text-muted-foreground leading-relaxed">
-                              From monolithic churches carved from solid rock to tectonic landscapes at the edge of the world. Explore the ancient cradle of civilization.
+                              {t('nav.destinations.text', 'From monolithic churches carved from solid rock to tectonic landscapes at the edge of the world. Explore the ancient cradle of civilization.')}
                             </p>
                           </div>
                           <Link
                             href="/destinations"
                             className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-accent hover:text-accent/80 transition-colors mt-6"
                           >
-                            View All Destinations <ArrowRight className="h-3.5 w-3.5" />
+                            {t('nav.destinations.cta', 'View All Destinations')} <ArrowRight className="h-3.5 w-3.5" />
                           </Link>
                         </div>
 
@@ -253,18 +255,18 @@ export function SiteNav() {
                                   className="h-full w-full object-cover transition-transform duration-700 group-hover/item:scale-105"
                                 />
                                 <span className="absolute left-2.5 top-2.5 rounded-full bg-charcoal/80 backdrop-blur-md px-3 py-1 text-[9px] font-semibold uppercase tracking-wider text-background">
-                                  {d.tag}
+                                  {t(`destination.${d.slug}.tag`, d.tag)}
                                 </span>
                               </div>
                               <div>
                                 <h4 className="font-serif text-[14px] text-foreground group-hover/item:text-accent transition-colors duration-300">
-                                  {d.name}
+                                  {t(`destination.${d.slug}.name`, d.name)}
                                 </h4>
                                 <p className="text-[10px] text-muted-foreground mt-0.5 block tracking-[0.06em] font-medium uppercase">
-                                  {d.region}
+                                  {t(`destination.${d.slug}.region`, d.region)}
                                 </p>
                                 <p className="text-[11px] text-muted-foreground/80 mt-1 line-clamp-2 leading-relaxed">
-                                  {d.teaser}
+                                  {t(`destination.${d.slug}.teaser`, d.teaser)}
                                 </p>
                               </div>
                             </Link>
@@ -279,52 +281,52 @@ export function SiteNav() {
                       <div className="shell grid grid-cols-[1fr_3.2fr] gap-12 py-10">
                         <div className="flex flex-col justify-between">
                           <div>
-                            <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-accent mb-2 block">Curated Journeys</span>
-                            <h3 className="font-serif text-2xl text-foreground mb-4">Signature Itineraries</h3>
+                            <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-accent mb-2 block">{t('nav.tours.eyebrow', 'Curated Journeys')}</span>
+                            <h3 className="font-serif text-2xl text-foreground mb-4">{t('nav.tours.title', 'Signature Itineraries')}</h3>
                             <p className="text-xs text-muted-foreground leading-relaxed">
-                              Expertly designed private expeditions combining luxury lodgings, expert naturalist guides, and exclusive cultural access.
+                              {t('nav.tours.text', 'Expertly designed private expeditions combining luxury lodgings, expert naturalist guides, and exclusive cultural access.')}
                             </p>
                           </div>
                           <Link
                             href="/tours"
                             className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-accent hover:text-accent/80 transition-colors mt-6"
                           >
-                            Explore All Tours <ArrowRight className="h-3.5 w-3.5" />
+                            {t('nav.tours.cta', 'Explore All Tours')} <ArrowRight className="h-3.5 w-3.5" />
                           </Link>
                         </div>
 
                         <div className="grid grid-cols-3 gap-6">
-                          {tours.slice(0, 3).map((t) => (
+                          {tours.slice(0, 3).map((tour) => (
                             <Link
-                              key={t.slug}
-                              href={`/tours/${t.slug}`}
+                              key={tour.slug}
+                              href={`/tours/${tour.slug}`}
                               className="group/item flex flex-col gap-3.5 rounded-lg overflow-hidden p-2.5 transition-all duration-300 hover:bg-muted/50"
                             >
                               <div className="relative aspect-[16/9] w-full overflow-hidden rounded-[4px]">
                                 <OptimizedImage
-                                  src={t.image}
-                                  alt={t.title}
+                                  src={tour.image}
+                                  alt={t(`tour.${tour.slug}.title`, tour.title)}
                                   fill
                                   sizes="(max-width: 1024px) 0px, 220px"
                                   className="h-full w-full object-cover transition-transform duration-700 group-hover/item:scale-105"
                                 />
                                 <span className="absolute left-2.5 top-2.5 rounded-full bg-accent px-3 py-1 text-[9px] font-semibold uppercase tracking-wider text-primary-foreground">
-                                  {t.days}
+                                  {tour.days}
                                 </span>
                               </div>
                               <div>
                                 <h4 className="font-serif text-[14px] text-foreground group-hover/item:text-accent transition-colors duration-300 line-clamp-1">
-                                  {t.title}
+                                  {t(`tour.${tour.slug}.title`, tour.title)}
                                 </h4>
                                 <p className="text-[10px] text-muted-foreground mt-0.5 block tracking-[0.06em] font-medium uppercase">
-                                  {t.style}
+                                  {t(`tour.${tour.slug}.style`, tour.style)}
                                 </p>
                                 <p className="text-[11px] text-muted-foreground/80 mt-1 line-clamp-2 leading-relaxed">
-                                  {t.teaser}
+                                  {t(`tour.${tour.slug}.teaser`, tour.teaser)}
                                 </p>
                                 <div className="mt-2.5 flex items-center justify-between border-t border-border/60 pt-2">
-                                  <span className="text-[10px] text-muted-foreground uppercase tracking-wider">From</span>
-                                  <span className="text-xs font-bold text-accent">{t.from}</span>
+                                  <span className="text-[10px] text-muted-foreground uppercase tracking-wider">{t('from', 'From')}</span>
+                                  <span className="text-xs font-bold text-accent">{tour.from}</span>
                                 </div>
                               </div>
                             </Link>
@@ -341,15 +343,13 @@ export function SiteNav() {
           <div className="flex items-center gap-2 sm:gap-3">
             <div ref={langRef} className="relative hidden sm:block">
               <button
-                aria-label="Change language"
+                aria-label={t('nav.changeLanguage', 'Change language')}
                 aria-haspopup="listbox"
                 aria-expanded={langOpen}
                 onClick={() => setLangOpen((v) => !v)}
                 className={cn(
                   'flex h-10 items-center gap-1.5 rounded-full px-3 transition-colors duration-300',
-                  tone === 'dark'
-                    ? 'text-foreground/70 hover:bg-muted'
-                    : 'text-background/80 hover:bg-background/10',
+                  'text-background/80 hover:bg-background/10',
                 )}
               >
                 <Globe className="h-[17px] w-[17px]" />
@@ -366,7 +366,7 @@ export function SiteNav() {
 
               <ul
                 role="listbox"
-                aria-label="Language"
+                aria-label={t('nav.language', 'Language')}
                 className={cn(
                   'absolute right-0 top-12 w-44 overflow-hidden rounded-sm border border-border bg-popover shadow-xl transition-all duration-200',
                   langOpen
@@ -374,13 +374,13 @@ export function SiteNav() {
                     : 'pointer-events-none -translate-y-1 opacity-0',
                 )}
               >
-                {languages.map((l) => (
+                {languageOptions.map((l) => (
                   <li key={l.code}>
                     <button
                       role="option"
                       aria-selected={l.code === lang.code}
                       onClick={() => {
-                        setLang(l)
+                        setLanguage(l.code)
                         setLangOpen(false)
                       }}
                       className="flex w-full items-center justify-between px-4 py-3 text-left text-sm text-popover-foreground/80 transition-colors duration-200 hover:bg-muted"
@@ -399,20 +399,18 @@ export function SiteNav() {
               href="/contact"
               className="hidden rounded-full bg-primary px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-primary-foreground transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary/90 lg:inline-block"
             >
-              Request Your Journey
+              {t('nav.request', 'Request Your Journey')}
             </Link>
 
             <button
-              aria-label={open ? 'Close menu' : 'Open menu'}
+              aria-label={open ? t('nav.closeMenu', 'Close menu') : t('nav.openMenu', 'Open menu')}
               aria-expanded={open}
               onClick={() => setOpen((v) => !v)}
               className={cn(
                 'flex h-11 w-11 items-center justify-center rounded-full border transition-colors duration-300 lg:hidden',
                 open
                   ? 'border-border text-foreground'
-                  : tone === 'dark'
-                    ? 'border-border text-foreground hover:bg-muted'
-                    : 'border-background/30 text-background hover:bg-background/10',
+                  : 'border-background/30 text-background hover:bg-background/10',
               )}
             >
               {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -435,6 +433,7 @@ export function SiteNav() {
           <ul className="border-t border-border">
             {navLinks.map((link, i) => {
               const active = isActive(link.href)
+              const label = t(navKeyByHref[link.href] ?? link.label, link.label)
               return (
                 <li key={link.href} className="border-b border-border">
                   <Link
@@ -458,7 +457,7 @@ export function SiteNav() {
                           active ? 'text-primary' : 'text-foreground',
                         )}
                       >
-                        {link.label}
+                        {label}
                       </span>
                     </span>
                     <ArrowRight
@@ -476,13 +475,13 @@ export function SiteNav() {
           <div className="mt-8">
             <span className="mb-3 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
               <Globe className="h-3.5 w-3.5" />
-              Language
+              {t('nav.language', 'Language')}
             </span>
             <div className="flex flex-wrap gap-2">
-              {languages.map((l) => (
+              {languageOptions.map((l) => (
                 <button
                   key={l.code}
-                  onClick={() => setLang(l)}
+                  onClick={() => setLanguage(l.code)}
                   className={cn(
                     'rounded-full border px-4 py-2 text-sm transition-colors duration-200',
                     l.code === lang.code
@@ -520,7 +519,7 @@ export function SiteNav() {
             onClick={() => setOpen(false)}
             className="flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-primary-foreground"
           >
-            Request Your Journey
+            {t('nav.request', 'Request Your Journey')}
             <ArrowRight className="h-4 w-4" />
           </Link>
         </div>

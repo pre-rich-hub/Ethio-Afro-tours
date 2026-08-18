@@ -1,8 +1,11 @@
+'use client'
+
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 import { OptimizedImage as Image } from '@/components/optimized-image'
 import type { Destination } from '@/lib/site'
 import { cn } from '@/lib/utils'
+import { useLanguage } from '@/components/language-provider'
 
 export function DestinationCard({
   destination: d,
@@ -15,6 +18,12 @@ export function DestinationCard({
   height?: 'md' | 'lg'
   sizes?: string
 }) {
+  const { t } = useLanguage()
+  const name = t(`destination.${d.slug}.name`, d.name)
+  const tag = t(`destination.${d.slug}.tag`, d.tag)
+  const region = t(`destination.${d.slug}.region`, d.region)
+  const teaser = t(`destination.${d.slug}.teaser`, d.teaser)
+
   return (
     <Link
       href={`/destinations/${d.slug}`}
@@ -28,7 +37,7 @@ export function DestinationCard({
     >
       <Image
         src={d.image || '/placeholder.svg'}
-        alt={`${d.name}, Ethiopia`}
+        alt={`${name}, Ethiopia`}
         fill
         sizes={sizes}
         className="object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-105"
@@ -37,18 +46,18 @@ export function DestinationCard({
 
       <div className="absolute inset-x-0 bottom-0 p-6 sm:p-7 lg:p-8">
         <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-accent">
-          {d.tag} · {d.region}
+          {tag} · {region}
         </p>
         <h3 className="font-serif text-2xl text-background sm:text-3xl lg:text-4xl">
-          {d.name}
+          {name}
         </h3>
         <p className="mt-2 max-w-[42ch] text-pretty text-sm leading-relaxed text-background/80 sm:hidden">
-          {d.teaser}
+          {teaser}
         </p>
         <div className="hidden grid-rows-[0fr] transition-all duration-500 ease-out group-hover:grid-rows-[1fr] sm:grid">
           <div className="overflow-hidden">
             <p className="max-w-[44ch] pt-3 text-pretty leading-relaxed text-background/85">
-              {d.teaser}
+              {teaser}
             </p>
           </div>
         </div>

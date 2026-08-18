@@ -1,19 +1,23 @@
+'use client'
+
 import { Reveal } from '@/components/reveal'
 import { SectionHeading } from '@/components/section-heading'
 import { DestinationCard } from '@/components/destination-card'
 import { LinkButton } from '@/components/link-button'
 import { destinations } from '@/lib/site'
+import { useLanguage } from '@/components/language-provider'
 
 export function Destinations() {
+  const { t } = useLanguage()
   const featured = destinations.slice(0, 4)
 
   return (
     <section id="destinations" className="bg-muted/50 py-20 sm:py-24 lg:py-32">
       <div className="shell">
         <SectionHeading
-          eyebrow="Signature Destinations"
-          title="A country of impossible variety"
-          aside="From highland cathedrals to volcanic lowlands, each region reveals a different chapter of Ethiopia's story."
+          eyebrow={t('destinations.eyebrow', 'Signature Destinations')}
+          title={t('destinations.title', 'A country of impossible variety')}
+          aside={t('destinations.aside', "From highland cathedrals to volcanic lowlands, each region reveals a different chapter of Ethiopia's story.")}
         />
 
         <div className="grid gap-4 sm:gap-5 lg:grid-cols-12">
@@ -26,7 +30,7 @@ export function Destinations() {
 
         <Reveal className="mt-12 flex justify-center sm:mt-14">
           <LinkButton href="/destinations" variant="outline">
-            Explore All Destinations
+            {t('destinations.cta', 'Explore All Destinations')}
           </LinkButton>
         </Reveal>
       </div>

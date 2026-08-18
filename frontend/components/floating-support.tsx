@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import { MessageSquare, X, Send, Sparkles, Bot } from 'lucide-react'
 import { contact } from '@/lib/site'
 import { streamAssistantChat } from '@/lib/api'
+import { useLanguage } from '@/components/language-provider'
 
 // Custom WhatsApp SVG Icon to look consistent and sharp
 function WhatsAppIcon({ className = 'h-5 w-5' }: { className?: string }) {
@@ -34,12 +35,13 @@ const QUICK_QUESTIONS = [
 ]
 
 export function FloatingSupport() {
+    const { language, t } = useLanguage()
     const [isOpen, setIsOpen] = useState(false)
     const [messages, setMessages] = useState<Message[]>([
         {
             id: 'welcome',
             sender: 'bot',
-            text: 'Selam! I am your EthioAfro AI Assistant. How can I help you design your private journey through the soul of Ethiopia today?',
+            text: t('chat.welcome', 'Selam! I am your EthioAfro AI Assistant. How can I help you design your private journey through the soul of Ethiopia today?'),
             timestamp: new Date(),
         },
     ])
@@ -54,6 +56,19 @@ export function FloatingSupport() {
     useEffect(() => {
         chatEndRef.current?.scrollIntoView({ behavior: 'smooth' })
     }, [messages, isTyping])
+
+    useEffect(() => {
+        setMessages((prev) =>
+            prev.length === 1 && prev[0]?.id === 'welcome'
+                ? [
+                    {
+                        ...prev[0],
+                        text: t('chat.welcome', 'Selam! I am your EthioAfro AI Assistant. How can I help you design your private journey through the soul of Ethiopia today?'),
+                    },
+                ]
+                : prev,
+        )
+    }, [language, t])
 
     // Convert contact whatsapp format to wa.me link
     const formattedWhatsapp = contact.whatsapp.replace(/[^0-9]/g, '')
@@ -144,7 +159,7 @@ export function FloatingSupport() {
                 >
                     <WhatsAppIcon className="h-6 w-6" />
                     <span className="absolute right-14 scale-0 rounded bg-charcoal border border-white/5 px-2.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-sand transition-all group-hover:scale-100 whitespace-nowrap shadow-md">
-                        Chat on WhatsApp
+                        {t('chat.whatsapp', 'Chat on WhatsApp')}
                     </span>
                 </a>
 
@@ -170,7 +185,7 @@ export function FloatingSupport() {
                         </>
                     )}
                     <span className="absolute right-16 scale-0 rounded bg-charcoal border border-white/5 px-2.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-sand transition-all group-hover:scale-100 whitespace-nowrap shadow-md">
-                        AI travel Assistant
+                        {t('chat.ai', 'AI travel Assistant')}
                     </span>
                 </button>
             </div>
@@ -192,10 +207,10 @@ export function FloatingSupport() {
                         </div>
                         <div>
                             <h3 className="font-serif text-sm font-semibold tracking-wide flex items-center gap-1.5 text-sand">
-                                EthioAfro AI Guide
+                                {t('chat.title', 'EthioAfro AI Guide')}
                             </h3>
                             <p className="text-[9px] text-accent/80 tracking-widest uppercase font-mono">
-                                Expert support · Online
+                                {t('chat.status', 'Expert support · Online')}
                             </p>
                         </div>
                     </div>
@@ -274,13 +289,13 @@ export function FloatingSupport() {
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
                         disabled={isStreaming}
-                        placeholder="Ask a question about Ethiopia..."
+                        placeholder={t('chat.placeholder', 'Ask a question about Ethiopia...')}
                         className="flex-1 bg-neutral-900/60 border border-white/10 focus:border-accent focus:ring-1 focus:ring-accent rounded-full px-4 py-2.5 text-xs text-white placeholder:text-sand/40 outline-none transition-all duration-200 disabled:opacity-50"
                     />
                     <button
                         type="submit"
                         disabled={isStreaming || !input.trim()}
-                        aria-label="Send message"
+                        aria-label={t('chat.send', 'Send message')}
                         className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-accent-foreground hover:bg-accent/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-md cursor-pointer"
                     >
                         <Send className="h-4 w-4" />
