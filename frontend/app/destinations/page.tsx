@@ -4,27 +4,49 @@ import { Reveal } from '@/components/reveal'
 import { DestinationCard } from '@/components/destination-card'
 import { SectionHeading } from '@/components/section-heading'
 import { CtaBand } from '@/components/cta-band'
+import { JsonLd } from '@/components/json-ld'
 import { destinations } from '@/lib/site'
-
-export const metadata: Metadata = {
-  title: 'Destinations',
-  description:
-    'Explore twenty of Ethiopia’s defining destinations, from rock-hewn churches and ancient cities to volcanic lowlands, highland parks and living cultural landscapes.',
-}
+import { buildBreadcrumbList, pageStructuredData } from '@/lib/structured-data'
+import { buildSocialMetadata } from '@/lib/seo'
 
 const regions = Array.from(new Set(destinations.map((d) => d.region)))
 const lalibelaImage = destinations.find((d) => d.slug === 'lalibela')?.image ?? '/placeholder.svg'
 const simienImage = destinations.find((d) => d.slug === 'simien-mountains')?.image ?? '/placeholder.svg'
+const pageTitle = 'Destinations'
+const pageDescription =
+  'Explore twenty of Ethiopia’s defining destinations, from rock-hewn churches and ancient cities to volcanic lowlands, highland parks and living cultural landscapes.'
+const heroImageAlt = 'Bet Giyorgis rock-hewn church in Lalibela, Ethiopia'
+
+export const metadata: Metadata = {
+  title: pageTitle,
+  description: pageDescription,
+  alternates: { canonical: '/destinations' },
+  ...buildSocialMetadata({
+    title: pageTitle,
+    description: pageDescription,
+    path: '/destinations',
+    image: lalibelaImage,
+    imageAlt: heroImageAlt,
+  }),
+}
 
 export default function DestinationsPage() {
   return (
     <>
+      <JsonLd
+        data={pageStructuredData(
+          buildBreadcrumbList([
+            { name: 'Home', path: '/' },
+            { name: 'Destinations', path: '/destinations' },
+          ]),
+        )}
+      />
       <PageHero
         eyebrow="Where We Travel"
         title="Twenty places, and the routes between them"
         lede="From churches carved downward into the rock to a lava lake burning below sea level. These are twenty places our designers connect into thoughtful journeys across Ethiopia."
         image={lalibelaImage}
-        imageAlt="The rock-hewn churches of Lalibela, Ethiopia"
+        imageAlt={heroImageAlt}
         crumbs={[{ label: 'Home', href: '/' }, { label: 'Destinations' }]}
         meta={[
           { label: 'Destinations', value: '20' },

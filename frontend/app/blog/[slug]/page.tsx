@@ -6,8 +6,14 @@ import { OptimizedImage as Image } from '@/components/optimized-image'
 import { Reveal } from '@/components/reveal'
 import { PostCard } from '@/components/post-card'
 import { CtaBand } from '@/components/cta-band'
+import { JsonLd } from '@/components/json-ld'
 import { cloudinaryImageUrl } from '@/lib/cloudinary'
 import { getPost, posts } from '@/lib/site'
+import {
+  buildBlogPosting,
+  buildBreadcrumbList,
+  pageStructuredData,
+} from '@/lib/structured-data'
 
 export function generateStaticParams() {
   return posts.map((p) => ({ slug: p.slug }))
@@ -25,6 +31,7 @@ export async function generateMetadata({
     title: p.title,
     description: p.excerpt,
     authors: [{ name: p.author }],
+    alternates: { canonical: `/blog/${p.slug}` },
     openGraph: {
       title: p.title,
       description: p.excerpt,
@@ -49,6 +56,16 @@ export default async function ArticlePage({
 
   return (
     <article>
+      <JsonLd
+        data={pageStructuredData(
+          buildBreadcrumbList([
+            { name: 'Home', path: '/' },
+            { name: 'Journal', path: '/blog' },
+            { name: post.title, path: `/blog/${post.slug}` },
+          ]),
+          buildBlogPosting(post),
+        )}
+      />
       {/* Header */}
       <header className="border-b border-border">
         <div className="shell pb-12 pt-32 sm:pb-16 sm:pt-36 lg:pt-40">

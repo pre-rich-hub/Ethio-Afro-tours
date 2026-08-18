@@ -17,6 +17,13 @@ export function cloudinaryImageUrl(
   return src.replace(cloudinaryOrigin, `${cloudinaryOrigin}${transformation}/`)
 }
 
+export function cloudinarySocialImageUrl(src: string): string {
+  if (!isCloudinaryImage(src)) return src
+
+  const transformation = 'f_auto,q_82,c_fill,g_auto,w_1200,h_630'
+  return src.replace(cloudinaryOrigin, `${cloudinaryOrigin}${transformation}/`)
+}
+
 export function cloudinaryLoader({ src, width, quality }: ImageLoaderProps): string {
   return cloudinaryImageUrl(src, { width, quality })
 }

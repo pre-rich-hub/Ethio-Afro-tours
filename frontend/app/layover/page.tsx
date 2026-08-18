@@ -6,12 +6,35 @@ import { Reveal } from '@/components/reveal'
 import { SectionHeading } from '@/components/section-heading'
 import { LayoverEnquiryForm, LayoverPackageLink } from '@/components/layover-enquiry-form'
 import { CtaBand } from '@/components/cta-band'
+import { FaqSection } from '@/components/faq-section'
+import { JsonLd } from '@/components/json-ld'
 import { getLayoverPackagesData } from '@/lib/data'
+import { layoverFaqs } from '@/lib/faqs'
+import {
+  buildBreadcrumbList,
+  buildFaqPage,
+  pageStructuredData,
+} from '@/lib/structured-data'
+import { buildSocialMetadata } from '@/lib/seo'
+
+const pageTitle = 'Addis Ababa Layover Tours'
+const pageDescription =
+  'Private Addis Ababa layover tours and multi-day stopover extensions from Bole International Airport, planned around your confirmed flights.'
+const heroImage =
+  'https://res.cloudinary.com/q16lm8mo/image/upload/v1786970122/Bole_International.jpg'
+const heroImageAlt = 'Bole International Airport in Addis Ababa, Ethiopia'
 
 export const metadata: Metadata = {
-  title: 'Addis Ababa Layover Tours',
-  description:
-    'Private Addis Ababa layover tours and multi-day stopover extensions from Bole International Airport, planned around your confirmed flights.',
+  title: pageTitle,
+  description: pageDescription,
+  alternates: { canonical: '/layover' },
+  ...buildSocialMetadata({
+    title: pageTitle,
+    description: pageDescription,
+    path: '/layover',
+    image: heroImage,
+    imageAlt: heroImageAlt,
+  }),
 }
 
 const assurances = [
@@ -37,14 +60,6 @@ const assurances = [
   },
 ]
 
-const faqs = [
-  { question: 'Can every transit passenger leave Bole Airport?', answer: 'No. It depends on passport nationality, visa status, immigration approval, baggage and the time between flights. We review the itinerary, but travellers must obtain the correct permission to enter Ethiopia.' },
-  { question: 'What happens if the inbound flight is delayed?', answer: 'We track the flight number you provide and adjust, shorten or cancel the sightseeing plan when the safe operating window changes. Your onward connection always takes priority.' },
-  { question: 'Are meals, entrance fees and hotels included?', answer: 'Your proposal will state exactly what is included. Package ideas are flexible, and no meal, entrance fee, room or domestic flight is included unless it appears in the confirmed quote.' },
-  { question: 'Can I book an evening layover?', answer: 'Yes. The evening route focuses on food, coffee, music and available viewpoints because museums and many heritage sites may be closed.' },
-  { question: 'Is Lalibela suitable for a 48-hour connection?', answer: 'We recommend at least 60–72 hours and only confirm the extension after checking domestic schedules and a safe return buffer before the international flight.' },
-]
-
 export default async function LayoverPage() {
   const packages = await getLayoverPackagesData()
   const packageCount = packages.length
@@ -52,12 +67,21 @@ export default async function LayoverPage() {
 
   return (
     <>
+      <JsonLd
+        data={pageStructuredData(
+          buildBreadcrumbList([
+            { name: 'Home', path: '/' },
+            { name: 'Layover', path: '/layover' },
+          ]),
+          buildFaqPage('/layover', layoverFaqs),
+        )}
+      />
       <PageHero
         eyebrow="Addis Layover Tours"
         title="A long connection is not a waiting room"
         lede="A long connection can become a private introduction to Ethiopia — planned around your confirmed flights, entry requirements and a protected return to Bole."
-        image="https://res.cloudinary.com/q16lm8mo/image/upload/v1786970122/Bole_International.jpg"
-        imageAlt="Bole International Airport in Addis Ababa, Ethiopia"
+        image={heroImage}
+        imageAlt={heroImageAlt}
         crumbs={[{ label: 'Home', href: '/' }, { label: 'Layover' }]}
         meta={[
           { label: 'Packages', value: String(packageCount) },
@@ -233,19 +257,11 @@ export default async function LayoverPage() {
         </Reveal>
       </section>
 
-      <section className="border-y border-border bg-muted/40">
-        <div className="shell py-16 sm:py-20 lg:py-24">
-          <SectionHeading eyebrow="Before You Leave the Airport" title="Layover questions, answered plainly" />
-          <div className="grid gap-5 lg:grid-cols-2">
-            {faqs.map((item, index) => (
-              <Reveal key={item.question} delay={(index % 2) * 80} className="border border-border bg-card p-6 sm:p-8">
-                <h3 className="font-serif text-xl text-foreground sm:text-2xl">{item.question}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">{item.answer}</p>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
+      <FaqSection
+        eyebrow="Before You Leave the Airport"
+        title="Layover questions, answered plainly"
+        faqs={layoverFaqs}
+      />
 
       <CtaBand
         title="Have at least 60–72 hours? Consider Lalibela."
