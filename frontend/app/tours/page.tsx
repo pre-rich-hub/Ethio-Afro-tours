@@ -7,8 +7,16 @@ import { Reveal } from '@/components/reveal'
 import { SectionHeading } from '@/components/section-heading'
 import { ToursGrid } from '@/components/tours-grid'
 import { CtaBand } from '@/components/cta-band'
+import { FaqSection } from '@/components/faq-section'
+import { JsonLd } from '@/components/json-ld'
+import { tourFaqs } from '@/lib/faqs'
 import { promises } from '@/lib/site'
 import { getToursData } from '@/lib/data'
+import {
+  buildBreadcrumbList,
+  buildFaqPage,
+  pageStructuredData,
+} from '@/lib/structured-data'
 
 export const metadata: Metadata = {
   title: 'Tours & Journeys',
@@ -23,6 +31,15 @@ export default async function ToursPage() {
 
   return (
     <>
+      <JsonLd
+        data={pageStructuredData(
+          buildBreadcrumbList([
+            { name: 'Home', path: '/' },
+            { name: 'Tours', path: '/tours' },
+          ]),
+          buildFaqPage('/tours', tourFaqs),
+        )}
+      />
       <PageHero
         eyebrow="Tours & Journeys"
         title="Fifteen routes, and none of them fixed"
@@ -145,6 +162,12 @@ export default async function ToursPage() {
           </div>
         </div>
       </section>
+
+      <FaqSection
+        eyebrow="Planning Your Journey"
+        title="Tour questions, answered plainly"
+        faqs={tourFaqs}
+      />
 
       <CtaBand
         title="Or start with a blank page"

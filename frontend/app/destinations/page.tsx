@@ -4,7 +4,9 @@ import { Reveal } from '@/components/reveal'
 import { DestinationCard } from '@/components/destination-card'
 import { SectionHeading } from '@/components/section-heading'
 import { CtaBand } from '@/components/cta-band'
+import { JsonLd } from '@/components/json-ld'
 import { destinations } from '@/lib/site'
+import { buildBreadcrumbList, pageStructuredData } from '@/lib/structured-data'
 
 export const metadata: Metadata = {
   title: 'Destinations',
@@ -20,6 +22,14 @@ const simienImage = destinations.find((d) => d.slug === 'simien-mountains')?.ima
 export default function DestinationsPage() {
   return (
     <>
+      <JsonLd
+        data={pageStructuredData(
+          buildBreadcrumbList([
+            { name: 'Home', path: '/' },
+            { name: 'Destinations', path: '/destinations' },
+          ]),
+        )}
+      />
       <PageHero
         eyebrow="Where We Travel"
         title="Twenty places, and the routes between them"

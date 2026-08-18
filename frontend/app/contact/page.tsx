@@ -4,7 +4,9 @@ import { PageHero } from '@/components/page-hero'
 import { Reveal } from '@/components/reveal'
 import { SectionHeading } from '@/components/section-heading'
 import { EnquiryForm } from '@/components/enquiry-form'
+import { JsonLd } from '@/components/json-ld'
 import { contact, promises } from '@/lib/site'
+import { buildBreadcrumbList, pageStructuredData } from '@/lib/structured-data'
 
 export const metadata: Metadata = {
   title: 'Contact Us',
@@ -39,6 +41,14 @@ const steps = [
 export default function ContactPage() {
   return (
     <>
+      <JsonLd
+        data={pageStructuredData(
+          buildBreadcrumbList([
+            { name: 'Home', path: '/' },
+            { name: 'Contact', path: '/contact' },
+          ]),
+        )}
+      />
       <PageHero
         eyebrow="Speak With a Designer"
         title="Every journey begins with a conversation"

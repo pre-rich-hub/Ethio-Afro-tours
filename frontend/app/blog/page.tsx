@@ -6,7 +6,9 @@ import { PostsGrid } from '@/components/posts-grid'
 import { SectionHeading } from '@/components/section-heading'
 import { NewsletterForm } from '@/components/newsletter-form'
 import { CtaBand } from '@/components/cta-band'
+import { JsonLd } from '@/components/json-ld'
 import { posts } from '@/lib/site'
+import { buildBreadcrumbList, pageStructuredData } from '@/lib/structured-data'
 
 export const metadata: Metadata = {
   title: 'The Journal',
@@ -21,6 +23,14 @@ export default function BlogPage() {
 
   return (
     <>
+      <JsonLd
+        data={pageStructuredData(
+          buildBreadcrumbList([
+            { name: 'Home', path: '/' },
+            { name: 'Journal', path: '/blog' },
+          ]),
+        )}
+      />
       <PageHero
         eyebrow="The Journal"
         title="Field notes from the highlands"

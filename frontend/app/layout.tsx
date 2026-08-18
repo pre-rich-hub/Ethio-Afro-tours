@@ -4,11 +4,9 @@ import { Cormorant_Garamond, Inter } from 'next/font/google'
 import { SiteNav } from '@/components/site-nav'
 import { SiteFooter } from '@/components/site-footer'
 import { FloatingSupport } from '@/components/floating-support'
+import { JsonLd } from '@/components/json-ld'
 import { siteUrl } from '@/lib/seo'
-import {
-  globalStructuredData,
-  serializeJsonLd,
-} from '@/lib/structured-data'
+import { globalStructuredData } from '@/lib/structured-data'
 import './globals.css'
 
 const inter = Inter({
@@ -69,12 +67,7 @@ export default function RootLayout({
       className={`${inter.variable} ${cormorant.variable} bg-background`}
     >
       <body className="antialiased">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: serializeJsonLd(globalStructuredData),
-          }}
-        />
+        <JsonLd data={globalStructuredData} />
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-primary focus:px-5 focus:py-3 focus:text-xs focus:font-semibold focus:uppercase focus:tracking-[0.14em] focus:text-primary-foreground"

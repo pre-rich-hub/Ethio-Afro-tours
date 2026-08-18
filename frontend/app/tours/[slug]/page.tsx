@@ -7,9 +7,15 @@ import { Reveal } from '@/components/reveal'
 import { TourCard } from '@/components/tour-card'
 import { EnquiryForm } from '@/components/enquiry-form'
 import { CtaBand } from '@/components/cta-band'
+import { JsonLd } from '@/components/json-ld'
 import { cloudinaryImageUrl } from '@/lib/cloudinary'
 import { getTour, tours } from '@/lib/site'
 import { getTourData } from '@/lib/data'
+import {
+  buildBreadcrumbList,
+  buildTouristTrip,
+  pageStructuredData,
+} from '@/lib/structured-data'
 
 export function generateStaticParams() {
   return tours.map((t) => ({ slug: t.slug }))
@@ -48,6 +54,16 @@ export default async function TourPage({
 
   return (
     <>
+      <JsonLd
+        data={pageStructuredData(
+          buildBreadcrumbList([
+            { name: 'Home', path: '/' },
+            { name: 'Tours', path: '/tours' },
+            { name: t.title, path: `/tours/${t.slug}` },
+          ]),
+          buildTouristTrip(t),
+        )}
+      />
       <PageHero
         eyebrow={t.style}
         title={t.title}

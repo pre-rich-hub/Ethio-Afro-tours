@@ -8,8 +8,10 @@ import { TourCard } from '@/components/tour-card'
 import { EnquiryForm } from '@/components/enquiry-form'
 import { CtaBand } from '@/components/cta-band'
 import { OptimizedImage as Image } from '@/components/optimized-image'
+import { JsonLd } from '@/components/json-ld'
 import { cloudinaryImageUrl } from '@/lib/cloudinary'
 import { destinations, getDestination, tours } from '@/lib/site'
+import { buildBreadcrumbList, pageStructuredData } from '@/lib/structured-data'
 
 export function generateStaticParams() {
   return destinations.map((d) => ({ slug: d.slug }))
@@ -50,6 +52,18 @@ export default async function DestinationPage({
 
   return (
     <>
+      <JsonLd
+        data={pageStructuredData(
+          buildBreadcrumbList([
+            { name: 'Home', path: '/' },
+            { name: 'Destinations', path: '/destinations' },
+            {
+              name: d.name,
+              path: `/destinations/${d.slug}`,
+            },
+          ]),
+        )}
+      />
       <PageHero
         eyebrow={`${d.tag} · ${d.region}`}
         title={d.name}
