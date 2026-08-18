@@ -15,12 +15,26 @@ import {
   buildFaqPage,
   pageStructuredData,
 } from '@/lib/structured-data'
+import { buildSocialMetadata } from '@/lib/seo'
+
+const pageTitle = 'Addis Ababa Layover Tours'
+const pageDescription =
+  'Private Addis Ababa layover tours and multi-day stopover extensions from Bole International Airport, planned around your confirmed flights.'
+const heroImage =
+  'https://res.cloudinary.com/q16lm8mo/image/upload/v1786970122/Bole_International.jpg'
+const heroImageAlt = 'Bole International Airport in Addis Ababa, Ethiopia'
 
 export const metadata: Metadata = {
-  title: 'Addis Ababa Layover Tours',
-  description:
-    'Private Addis Ababa layover tours and multi-day stopover extensions from Bole International Airport, planned around your confirmed flights.',
+  title: pageTitle,
+  description: pageDescription,
   alternates: { canonical: '/layover' },
+  ...buildSocialMetadata({
+    title: pageTitle,
+    description: pageDescription,
+    path: '/layover',
+    image: heroImage,
+    imageAlt: heroImageAlt,
+  }),
 }
 
 const assurances = [
@@ -66,8 +80,8 @@ export default async function LayoverPage() {
         eyebrow="Addis Layover Tours"
         title="A long connection is not a waiting room"
         lede="A long connection can become a private introduction to Ethiopia — planned around your confirmed flights, entry requirements and a protected return to Bole."
-        image="https://res.cloudinary.com/q16lm8mo/image/upload/v1786970122/Bole_International.jpg"
-        imageAlt="Bole International Airport in Addis Ababa, Ethiopia"
+        image={heroImage}
+        imageAlt={heroImageAlt}
         crumbs={[{ label: 'Home', href: '/' }, { label: 'Layover' }]}
         meta={[
           { label: 'Packages', value: String(packageCount) },

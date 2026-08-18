@@ -1,3 +1,6 @@
+import type { Metadata } from 'next'
+import { cloudinarySocialImageUrl } from '@/lib/cloudinary'
+
 const productionSiteUrl = 'https://ethioafrotours.com'
 
 function resolveSiteUrl(): URL {
@@ -27,4 +30,53 @@ export function absoluteUrl(path = '/'): string {
   }
 
   return new URL(path, siteUrl).toString()
+}
+
+type SocialMetadataOptions = {
+  title: string
+  description: string
+  path: string
+  image: string
+  imageAlt: string
+}
+
+export function buildSocialMetadata({
+  title,
+  description,
+  path,
+  image,
+  imageAlt,
+}: SocialMetadataOptions): Pick<Metadata, 'openGraph' | 'twitter'> {
+  const brandedTitle = `${title} · EthioAfro Tours`
+  const imageUrl = cloudinarySocialImageUrl(image)
+
+  return {
+    openGraph: {
+      title: brandedTitle,
+      description,
+      url: absoluteUrl(path),
+      siteName: 'EthioAfro Tours',
+      locale: 'en_US',
+      type: 'website',
+      images: [
+        {
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+          alt: imageAlt,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: brandedTitle,
+      description,
+      images: [
+        {
+          url: imageUrl,
+          alt: imageAlt,
+        },
+      ],
+    },
+  }
 }
