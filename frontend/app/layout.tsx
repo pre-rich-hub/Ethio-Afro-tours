@@ -4,6 +4,7 @@ import { Cormorant_Garamond, Inter } from 'next/font/google'
 import { SiteNav } from '@/components/site-nav'
 import { SiteFooter } from '@/components/site-footer'
 import { FloatingSupport } from '@/components/floating-support'
+import { siteUrl } from '@/lib/seo'
 import './globals.css'
 
 const inter = Inter({
@@ -20,6 +21,7 @@ const cormorant = Cormorant_Garamond({
 })
 
 export const metadata: Metadata = {
+  metadataBase: siteUrl,
   title: {
     default: 'EthioAfro Tours — The Soul of Ethiopia, Curated',
     template: '%s · EthioAfro Tours',
