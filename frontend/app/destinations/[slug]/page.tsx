@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowRight, Check, Mountain } from 'lucide-react'
+import { ArrowRight, Check, Compass, MapPinned, Mountain, Sparkles } from 'lucide-react'
 import { PageHero } from '@/components/page-hero'
 import { Reveal } from '@/components/reveal'
 import { TourCard } from '@/components/tour-card'
@@ -11,6 +11,7 @@ import { OptimizedImage as Image } from '@/components/optimized-image'
 import { JsonLd } from '@/components/json-ld'
 import { cloudinaryImageUrl } from '@/lib/cloudinary'
 import { destinations, getDestination, tours } from '@/lib/site'
+import { getDestinationDossier } from '@/lib/destination-dossiers'
 import { buildBreadcrumbList, pageStructuredData } from '@/lib/structured-data'
 
 export function generateStaticParams() {
@@ -49,6 +50,7 @@ export default async function DestinationPage({
   const related = tours.filter((t) => t.places.some((p) => p.includes(d.name.split(' ')[0]))).slice(0, 3)
   const fallback = related.length ? related : tours.slice(0, 3)
   const others = destinations.filter((o) => o.slug !== d.slug).slice(0, 4)
+  const dossier = getDestinationDossier(d.slug)
 
   return (
     <>
@@ -143,6 +145,95 @@ export default async function DestinationPage({
           </div>
         </Reveal>
       </section>
+
+      {dossier && (
+        <section className="border-y border-border bg-background">
+          <div className="shell grid gap-12 py-16 sm:py-20 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20 lg:py-28">
+            <Reveal className="lg:sticky lg:top-28 lg:self-start">
+              <p className="eyebrow mb-5 text-accent">
+                <span className="rule" />
+                Destination Dossier
+              </p>
+              <h2 className="max-w-[16ch] text-balance text-3xl leading-[1.08] text-foreground sm:text-4xl">
+                A deeper read before you arrive
+              </h2>
+              <p className="mt-6 max-w-sm text-pretty leading-relaxed text-muted-foreground">
+                Concise field context for how this destination works in a
+                private itinerary: what defines it, how to experience it well
+                and what should be planned before arrival.
+              </p>
+            </Reveal>
+
+            <div className="border-t border-border">
+              <Reveal className="grid gap-5 border-b border-border py-8 sm:grid-cols-[58px_1fr] sm:py-10">
+                <Compass className="mt-1 h-5 w-5 text-accent" aria-hidden />
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                    What Defines It
+                  </p>
+                  <p className="mt-3 max-w-3xl text-pretty text-lg leading-relaxed text-foreground">
+                    {dossier.essence}
+                  </p>
+                </div>
+              </Reveal>
+
+              <Reveal
+                delay={80}
+                className="grid gap-5 border-b border-border py-8 sm:grid-cols-[58px_1fr] sm:py-10"
+              >
+                <MapPinned className="mt-1 h-5 w-5 text-primary" aria-hidden />
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                    How To Experience It
+                  </p>
+                  <p className="mt-3 max-w-3xl text-pretty text-lg leading-relaxed text-foreground">
+                    {dossier.howToExperience}
+                  </p>
+                </div>
+              </Reveal>
+
+              <Reveal delay={120} className="border-b border-border py-8 sm:py-10">
+                <p className="mb-6 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                  Planning Notes
+                </p>
+                <ul className="grid gap-x-10 gap-y-4 md:grid-cols-3">
+                  {dossier.planningNotes.map((note) => (
+                    <li key={note} className="flex items-start gap-3">
+                      <Check
+                        className="mt-0.5 h-4 w-4 shrink-0 text-accent"
+                        aria-hidden
+                      />
+                      <span className="text-pretty text-sm leading-relaxed text-muted-foreground">
+                        {note}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </Reveal>
+
+              <Reveal delay={160} className="py-8 sm:py-10">
+                <p className="mb-4 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                  Pairs Well With
+                </p>
+                <div className="flex flex-wrap gap-x-5 gap-y-3">
+                  {dossier.pairsWellWith.map((item) => (
+                    <span
+                      key={item}
+                      className="inline-flex items-center gap-2 border-b border-border pb-2 text-sm font-medium text-foreground"
+                    >
+                      <Sparkles
+                        className="h-4 w-4 shrink-0 text-accent"
+                        aria-hidden
+                      />
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </Reveal>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Related tours */}
       <section className="border-y border-border bg-muted/40">

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowRight, Check, MapPin, X } from 'lucide-react'
+import { ArrowRight, Check, Clock, Compass, MapPin, X } from 'lucide-react'
 import { PageHero } from '@/components/page-hero'
 import { Reveal } from '@/components/reveal'
 import { TourCard } from '@/components/tour-card'
@@ -11,6 +11,7 @@ import { JsonLd } from '@/components/json-ld'
 import { cloudinaryImageUrl } from '@/lib/cloudinary'
 import { getTour, tours } from '@/lib/site'
 import { getTourData } from '@/lib/data'
+import { getTourPlaceInsights } from '@/lib/tour-place-insights'
 import {
   buildBreadcrumbList,
   buildTouristTrip,
@@ -51,6 +52,7 @@ export default async function TourPage({
   if (!t) notFound()
 
   const others = tours.filter((o) => o.slug !== t.slug).slice(0, 3)
+  const placeInsights = getTourPlaceInsights(t.places)
 
   return (
     <>
@@ -158,6 +160,110 @@ export default async function TourPage({
           </div>
         </Reveal>
       </section>
+
+      {placeInsights.length > 0 && (
+        <section className="border-y border-border bg-background">
+          <div className="shell grid gap-12 py-16 sm:py-20 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20 lg:py-28">
+            <Reveal className="lg:sticky lg:top-28 lg:self-start">
+              <div className="max-w-xl">
+                <p className="eyebrow mb-5 text-accent">
+                  <span className="rule" />
+                  Route Intelligence
+                </p>
+                <h2 className="text-balance text-3xl leading-[1.08] text-foreground sm:text-4xl">
+                  The places, read with context
+                </h2>
+                <p className="mt-6 text-pretty leading-relaxed text-muted-foreground sm:text-lg">
+                  A concise field briefing for each stop: why it matters, what
+                  you experience there, and the details that shape a polished
+                  private journey.
+                </p>
+              </div>
+
+              <dl className="mt-10 grid grid-cols-2 gap-px overflow-hidden border border-border bg-border">
+                <div className="bg-card px-5 py-4">
+                  <dt className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                    Stops
+                  </dt>
+                  <dd className="mt-1 font-serif text-2xl text-foreground">
+                    {placeInsights.length}
+                  </dd>
+                </div>
+                <div className="bg-card px-5 py-4">
+                  <dt className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                    Style
+                  </dt>
+                  <dd className="mt-1 font-serif text-2xl text-foreground">
+                    Private
+                  </dd>
+                </div>
+              </dl>
+            </Reveal>
+
+            <div className="border-t border-border">
+              {placeInsights.map((place, i) => (
+                <Reveal
+                  key={place.name}
+                  delay={(i % 3) * 80}
+                  className="grid gap-5 border-b border-border py-8 last:border-b-0 sm:grid-cols-[88px_1fr] sm:py-10"
+                >
+                  <div className="font-serif text-3xl leading-none text-accent/80 sm:text-4xl">
+                    {String(i + 1).padStart(2, '0')}
+                  </div>
+
+                  <article>
+                    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-accent">
+                      <span className="inline-flex items-center gap-1.5">
+                        <MapPin className="h-3 w-3" aria-hidden />
+                        {place.region}
+                      </span>
+                      <span className="h-px w-5 bg-border" aria-hidden />
+                      <span className="text-muted-foreground">
+                        {place.status}
+                      </span>
+                    </div>
+
+                    <h3 className="mt-3 font-serif text-2xl leading-tight text-foreground sm:text-3xl">
+                      {place.name}
+                    </h3>
+                    <p className="mt-4 max-w-3xl text-pretty leading-relaxed text-muted-foreground sm:text-lg">
+                      {place.context}
+                    </p>
+
+                    <div className="mt-6 grid gap-5 md:grid-cols-2">
+                      <div className="flex items-start gap-3">
+                        <Compass
+                          className="mt-1 h-4 w-4 shrink-0 text-primary"
+                          aria-hidden
+                        />
+                        <p className="text-pretty text-sm leading-relaxed text-foreground">
+                          {place.experience}
+                        </p>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <Clock
+                          className="mt-1 h-4 w-4 shrink-0 text-accent"
+                          aria-hidden
+                        />
+                        <p className="text-pretty text-sm leading-relaxed text-muted-foreground">
+                          <span className="font-medium text-foreground">
+                            Best moment:
+                          </span>{' '}
+                          {place.bestMoment}
+                        </p>
+                      </div>
+                    </div>
+
+                    <p className="mt-5 max-w-3xl border-l border-accent/60 pl-4 text-pretty text-sm leading-relaxed text-muted-foreground">
+                      {place.logistics}
+                    </p>
+                  </article>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Itinerary */}
       <section className="border-y border-border bg-muted/40">

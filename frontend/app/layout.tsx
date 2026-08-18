@@ -1,6 +1,5 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
-import { Cormorant_Garamond, Inter } from 'next/font/google'
 import { SiteNav } from '@/components/site-nav'
 import { SiteFooter } from '@/components/site-footer'
 import { FloatingSupport } from '@/components/floating-support'
@@ -8,19 +7,6 @@ import { JsonLd } from '@/components/json-ld'
 import { siteUrl } from '@/lib/seo'
 import { globalStructuredData } from '@/lib/structured-data'
 import './globals.css'
-
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap',
-})
-
-const cormorant = Cormorant_Garamond({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-cormorant',
-  display: 'swap',
-})
 
 export const metadata: Metadata = {
   metadataBase: siteUrl,
@@ -62,10 +48,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${inter.variable} ${cormorant.variable} bg-background`}
-    >
+    <html lang="en" className="bg-background">
       <body className="antialiased">
         <JsonLd data={globalStructuredData} />
         <a

@@ -51,13 +51,47 @@ function Wordmark({
 export function SiteNav() {
   const pathname = usePathname()
   const [scrolled, setScrolled] = useState(false)
+  const [hidden, setHidden] = useState(false)
   const [open, setOpen] = useState(false)
   const [langOpen, setLangOpen] = useState(false)
   const [lang, setLang] = useState(languages[0])
   const langRef = useRef<HTMLDivElement>(null)
+  const lastScrollY = useRef(0)
+  const ticking = useRef(false)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 32)
+    const heroThreshold = window.innerHeight * 0.85 // ~85vh — past the hero
+
+    const onScroll = () => {
+      if (ticking.current) return
+      ticking.current = true
+
+      requestAnimationFrame(() => {
+        const currentY = window.scrollY
+
+        setScrolled(currentY > 32)
+
+        // Only auto-hide after scrolling past the hero section
+        if (currentY > heroThreshold) {
+          const delta = currentY - lastScrollY.current
+          // Scrolling down the page → hide navbar
+          if (delta > 8) {
+            setHidden(true)
+          }
+          // Scrolling back up → reveal navbar
+          if (delta < -5) {
+            setHidden(false)
+          }
+        } else {
+          // Always show navbar when in the hero area
+          setHidden(false)
+        }
+
+        lastScrollY.current = currentY
+        ticking.current = false
+      })
+    }
+
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
@@ -109,6 +143,9 @@ export function SiteNav() {
           scrolled
             ? 'border-b border-background/10 bg-bg-dark/95 backdrop-blur-xl'
             : 'bg-gradient-to-b from-charcoal/55 to-transparent',
+          hidden && !open
+            ? '-translate-y-full shadow-none'
+            : 'translate-y-0',
         )}
       >
         {/* Utility rail */}

@@ -8,25 +8,25 @@ const experiences = [
     title: 'Private Coffee Journeys',
     text: 'Trace the bean from wild forest to ceremony, roasted over coals by families who have welcomed guests for generations.',
     image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786967896/ethiopia-coffee-origins.jpg',
-    href: '/tours/ethiopia-coffee-origins',
+    href: '/experiences/private-coffee-journeys',
   },
   {
     title: 'Photography Expeditions',
     text: 'Chase golden light across highland escarpments and salt flats, guided by those who know exactly where the moment will appear.',
     image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786966781/danakil-expedition.jpg',
-    href: '/tours/danakil-expedition',
+    href: '/experiences/photography-expeditions',
   },
   {
     title: 'Luxury Cultural Immersions',
     text: 'Weave a morning with master artisans, share a meal, and witness craft traditions carried across centuries.',
     image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801395/omo-valley.jpg',
-    href: '/tours/omo-valley-immersion',
+    href: '/experiences/luxury-cultural-immersions',
   },
   {
     title: 'Signature Hospitality',
     text: 'Retreat each evening to eco-lodges perched on the edge of the world, where quiet and comfort meet the wild.',
     image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786967902/grand-ethiopia-highlights.jpg',
-    href: '/tours',
+    href: '/experiences/signature-hospitality',
   },
 ]
 
@@ -48,7 +48,7 @@ export function Experiences() {
           <Reveal key={e.title} delay={(i % 2) * 120}>
             <Link
               href={e.href}
-              className="group relative flex h-[300px] items-end overflow-hidden rounded-xl lg:h-[360px]"
+              className="group relative flex h-[300px] items-end overflow-hidden lg:h-[360px]"
             >
               <Image
                 src={e.image}

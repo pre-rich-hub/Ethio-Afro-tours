@@ -30,6 +30,7 @@ const columns = [
   {
     title: 'Explore',
     links: [
+      { label: 'About Us', href: '/about' },
       { label: 'Layover in Addis', href: '/layover' },
       { label: 'Travel Journal', href: '/blog' },
       { label: 'Responsible Tourism', href: '/blog/responsible-travel-in-the-omo' },
