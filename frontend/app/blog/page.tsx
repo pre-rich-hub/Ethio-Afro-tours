@@ -12,6 +12,7 @@ export const metadata: Metadata = {
   title: 'The Journal',
   description:
     'Planning guidance, destination essays and dispatches from the designers and guides who run our Ethiopian journeys.',
+  alternates: { canonical: '/blog' },
 }
 
 export default function BlogPage() {

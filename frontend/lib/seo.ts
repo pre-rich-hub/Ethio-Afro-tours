@@ -20,3 +20,11 @@ function resolveSiteUrl(): URL {
 }
 
 export const siteUrl = resolveSiteUrl()
+
+export function absoluteUrl(path = '/'): string {
+  if (!path.startsWith('/')) {
+    throw new Error('SEO paths must start with a forward slash.')
+  }
+
+  return new URL(path, siteUrl).toString()
+}

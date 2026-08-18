@@ -12,6 +12,7 @@ export const metadata: Metadata = {
   title: 'Addis Ababa Layover Tours',
   description:
     'Private Addis Ababa layover tours and multi-day stopover extensions from Bole International Airport, planned around your confirmed flights.',
+  alternates: { canonical: '/layover' },
 }
 
 const assurances = [

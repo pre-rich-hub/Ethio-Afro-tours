@@ -14,6 +14,7 @@ export const metadata: Metadata = {
   title: 'Tours & Journeys',
   description:
     'Private, tailor-made Ethiopian itineraries — historic route, highland wildlife, Danakil expedition, Omo immersion and festival journeys. Every route drawn from scratch.',
+  alternates: { canonical: '/tours' },
 }
 
 export default async function ToursPage() {

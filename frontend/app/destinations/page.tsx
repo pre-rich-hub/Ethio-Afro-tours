@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   title: 'Destinations',
   description:
     'Explore twenty of Ethiopia’s defining destinations, from rock-hewn churches and ancient cities to volcanic lowlands, highland parks and living cultural landscapes.',
+  alternates: { canonical: '/destinations' },
 }
 
 const regions = Array.from(new Set(destinations.map((d) => d.region)))
