@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import {
   BadgeCheck,
   Binoculars,
@@ -16,6 +15,7 @@ import {
   Sparkles,
   Users,
 } from 'lucide-react'
+import { OptimizedImage as Image } from '@/components/optimized-image'
 import { PageHero } from '@/components/page-hero'
 import { Reveal } from '@/components/reveal'
 import { SectionHeading } from '@/components/section-heading'
@@ -86,6 +86,13 @@ const destinations = [
   'Gondar',
 ]
 
+const aboutImages = {
+  hero: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801491/lalibela.jpg',
+  teamBase: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801407/addis-ababa.jpg',
+  coffee: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786967896/ethiopia-coffee-origins.jpg',
+  highlands: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786967902/grand-ethiopia-highlights.jpg',
+} as const
+
 export function AboutContent() {
   const { t } = useLanguage()
 
@@ -95,7 +102,7 @@ export function AboutContent() {
         eyebrow={t('about.hero.eyebrow', 'About Ethio Afro Tours')}
         title={t('about.hero.title', 'Private journeys through Ethiopia, shaped with local expertise')}
         lede={t('about.hero.lede', 'A fully licensed Addis Ababa-based tour operator creating private, personalized and deeply authentic journeys throughout Ethiopia.')}
-        image="/images/hero-lalibela.png"
+        image={aboutImages.hero}
         imageAlt={t('about.hero.imageAlt', 'The rock-hewn churches of Lalibela in warm evening light')}
         crumbs={[
           { label: t('nav.home', 'Home'), href: '/' },
@@ -141,8 +148,8 @@ export function AboutContent() {
           <div className="relative overflow-hidden border border-border bg-card">
             <div className="relative aspect-[4/5] min-h-[460px]">
               <Image
-                src="/images/traveler-portrait.png"
-                alt={t('about.who.imageAlt', 'A traveler overlooking the Ethiopian highlands')}
+                src={aboutImages.teamBase}
+                alt={t('about.who.imageAlt', 'Addis Ababa, home of the Ethio Afro Tours team')}
                 fill
                 sizes="(max-width: 1024px) 100vw, 44vw"
                 className="object-cover"
@@ -191,7 +198,7 @@ export function AboutContent() {
       <section className="relative isolate overflow-hidden bg-bg-dark text-background">
         <div className="absolute inset-0 -z-10 opacity-30">
           <Image
-            src="/images/coffee-ceremony.png"
+            src={aboutImages.coffee}
             alt=""
             aria-hidden
             fill
@@ -299,8 +306,8 @@ export function AboutContent() {
       <section className="shell grid gap-10 py-16 sm:py-20 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16 lg:py-28">
         <Reveal className="relative min-h-[420px] overflow-hidden">
           <Image
-            src="/images/luxury-lodge.png"
-            alt={t('about.cta.imageAlt', 'A luxury lodge prepared for travelers in Ethiopia')}
+            src={aboutImages.highlands}
+            alt={t('about.cta.imageAlt', 'The green highlands of Ethiopia')}
             fill
             sizes="(max-width: 1024px) 100vw, 44vw"
             className="object-cover"
