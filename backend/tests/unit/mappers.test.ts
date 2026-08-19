@@ -130,7 +130,8 @@ describe("mapLayoverPackage", () => {
     itinerary: '["Meet at arrivals", "Entoto ridge", "Coffee ceremony", "Late lunch", "Back to the terminal"]',
     includes: '["Private vehicle", "All entrance fees", "Lunch", "Meet-and-greet"]',
     excludes: '["Visa", "Insurance"]',
-    bestFor: "Connections of 8 hours or more"
+    bestFor: "Connections of 8 hours or more",
+    sortOrder: 1
   } as any;
 
   it("maps all fields with arrays parsed from JSON strings", () => {
@@ -148,7 +149,8 @@ describe("mapLayoverPackage", () => {
       itinerary: ["Meet at arrivals", "Entoto ridge", "Coffee ceremony", "Late lunch", "Back to the terminal"],
       includes: ["Private vehicle", "All entrance fees", "Lunch", "Meet-and-greet"],
       excludes: ["Visa", "Insurance"],
-      best: "Connections of 8 hours or more"
+      best: "Connections of 8 hours or more",
+      sortOrder: 1
     });
   });
 

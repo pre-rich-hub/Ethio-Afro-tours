@@ -108,7 +108,8 @@ describe("public layover packages (mocked prisma)", () => {
       itinerary: ["Meet at arrivals", "Entoto ridge"],
       includes: ["Private vehicle", "Lunch"],
       excludes: ["Visa"],
-      best: "Connections of 8 hours or more"
+      best: "Connections of 8 hours or more",
+      sortOrder: 1
     });
   });
 });
@@ -249,7 +250,7 @@ describe("admin layover packages (mocked prisma)", () => {
     expect(res.body.data.slug).toBe("6-hour"); // slug preserved, not regenerated
   });
 
-  it("keeps the current image when no file and no removeImage flag", async () => {
+  it("keeps current values when fields, file and removeImage flag are omitted", async () => {
     const login = await agent.post("/api/v1/auth/login").send({ email: "admin@example.com", password: "correct-horse" });
     expect(login.status).toBe(200);
 
@@ -265,17 +266,17 @@ describe("admin layover packages (mocked prisma)", () => {
     expect(db.prisma.layoverPackage.update).toHaveBeenCalledWith({
       where: { id: 5 },
       data: {
-        hours: "",
-        minimumConnection: "",
+        hours: "6 Hours",
+        minimumConnection: "8–10 hours",
         packageType: "layover",
         title: "Renamed",
-        price: "",
-        teaser: "",
-        itinerary: "[]",
-        includes: "[]",
-        excludes: "[]",
-        bestFor: "",
-        sortOrder: 0,
+        price: "$95 per person",
+        teaser: "A tight, elegant loop of the capital.",
+        itinerary: '["Meet at arrivals", "Entoto ridge"]',
+        includes: '["Private vehicle", "Lunch"]',
+        excludes: '["Visa"]',
+        bestFor: "Connections of 8 hours or more",
+        sortOrder: 1,
         imageUrl: "/assets/images/layover/LAY-7.png"
       }
     });

@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next'
 import { absoluteUrl } from '@/lib/seo'
 import { destinations, posts, tours } from '@/lib/site'
 
-const staticPaths = ['/', '/destinations', '/tours', '/layover', '/blog', '/contact']
+const staticPaths = ['/', '/destinations', '/tours', '/layover', '/blog', '/contact', '/privacy', '/terms']
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages: MetadataRoute.Sitemap = staticPaths.map((path) => ({

@@ -2,7 +2,7 @@ import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { SiteNav } from '@/components/site-nav'
 import { SiteFooter } from '@/components/site-footer'
-import { FloatingSupport } from '@/components/floating-support'
+import { FloatingSupportLazy } from '@/components/floating-support-lazy'
 import { LanguageProvider } from '@/components/language-provider'
 import { JsonLd } from '@/components/json-ld'
 import { siteUrl } from '@/lib/seo'
@@ -34,6 +34,14 @@ export const metadata: Metadata = {
       'Private, tailor-made luxury journeys through Ethiopia, designed around you.',
     type: 'website',
   },
+  icons: {
+    icon: [
+      { url: '/icon.svg', type: 'image/svg+xml' },
+      { url: '/icon-light-32x32.png', sizes: '32x32', type: 'image/png', media: '(prefers-color-scheme: light)' },
+      { url: '/icon-dark-32x32.png', sizes: '32x32', type: 'image/png', media: '(prefers-color-scheme: dark)' },
+    ],
+    apple: [{ url: '/apple-icon.png', sizes: '180x180', type: 'image/png' }],
+  },
 }
 
 export const viewport: Viewport = {
@@ -62,7 +70,7 @@ export default function RootLayout({
           <SiteNav />
           <main id="main">{children}</main>
           <SiteFooter />
-          <FloatingSupport />
+          <FloatingSupportLazy />
         </LanguageProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>

@@ -28,6 +28,7 @@ type LayoverPackageItem = {
   includes: string[]
   excludes: string[]
   best: string
+  sortOrder: number
 }
 
 export function AdminLayoverPackages() {
@@ -120,11 +121,11 @@ export function AdminLayoverPackages() {
     try {
       await adminRequest<LayoverPackageItem>(`/api/v1/admin/layover-packages/${a.id}`, {
         method: 'PUT',
-        body: rowPayload(a, toIndex),
+        body: rowPayload(a, b.sortOrder),
       })
       await adminRequest<LayoverPackageItem>(`/api/v1/admin/layover-packages/${b.id}`, {
         method: 'PUT',
-        body: rowPayload(b, fromIndex),
+        body: rowPayload(b, a.sortOrder),
       })
       await load()
     } catch (error) {
@@ -203,7 +204,7 @@ export function AdminLayoverPackages() {
             </label>
             <label>
               <span className={adminLabelClass}>Sort order</span>
-              <input name="sortOrder" type="number" min={0} defaultValue={editing ? items.findIndex((entry) => entry.id === editing.id) : items.length} className={adminInputClass} required />
+              <input name="sortOrder" type="number" min={0} defaultValue={editing ? editing.sortOrder : items.reduce((max, item) => Math.max(max, item.sortOrder), -1) + 1} className={adminInputClass} required />
             </label>
             <label>
               <span className={adminLabelClass}>Image {editing ? '(leave empty to keep current)' : '(optional)'}</span>

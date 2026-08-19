@@ -7,16 +7,16 @@ import { PostsGrid } from '@/components/posts-grid'
 import { SectionHeading } from '@/components/section-heading'
 import { CtaBand } from '@/components/cta-band'
 import { useLanguage } from '@/components/language-provider'
-import { posts } from '@/lib/site'
+import type { Post } from '@/lib/site'
 
 const heroImage =
   'https://res.cloudinary.com/q16lm8mo/image/upload/v1786967896/ethiopia-coffee-origins.jpg'
 const heroImageAlt = 'Coffee cherries growing in Ethiopia'
 
-export function BlogContent() {
+export function BlogContent({ posts }: { posts: Post[] }) {
   const { t } = useLanguage()
   const featured = posts.find((p) => p.featured) ?? posts[0]
-  const rest = posts.filter((p) => p.slug !== featured.slug)
+  const rest = featured ? posts.filter((p) => p.slug !== featured.slug) : []
 
   return (
     <>
@@ -39,9 +39,13 @@ export function BlogContent() {
             {t('blog.latest', 'Latest Dispatch')}
           </p>
         </Reveal>
-        <Reveal delay={80}>
-          <PostCard post={featured} wide />
-        </Reveal>
+        {featured ? (
+          <Reveal delay={80}>
+            <PostCard post={featured} wide />
+          </Reveal>
+        ) : (
+          <p className="text-muted-foreground">{t('blog.empty', 'Nothing filed under this yet.')}</p>
+        )}
       </section>
 
       <section className="border-t border-border">
@@ -51,7 +55,7 @@ export function BlogContent() {
             title={t('blog.archive.title', 'Everything we have written down')}
             aside={t('blog.archive.aside', 'Six essays and counting, filed by what they are actually useful for.')}
           />
-          <PostsGrid posts={rest} />
+          <PostsGrid posts={featured ? rest : []} />
         </div>
       </section>
 

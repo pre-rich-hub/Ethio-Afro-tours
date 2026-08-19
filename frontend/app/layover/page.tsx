@@ -51,4 +51,4 @@ export default async function LayoverPage() {
 
 // ISR: admin edits surface within an hour (deliberate deviation from the
 // statically frozen tours pages — the catalog is now API-backed).
-export const revalidate = 3600
+export const dynamic = 'force-dynamic'

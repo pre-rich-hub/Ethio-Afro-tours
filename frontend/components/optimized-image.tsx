@@ -1,5 +1,3 @@
-'use client'
-
 import Image from 'next/image'
 import type { ComponentProps } from 'react'
 import { cloudinaryLoader, isCloudinaryImage } from '@/lib/cloudinary'

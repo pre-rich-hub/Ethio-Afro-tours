@@ -78,6 +78,7 @@ export type ToursPage = {
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(path, {
     ...init,
+    cache: 'no-store',
     signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
     headers: { 'Content-Type': 'application/json', ...(init?.headers ?? {}) },
   })
@@ -153,6 +154,53 @@ export type ApiLayoverPackage = {
 
 export async function getLayoverPackages(): Promise<ApiLayoverPackage[]> {
   return request<ApiLayoverPackage[]>('/api/v1/layover-packages')
+}
+
+export type ApiDestination = {
+  id: number
+  name: string
+  description: string | null
+  imageUrl: string | null
+  tourCount?: number
+  tours?: ApiTour[]
+  canonical: { type: string; id: number; suggestedPath: string; slug: string | null }
+}
+
+export async function getDestinations(): Promise<ApiDestination[]> {
+  return request<ApiDestination[]>('/api/v1/destinations')
+}
+
+export async function getDestinationBySlug(slug: string): Promise<ApiDestination> {
+  return request<ApiDestination>(`/api/v1/destinations/slug/${encodeURIComponent(slug)}`)
+}
+
+export type ApiBlogPost = {
+  id: number
+  slug: string | null
+  title: string
+  description: string | null
+  imageUrl: string | null
+  category: { id: number; name: string; slug: string } | null
+  createdAt: string | null
+  canonical: { type: string; id: number; suggestedPath: string; slug: string | null }
+}
+
+export type BlogPage = {
+  items: ApiBlogPost[]
+  meta: {
+    page: number
+    limit: number
+    total: number
+    totalPages: number
+  }
+}
+
+export async function getBlogPosts(params: { page?: number; limit?: number } = {}): Promise<BlogPage> {
+  return request<BlogPage>(`/api/v1/blog${queryString(params)}`)
+}
+
+export async function getBlogPostBySlug(slug: string): Promise<ApiBlogPost> {
+  return request<ApiBlogPost>(`/api/v1/blog/slug/${encodeURIComponent(slug)}`)
 }
 
 export type AssistantEvent =

@@ -831,13 +831,15 @@ adminRouter.put(
     const existing = await prisma.layoverPackage.findUnique({ where: { id } });
     if (!existing) throw new HttpError(404, "Layover package not found");
 
-    // Validate the minimums on fields the form sends (title, hours, price are
-    // required in the UI); fields absent from the body keep their old behavior.
-    const title = req.body.title === undefined ? "" : layoverTitleSchema.parse(req.body.title);
-    const hours = req.body.hours === undefined ? "" : layoverHoursSchema.parse(req.body.hours);
-    const minimumConnection = req.body.minimumConnection === undefined ? "" : layoverMinimumConnectionSchema.parse(req.body.minimumConnection);
-    const packageType = req.body.packageType === undefined ? "layover" : layoverPackageTypeSchema.parse(req.body.packageType);
-    const price = req.body.price === undefined ? "" : layoverPriceSchema.parse(req.body.price);
+    const title = req.body.title === undefined ? existing.title : layoverTitleSchema.parse(req.body.title);
+    const hours = req.body.hours === undefined ? existing.hours : layoverHoursSchema.parse(req.body.hours);
+    const minimumConnection = req.body.minimumConnection === undefined
+      ? existing.minimumConnection
+      : layoverMinimumConnectionSchema.parse(req.body.minimumConnection);
+    const packageType = req.body.packageType === undefined
+      ? existing.packageType
+      : layoverPackageTypeSchema.parse(req.body.packageType);
+    const price = req.body.price === undefined ? existing.price : layoverPriceSchema.parse(req.body.price);
 
     const newImageUrl = req.file ? urlForFile(req.file) : undefined;
     const removeImage = req.body.removeImage === "true";
@@ -857,12 +859,12 @@ adminRouter.put(
         packageType,
         title,
         price,
-        teaser: String(req.body.teaser ?? ""),
-        itinerary: JSON.stringify(parseLineList(req.body.itinerary)),
-        includes: JSON.stringify(parseLineList(req.body.includes)),
-        excludes: JSON.stringify(parseLineList(req.body.excludes)),
-        bestFor: String(req.body.bestFor ?? ""),
-        sortOrder: toNumber(req.body.sortOrder) ?? 0,
+        teaser: req.body.teaser === undefined ? existing.teaser : String(req.body.teaser ?? ""),
+        itinerary: req.body.itinerary === undefined ? existing.itinerary : JSON.stringify(parseLineList(req.body.itinerary)),
+        includes: req.body.includes === undefined ? existing.includes : JSON.stringify(parseLineList(req.body.includes)),
+        excludes: req.body.excludes === undefined ? existing.excludes : JSON.stringify(parseLineList(req.body.excludes)),
+        bestFor: req.body.bestFor === undefined ? existing.bestFor : String(req.body.bestFor ?? ""),
+        sortOrder: req.body.sortOrder === undefined ? existing.sortOrder : toNumber(req.body.sortOrder) ?? existing.sortOrder,
         imageUrl
       }
     });
@@ -889,65 +891,28 @@ adminRouter.delete(
 adminRouter.get(
   "/dashboard/stats",
   asyncHandler(async (_req, res) => {
-    const thirtyDaysAgo = new Date();
-    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-
     const [
       totalTours,
+      totalLayoverPackages,
       totalDestinations,
-      totalBookings,
-      totalGalleryImages,
-      totalContacts,
-      recentBookings,
-      bookingTrends,
-      topTours
+      totalBlogPosts,
+      totalContacts
     ] = await Promise.all([
       prisma.tour.count(),
+      prisma.layoverPackage.count(),
       prisma.destination.count(),
-      prisma.booking.count(),
-      prisma.gallery.count(),
-      prisma.contact.count(),
-      prisma.booking.findMany({
-        include: { tour: true },
-        orderBy: { createdAt: "desc" },
-        take: 5
-      }),
-      prisma.$queryRaw<Array<{ date: Date; count: bigint }>>`
-        SELECT DATE(created_at) as date, COUNT(*)::int as count
-        FROM bookings
-        WHERE created_at >= ${thirtyDaysAgo}
-        GROUP BY DATE(created_at)
-        ORDER BY DATE(created_at) ASC
-      `,
-      prisma.tour.findMany({
-        select: {
-          id: true,
-          tourName: true,
-          _count: { select: { bookings: true } }
-        },
-        orderBy: { bookings: { _count: "desc" } },
-        take: 10
-      })
+      prisma.blog.count(),
+      prisma.contact.count()
     ]);
 
     return ok(res, "Dashboard stats fetched successfully", {
       totals: {
         tours: totalTours,
+        layoverPackages: totalLayoverPackages,
         destinations: totalDestinations,
-        bookings: totalBookings,
-        galleryImages: totalGalleryImages,
+        blogPosts: totalBlogPosts,
         contacts: totalContacts
-      },
-      recentBookings: recentBookings.map(mapBooking),
-      bookingTrends: bookingTrends.map((row) => ({
-        date: row.date.toISOString().slice(0, 10),
-        count: Number(row.count)
-      })),
-      topTours: topTours.map((t) => ({
-        id: t.id,
-        name: t.tourName,
-        bookingCount: t._count.bookings
-      }))
+      }
     });
   })
 );

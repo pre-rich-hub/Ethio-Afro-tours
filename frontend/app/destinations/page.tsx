@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { JsonLd } from '@/components/json-ld'
 import { destinations } from '@/lib/site'
+import { getDestinationsData } from '@/lib/data'
 import { buildBreadcrumbList, pageStructuredData } from '@/lib/structured-data'
 import { buildSocialMetadata } from '@/lib/seo'
 import { DestinationsContent } from './destinations-content'
@@ -24,7 +25,11 @@ export const metadata: Metadata = {
   }),
 }
 
-export default function DestinationsPage() {
+export const dynamic = 'force-dynamic'
+
+export default async function DestinationsPage() {
+  const liveDestinations = await getDestinationsData()
+
   return (
     <>
       <JsonLd
@@ -35,7 +40,7 @@ export default function DestinationsPage() {
           ]),
         )}
       />
-      <DestinationsContent />
+      <DestinationsContent destinations={liveDestinations} />
     </>
   )
 }

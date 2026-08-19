@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { JsonLd } from '@/components/json-ld'
 import { buildBreadcrumbList, pageStructuredData } from '@/lib/structured-data'
 import { buildSocialMetadata } from '@/lib/seo'
+import { getPostsData } from '@/lib/data'
 import { BlogContent } from './blog-content'
 
 const pageTitle = 'The Journal'
@@ -24,7 +25,11 @@ export const metadata: Metadata = {
   }),
 }
 
-export default function BlogPage() {
+export const dynamic = 'force-dynamic'
+
+export default async function BlogPage() {
+  const posts = await getPostsData()
+
   return (
     <>
       <JsonLd
@@ -35,7 +40,7 @@ export default function BlogPage() {
           ]),
         )}
       />
-      <BlogContent />
+      <BlogContent posts={posts} />
     </>
   )
 }

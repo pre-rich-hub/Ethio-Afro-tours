@@ -32,22 +32,22 @@ export function Hero() {
         </h1>
 
         <p className="mt-5 max-w-[56ch] text-pretty leading-relaxed text-background/85 [animation:fade-up_1s_ease_0.25s_both] sm:mt-7 sm:text-lg">
-          {t('hero.copy', 'Journey through ancient civilizations, dramatic landscapes, and living traditions with privately crafted experiences designed around you.')}
+          {t('hero.copy', 'Explore Ethiopia’s ancient kingdoms, landscapes, and living traditions on a private journey shaped around you.')}
         </p>
 
         <div className="mt-8 flex flex-col items-stretch gap-3 [animation:fade-up_1s_ease_0.4s_both] sm:mt-10 sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-4">
           <Link
-            href="/contact"
+            href="/tours"
             className="group inline-flex items-center justify-center gap-2.5 rounded-sm bg-primary px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-primary-foreground transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary/90 sm:text-xs"
           >
-            {t('hero.primary', 'Craft My Trip')}
+            {t('hero.primary', 'Explore Tours')}
             <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
           <Link
-            href="/tours"
+            href="/contact"
             className="group inline-flex items-center justify-center gap-2.5 rounded-sm border border-background/40 px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-background transition-colors duration-305 hover:bg-background/10 sm:text-xs"
           >
-            {t('hero.secondary', 'Explore Ethiopia')}
+            {t('hero.secondary', 'Contact Us')}
           </Link>
         </div>
       </div>
