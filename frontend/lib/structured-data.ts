@@ -49,6 +49,7 @@ export const globalStructuredData = {
         closes: '17:30',
       },
       sameAs: [
+        'https://www.instagram.com/ethioafrotours/',
         'https://www.tripadvisor.com/Attraction_Review-g293791-d15214552-Reviews-Ethio_Afro_Tours-Addis_Ababa.html',
       ],
     },
@@ -88,6 +89,36 @@ export function buildBreadcrumbList(items: readonly BreadcrumbItem[]) {
       name: item.name,
       item: absoluteUrl(item.path),
     })),
+  }
+}
+
+type WebPageOptions = {
+  path: string
+  name: string
+  description: string
+  type?: 'WebPage' | 'AboutPage'
+  mainEntityId?: string
+}
+
+export function buildWebPage({
+  path,
+  name,
+  description,
+  type = 'WebPage',
+  mainEntityId,
+}: WebPageOptions) {
+  const url = absoluteUrl(path)
+
+  return {
+    '@type': type,
+    '@id': `${url}#webpage`,
+    url,
+    name,
+    description,
+    inLanguage: 'en',
+    isPartOf: { '@id': websiteId },
+    breadcrumb: { '@id': `${url}#breadcrumb` },
+    ...(mainEntityId ? { mainEntity: { '@id': mainEntityId } } : {}),
   }
 }
 

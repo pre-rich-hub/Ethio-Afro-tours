@@ -912,7 +912,7 @@ Object.assign(dictionaries.ES, {
   'about.destination.2': 'Valle del Omo',
   'about.destination.3': 'Depresión de Danakil',
   'about.who.imageAlt':
-    'Un viajero contemplando las tierras altas de Etiopía',
+    'Addis Abeba, sede del equipo de Ethio Afro Tours',
   'about.who.cardEyebrow': 'Oficialmente Autorizados',
   'about.who.cardTitle':
     'Con licencia en Etiopía y conectados con las principales organizaciones turísticas del país',
@@ -972,7 +972,7 @@ Object.assign(dictionaries.ES, {
   'about.why.item.6.title': 'Soporte local confiable',
   'about.why.item.6.text':
     'Nuestro equipo en Addis Abeba coordina cuidadosamente su tour desde la llegada hasta la salida, para que explore Etiopía con comodidad y confianza.',
-  'about.cta.imageAlt': 'Un lodge de lujo preparado para viajeros en Etiopía',
+  'about.cta.imageAlt': 'Las verdes tierras altas de Etiopía',
   'about.cta.eyebrow': 'Descubra Etiopía Con Nosotros',
   'about.cta.title':
     'Permita que nuestro equipo local cree un tour privado por Etiopía diseñado especialmente para usted.',
@@ -1011,7 +1011,7 @@ Object.assign(dictionaries.FR, {
   'about.destination.2': 'Vallée de l’Omo',
   'about.destination.3': 'Dépression du Danakil',
   'about.who.imageAlt':
-    'Un voyageur contemplant les hautes terres éthiopiennes',
+    'Addis-Abeba, siège de l’équipe Ethio Afro Tours',
   'about.who.cardEyebrow': 'Officiellement Autorisé',
   'about.who.cardTitle':
     'Agréé en Éthiopie et relié aux principales organisations touristiques du pays',
@@ -1072,7 +1072,7 @@ Object.assign(dictionaries.FR, {
   'about.why.item.6.title': 'Support local fiable',
   'about.why.item.6.text':
     'Notre équipe basée à Addis-Abeba coordonne soigneusement votre circuit de l’arrivée au départ, afin que vous exploriez l’Éthiopie avec confort et confiance.',
-  'about.cta.imageAlt': 'Un lodge de luxe préparé pour des voyageurs en Éthiopie',
+  'about.cta.imageAlt': 'Les hautes terres verdoyantes d’Éthiopie',
   'about.cta.eyebrow': 'Découvrez l’Éthiopie Avec Nous',
   'about.cta.title':
     'Laissez notre équipe locale créer un circuit privé en Éthiopie conçu spécialement pour vous.',
@@ -1111,7 +1111,7 @@ Object.assign(dictionaries.DE, {
   'about.destination.2': 'Omo-Tal',
   'about.destination.3': 'Danakil-Depression',
   'about.who.imageAlt':
-    'Ein Reisender mit Blick auf das äthiopische Hochland',
+    'Addis Abeba, Heimat des Teams von Ethio Afro Tours',
   'about.who.cardEyebrow': 'Offiziell Autorisiert',
   'about.who.cardTitle':
     'In Äthiopien lizenziert und mit den führenden Tourismusorganisationen des Landes verbunden',
@@ -1172,7 +1172,7 @@ Object.assign(dictionaries.DE, {
   'about.why.item.6.title': 'Zuverlässige lokale Unterstützung',
   'about.why.item.6.text':
     'Unser Team in Addis Abeba koordiniert Ihre Tour sorgfältig von der Ankunft bis zur Abreise, damit Sie Äthiopien komfortabel und sicher erkunden können.',
-  'about.cta.imageAlt': 'Eine Luxuslodge, vorbereitet für Reisende in Äthiopien',
+  'about.cta.imageAlt': 'Das grüne Hochland Äthiopiens',
   'about.cta.eyebrow': 'Entdecken Sie Äthiopien Mit Uns',
   'about.cta.title':
     'Lassen Sie unser lokales Team eine private Äthiopienreise speziell für Sie gestalten.',
@@ -1207,7 +1207,7 @@ Object.assign(dictionaries.ZH, {
   'about.destination.1': 'Simien 山脉',
   'about.destination.2': '奥莫河谷',
   'about.destination.3': '达纳基尔洼地',
-  'about.who.imageAlt': '俯瞰埃塞俄比亚高原的旅行者',
+  'about.who.imageAlt': 'Ethio Afro Tours 团队所在的亚的斯亚贝巴',
   'about.who.cardEyebrow': '官方授权',
   'about.who.cardTitle': '在埃塞俄比亚获得许可，并连接该国主要旅游组织',
   'about.credentials.eyebrow': '资质',
@@ -1260,7 +1260,7 @@ Object.assign(dictionaries.ZH, {
   'about.why.item.6.title': '可靠的本地支持',
   'about.why.item.6.text':
     '我们位于亚的斯亚贝巴的团队会从抵达到离境细致协调您的旅程，让您舒适、自信地探索埃塞俄比亚。',
-  'about.cta.imageAlt': '为埃塞俄比亚旅行者准备的豪华旅舍',
+  'about.cta.imageAlt': '埃塞俄比亚郁郁葱葱的高原',
   'about.cta.eyebrow': '与我们一起发现埃塞俄比亚',
   'about.cta.title': '让我们的本地团队为您专属设计一次埃塞俄比亚私人旅行。',
   'about.cta.text':

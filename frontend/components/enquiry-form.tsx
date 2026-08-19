@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { Check, ArrowRight } from 'lucide-react'
 import { journeyStyles } from '@/lib/site'
 import { submitContact } from '@/lib/api'
@@ -153,7 +154,8 @@ export function EnquiryForm({
           <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
         </button>
         <p className="text-xs leading-relaxed text-muted-foreground">
-          {t('form.note', 'We reply personally within 24 hours. Your details are never shared.')}
+          {t('form.privacyNotice', 'We reply personally within 24 hours. We use your details to respond and plan your journey as described in our')}{' '}
+          <Link href="/privacy" className="underline underline-offset-2 hover:text-foreground">Privacy Policy</Link>.
         </p>
       </form>
     </div>

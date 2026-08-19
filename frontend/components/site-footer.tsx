@@ -7,7 +7,7 @@ import { NewsletterForm } from '@/components/newsletter-form'
 import { useLanguage } from '@/components/language-provider'
 
 const socialLinks = [
-  { name: 'Instagram', href: 'https://www.instagram.com/ethioafrotours?igsi=NTc4MTIwNjQ2YQ%3D%3D&utm_source=qr', icon: '/images/instagram-icon.png' },
+  { name: 'Instagram', href: 'https://www.instagram.com/ethioafrotours/', icon: '/images/instagram-icon.png' },
   { name: 'YouTube', href: 'https://youtube.com', icon: '/images/youtube-icon.png' },
   { name: 'Facebook', href: 'https://facebook.com', icon: '/images/facebook-icon.png' },
   { name: 'TikTok', href: 'https://tiktok.com', icon: '/images/tiktok-icon.png' },
@@ -42,8 +42,9 @@ export function SiteFooter() {
         { label: t('footer.journal', 'Travel Journal'), href: '/blog' },
         {
           label: t('footer.responsible', 'Responsible Tourism'),
-          href: '/blog/responsible-travel-in-the-omo',
+          href: '/responsible-tourism',
         },
+        { label: t('footer.bookingPolicy', 'Booking & Cancellation'), href: '/booking-policy' },
         { label: t('footer.when', 'When to Visit'), href: '/blog/when-to-visit-ethiopia' },
         { label: t('footer.contact', 'Contact Us'), href: '/contact' },
       ],
@@ -251,6 +252,12 @@ export function SiteFooter() {
             </Link>
             <Link href="/terms" className="hover:text-background/80">
               {t('footer.terms', 'Terms & Conditions')}
+            </Link>
+            <Link href="/booking-policy" className="hover:text-background/80">
+              {t('footer.bookingPolicy', 'Booking & Cancellation')}
+            </Link>
+            <Link href="/responsible-tourism" className="hover:text-background/80">
+              {t('footer.responsible', 'Responsible Tourism')}
             </Link>
           </div>
         </div>

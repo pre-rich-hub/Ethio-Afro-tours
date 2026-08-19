@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { Check } from 'lucide-react'
 import { subscribe } from '@/lib/api'
 import { useLanguage } from '@/components/language-provider'
@@ -20,44 +21,46 @@ export function NewsletterForm() {
   }
 
   return (
-    <form
-      onSubmit={async (e) => {
-        e.preventDefault()
-        setError(null)
-        const email = String(new FormData(e.currentTarget).get('email') ?? '').trim()
-        try {
-          await subscribe(email)
-          setDone(true)
-        } catch (err) {
-          setError(
-            err instanceof Error ? err.message : 'Something went wrong — please try again.',
-          )
-        }
-      }}
-      className="flex w-full max-w-sm flex-col gap-2 sm:flex-row"
-    >
-      <label htmlFor="newsletter-email" className="sr-only">
-        {t('newsletter.email', 'Email address')}
-      </label>
-      <input
-        id="newsletter-email"
-        name="email"
-        type="email"
-        required
-        placeholder={t('newsletter.placeholder', 'Your email')}
-        className="w-full rounded-full border border-background/25 bg-transparent px-5 py-3.5 text-sm text-background placeholder:text-background/45 focus:border-accent focus:outline-none"
-      />
-      <button
-        type="submit"
-        className="whitespace-nowrap rounded-full bg-accent px-6 py-3.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-accent-foreground transition-colors duration-300 hover:bg-accent/90"
+    <div className="w-full max-w-sm">
+      <form
+        onSubmit={async (e) => {
+          e.preventDefault()
+          setError(null)
+          const email = String(new FormData(e.currentTarget).get('email') ?? '').trim()
+          try {
+            await subscribe(email)
+            setDone(true)
+          } catch (err) {
+            setError(
+              err instanceof Error ? err.message : 'Something went wrong — please try again.',
+            )
+          }
+        }}
+        className="flex flex-col gap-2 sm:flex-row"
       >
-        {t('newsletter.button', 'Subscribe')}
-      </button>
-      {error ? (
-        <p className="text-xs text-red-600" role="alert">
-          {error}
-        </p>
-      ) : null}
-    </form>
+        <label htmlFor="newsletter-email" className="sr-only">
+          {t('newsletter.email', 'Email address')}
+        </label>
+        <input
+          id="newsletter-email"
+          name="email"
+          type="email"
+          required
+          placeholder={t('newsletter.placeholder', 'Your email')}
+          className="w-full rounded-full border border-background/25 bg-transparent px-5 py-3.5 text-sm text-background placeholder:text-background/45 focus:border-accent focus:outline-none"
+        />
+        <button
+          type="submit"
+          className="whitespace-nowrap rounded-full bg-accent px-6 py-3.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-accent-foreground transition-colors duration-300 hover:bg-accent/90"
+        >
+          {t('newsletter.button', 'Subscribe')}
+        </button>
+      </form>
+      {error ? <p className="mt-2 text-xs text-red-500" role="alert">{error}</p> : null}
+      <p className="mt-2 text-[11px] leading-relaxed text-background/45">
+        {t('newsletter.privacy', 'By subscribing, you agree to receive our travel emails. Unsubscribe by contacting us. See our')}{' '}
+        <Link href="/privacy" className="underline underline-offset-2 hover:text-background/75">Privacy Policy</Link>.
+      </p>
+    </div>
   )
 }
