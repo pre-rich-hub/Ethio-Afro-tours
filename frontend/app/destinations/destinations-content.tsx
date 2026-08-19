@@ -6,15 +6,15 @@ import { DestinationCard } from '@/components/destination-card'
 import { SectionHeading } from '@/components/section-heading'
 import { CtaBand } from '@/components/cta-band'
 import { useLanguage } from '@/components/language-provider'
-import { destinations } from '@/lib/site'
+import type { Destination } from '@/lib/site'
 
-const regions = Array.from(new Set(destinations.map((d) => d.region)))
-const lalibelaImage = destinations.find((d) => d.slug === 'lalibela')?.image ?? '/placeholder.svg'
-const simienImage = destinations.find((d) => d.slug === 'simien-mountains')?.image ?? '/placeholder.svg'
 const heroImageAlt = 'Bet Giyorgis rock-hewn church in Lalibela, Ethiopia'
 
-export function DestinationsContent() {
+export function DestinationsContent({ destinations }: { destinations: Destination[] }) {
   const { t } = useLanguage()
+  const regions = Array.from(new Set(destinations.map((d) => d.region)))
+  const lalibelaImage = destinations.find((d) => d.slug === 'lalibela')?.image ?? destinations[0]?.image ?? '/placeholder.svg'
+  const simienImage = destinations.find((d) => d.slug === 'simien-mountains')?.image ?? destinations[1]?.image ?? lalibelaImage
 
   return (
     <>
@@ -29,7 +29,7 @@ export function DestinationsContent() {
           { label: t('nav.destinations', 'Destinations') },
         ]}
         meta={[
-          { label: t('destinationsPage.meta.destinations', 'Destinations'), value: '20' },
+          { label: t('destinationsPage.meta.destinations', 'Destinations'), value: String(destinations.length) },
           { label: t('destinationsPage.meta.unesco', 'UNESCO Sites'), value: '9' },
           { label: t('destinationsPage.meta.altitude', 'Altitude Range'), value: '-125 – 4,533 m' },
           { label: t('destinationsPage.meta.months', 'Best Months'), value: t('destinationsPage.meta.monthsValue', 'Oct – Mar') },

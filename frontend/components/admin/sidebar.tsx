@@ -8,13 +8,8 @@ import {
   Compass,
   MapPin,
   Plane,
-  Tags,
-  Image as ImageIcon,
   FileText,
-  Star,
-  CalendarCheck,
   MessageSquare,
-  Users,
   LogOut,
   ChevronRight,
 } from 'lucide-react'
@@ -24,13 +19,8 @@ const navItems = [
   { href: '/admin/tours', label: 'Tours', icon: Compass },
   { href: '/admin/layover-packages', label: 'Layover Packages', icon: Plane },
   { href: '/admin/destinations', label: 'Destinations', icon: MapPin },
-  { href: '/admin/categories', label: 'Tour Categories', icon: Tags },
-  { href: '/admin/gallery', label: 'Gallery', icon: ImageIcon },
   { href: '/admin/blog', label: 'Blog', icon: FileText },
-  { href: '/admin/testimonials', label: 'Testimonials', icon: Star },
-  { href: '/admin/bookings', label: 'Bookings', icon: CalendarCheck },
   { href: '/admin/contacts', label: 'Contacts', icon: MessageSquare },
-  { href: '/admin/subscribers', label: 'Subscribers', icon: Users },
 ]
 
 export function AdminSidebar() {

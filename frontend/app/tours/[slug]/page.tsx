@@ -3,8 +3,8 @@ import { notFound } from 'next/navigation'
 import { JsonLd } from '@/components/json-ld'
 import { TourDetailContent } from '@/app/tours/[slug]/tour-detail-content'
 import { cloudinaryImageUrl } from '@/lib/cloudinary'
-import { getTour, tours } from '@/lib/site'
-import { getTourData } from '@/lib/data'
+import { tours } from '@/lib/site'
+import { getTourData, getToursData } from '@/lib/data'
 import {
   buildBreadcrumbList,
   buildTouristTrip,
@@ -15,13 +15,15 @@ export function generateStaticParams() {
   return tours.map((t) => ({ slug: t.slug }))
 }
 
+export const dynamic = 'force-dynamic'
+
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string }>
 }): Promise<Metadata> {
   const { slug } = await params
-  const tour = getTour(slug)
+  const tour = await getTourData(slug)
   if (!tour) return { title: 'Journey not found' }
   return {
     title: tour.title,
@@ -44,7 +46,8 @@ export default async function TourPage({
   const tour = await getTourData(slug)
   if (!tour) notFound()
 
-  const others = tours.filter((other) => other.slug !== tour.slug).slice(0, 3)
+  const allTours = await getToursData()
+  const others = allTours.filter((other) => other.slug !== tour.slug).slice(0, 3)
 
   return (
     <>

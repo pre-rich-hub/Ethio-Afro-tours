@@ -49,6 +49,7 @@ export const globalStructuredData = {
         closes: '17:30',
       },
       sameAs: [
+        'https://www.instagram.com/ethioafrotours/',
         'https://www.tripadvisor.com/Attraction_Review-g293791-d15214552-Reviews-Ethio_Afro_Tours-Addis_Ababa.html',
       ],
     },

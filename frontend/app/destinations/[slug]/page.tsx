@@ -2,7 +2,8 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { JsonLd } from '@/components/json-ld'
 import { cloudinaryImageUrl } from '@/lib/cloudinary'
-import { destinations, getDestination, tours } from '@/lib/site'
+import { destinations } from '@/lib/site'
+import { getDestinationData, getDestinationsData, getToursData } from '@/lib/data'
 import { getDestinationDossier } from '@/lib/destination-dossiers'
 import { buildBreadcrumbList, pageStructuredData } from '@/lib/structured-data'
 import { DestinationDetailContent } from './destination-detail-content'
@@ -11,13 +12,15 @@ export function generateStaticParams() {
   return destinations.map((d) => ({ slug: d.slug }))
 }
 
+export const dynamic = 'force-dynamic'
+
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string }>
 }): Promise<Metadata> {
   const { slug } = await params
-  const d = getDestination(slug)
+  const d = await getDestinationData(slug)
   if (!d) return { title: 'Destination not found' }
   return {
     title: d.name,
@@ -37,12 +40,16 @@ export default async function DestinationPage({
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
-  const d = getDestination(slug)
+  const [d, allTours, allDestinations] = await Promise.all([
+    getDestinationData(slug),
+    getToursData(),
+    getDestinationsData(),
+  ])
   if (!d) notFound()
 
-  const related = tours.filter((t) => t.places.some((p) => p.includes(d.name.split(' ')[0]))).slice(0, 3)
-  const fallback = related.length ? related : tours.slice(0, 3)
-  const others = destinations.filter((o) => o.slug !== d.slug).slice(0, 4)
+  const related = allTours.filter((t) => t.places.some((p) => p.includes(d.name.split(' ')[0]))).slice(0, 3)
+  const fallback = related.length ? related : allTours.slice(0, 3)
+  const others = allDestinations.filter((o) => o.slug !== d.slug).slice(0, 4)
   const dossier = getDestinationDossier(d.slug)
 
   return (

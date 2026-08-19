@@ -10,7 +10,7 @@ const db = vi.hoisted(() => {
     tourCategory: { findMany: vi.fn(), findUnique: vi.fn(), create: vi.fn(), update: vi.fn(), delete: vi.fn() },
     tourCategoryJunction: { findMany: vi.fn(), deleteMany: vi.fn(), createMany: vi.fn() },
     tourBlockedDate: { findMany: vi.fn(), findFirst: vi.fn(), createMany: vi.fn(), delete: vi.fn(), deleteMany: vi.fn() },
-    blog: { findMany: vi.fn(), findUnique: vi.fn(), create: vi.fn(), update: vi.fn(), delete: vi.fn() },
+    blog: { findMany: vi.fn(), findUnique: vi.fn(), create: vi.fn(), update: vi.fn(), delete: vi.fn(), count: vi.fn() },
     blogCategory: { findMany: vi.fn(), create: vi.fn(), update: vi.fn(), delete: vi.fn() },
     gallery: { findMany: vi.fn(), findUnique: vi.fn(), create: vi.fn(), createMany: vi.fn(), delete: vi.fn(), deleteMany: vi.fn(), count: vi.fn() },
     booking: { findMany: vi.fn(), findUnique: vi.fn(), create: vi.fn(), update: vi.fn(), delete: vi.fn(), count: vi.fn(), updateMany: vi.fn() },
@@ -93,5 +93,30 @@ describe("admin tours (mocked prisma)", () => {
   it("requires authentication to access admin routes", async () => {
     const res = await request(app).get("/api/v1/admin/tours");
     expect(res.status).toBe(401);
+  });
+
+  it("returns dashboard totals for the kept admin sections", async () => {
+    db.prisma.tour.count.mockResolvedValue(12);
+    db.prisma.layoverPackage.count.mockResolvedValue(6);
+    db.prisma.destination.count.mockResolvedValue(20);
+    db.prisma.blog.count.mockResolvedValue(8);
+    db.prisma.contact.count.mockResolvedValue(4);
+
+    const login = await agent.post("/api/v1/auth/login").send({ email: "admin@example.com", password: "correct-horse" });
+    expect(login.status).toBe(200);
+
+    const res = await agent.get("/api/v1/admin/dashboard/stats");
+    expect(res.status).toBe(200);
+    expect(res.body.data).toEqual({
+      totals: {
+        tours: 12,
+        layoverPackages: 6,
+        destinations: 20,
+        blogPosts: 8,
+        contacts: 4
+      }
+    });
+    expect(db.prisma.booking.count).not.toHaveBeenCalled();
+    expect(db.prisma.gallery.count).not.toHaveBeenCalled();
   });
 });

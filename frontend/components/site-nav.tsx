@@ -399,7 +399,7 @@ export function SiteNav() {
               href="/contact"
               className="hidden rounded-full bg-primary px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-primary-foreground transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary/90 lg:inline-block"
             >
-              {t('nav.request', 'Request Your Journey')}
+              {t('nav.request', 'Book Now')}
             </Link>
 
             <button
@@ -519,7 +519,7 @@ export function SiteNav() {
             onClick={() => setOpen(false)}
             className="flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-primary-foreground"
           >
-            {t('nav.request', 'Request Your Journey')}
+            {t('nav.request', 'Book Now')}
             <ArrowRight className="h-4 w-4" />
           </Link>
         </div>

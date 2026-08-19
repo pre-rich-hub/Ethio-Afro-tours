@@ -3,7 +3,8 @@ import { notFound } from 'next/navigation'
 import { ArticleContent } from '@/app/blog/[slug]/article-content'
 import { JsonLd } from '@/components/json-ld'
 import { cloudinaryImageUrl } from '@/lib/cloudinary'
-import { getPost, posts } from '@/lib/site'
+import { posts } from '@/lib/site'
+import { getPostData, getPostsData } from '@/lib/data'
 import {
   buildBlogPosting,
   buildBreadcrumbList,
@@ -14,13 +15,15 @@ export function generateStaticParams() {
   return posts.map((p) => ({ slug: p.slug }))
 }
 
+export const dynamic = 'force-dynamic'
+
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string }>
 }): Promise<Metadata> {
   const { slug } = await params
-  const p = getPost(slug)
+  const p = await getPostData(slug)
   if (!p) return { title: 'Article not found' }
   return {
     title: p.title,
@@ -42,12 +45,12 @@ export default async function ArticlePage({
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
-  const post = getPost(slug)
+  const [post, allPosts] = await Promise.all([getPostData(slug), getPostsData()])
   if (!post) notFound()
 
-  const index = posts.findIndex((p) => p.slug === post.slug)
-  const next = posts[(index + 1) % posts.length]
-  const more = posts.filter((p) => p.slug !== post.slug).slice(0, 3)
+  const index = allPosts.findIndex((p) => p.slug === post.slug)
+  const next = allPosts[(index + 1) % allPosts.length] ?? post
+  const more = allPosts.filter((p) => p.slug !== post.slug).slice(0, 3)
 
   return (
     <article>

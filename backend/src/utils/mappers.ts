@@ -166,6 +166,7 @@ export function mapLayoverPackage(row: any) {
     itinerary: parseJsonArray(row.itinerary),
     includes: parseJsonArray(row.includes),
     excludes: parseJsonArray(row.excludes),
-    best: row.bestFor
+    best: row.bestFor,
+    sortOrder: row.sortOrder
   };
 }

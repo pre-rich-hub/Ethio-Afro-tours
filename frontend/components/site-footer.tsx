@@ -7,7 +7,7 @@ import { NewsletterForm } from '@/components/newsletter-form'
 import { useLanguage } from '@/components/language-provider'
 
 const socialLinks = [
-  { name: 'Instagram', href: 'https://instagram.com', icon: '/images/instagram-icon.png' },
+  { name: 'Instagram', href: 'https://www.instagram.com/ethioafrotours/', icon: '/images/instagram-icon.png' },
   { name: 'YouTube', href: 'https://youtube.com', icon: '/images/youtube-icon.png' },
   { name: 'Facebook', href: 'https://facebook.com', icon: '/images/facebook-icon.png' },
   { name: 'TikTok', href: 'https://tiktok.com', icon: '/images/tiktok-icon.png' },
@@ -244,14 +244,22 @@ export function SiteFooter() {
 
         <div className="mt-6 flex flex-col gap-4 border-t border-background/15 pt-4 text-xs text-background/50 md:flex-row md:items-center md:justify-between">
           <p>
-            &copy; {new Date().getFullYear()} EthioAfro Tours. {t('footer.rights', 'All rights reserved.')}
+            &copy; {new Date().getFullYear()} EthioAfro Tours. {t('footer.rights', 'All rights reserved.')}{' '}
+            <a
+              href="https://melba.et"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-background/80"
+            >
+              Built by Melba Technology
+            </a>
           </p>
           <div className="flex flex-wrap gap-x-6 gap-y-2">
             <Link href="/privacy" className="hover:text-background/80">
-              {t('footer.privacy', 'Privacy')}
+              {t('footer.privacy', 'Privacy Policy')}
             </Link>
             <Link href="/terms" className="hover:text-background/80">
-              {t('footer.terms', 'Terms')}
+              {t('footer.terms', 'Terms & Conditions')}
             </Link>
             <Link href="/booking-policy" className="hover:text-background/80">
               {t('footer.bookingPolicy', 'Booking & Cancellation')}
