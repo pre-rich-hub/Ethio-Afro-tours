@@ -162,7 +162,7 @@ export function SiteNav() {
               : 'max-h-12 border-background/15 opacity-100',
           )}
         >
-          <div className="shell flex h-11 items-center justify-between text-[11px] tracking-[0.12em] text-background/70">
+          <div className="shell flex h-11 items-center justify-between text-xs tracking-[0.12em] text-background/70">
             <p className="uppercase">
               {t('nav.rail', 'Locally owned in Addis Ababa · Private journeys since 2008')}
             </p>
@@ -203,7 +203,7 @@ export function SiteNav() {
                   <Link
                     href={link.href}
                     className={cn(
-                      'relative py-2 text-[11px] font-semibold uppercase tracking-[0.16em] transition-colors duration-300 flex items-center gap-1',
+                      'relative py-2 text-xs font-semibold uppercase tracking-[0.16em] transition-colors duration-300 flex items-center gap-1',
                       active
                         ? 'text-background'
                         : 'text-background/75 hover:text-background',
@@ -227,15 +227,15 @@ export function SiteNav() {
                       <div className="shell grid grid-cols-[1fr_3.2fr] gap-12 py-10">
                         <div className="flex flex-col justify-between">
                           <div>
-                            <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-accent mb-2 block">{t('nav.destinations.eyebrow', 'Ethiopia')}</span>
+                            <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-accent mb-2 block">{t('nav.destinations.eyebrow', 'Ethiopia')}</span>
                             <h3 className="font-serif text-2xl text-foreground mb-4">{t('nav.destinations.title', 'Our Destinations')}</h3>
-                            <p className="text-xs text-muted-foreground leading-relaxed">
+                            <p className="text-sm text-muted-foreground leading-relaxed">
                               {t('nav.destinations.text', 'From monolithic churches carved from solid rock to tectonic landscapes at the edge of the world. Explore the ancient cradle of civilization.')}
                             </p>
                           </div>
                           <Link
                             href="/destinations"
-                            className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-accent hover:text-accent/80 transition-colors mt-6"
+                            className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.16em] text-accent hover:text-accent/80 transition-colors mt-6"
                           >
                             {t('nav.destinations.cta', 'View All Destinations')} <ArrowRight className="h-3.5 w-3.5" />
                           </Link>
@@ -262,10 +262,10 @@ export function SiteNav() {
                                 <h4 className="font-serif text-[14px] text-foreground group-hover/item:text-accent transition-colors duration-300">
                                   {t(`destination.${d.slug}.name`, d.name)}
                                 </h4>
-                                <p className="text-[10px] text-muted-foreground mt-0.5 block tracking-[0.06em] font-medium uppercase">
+                                <p className="text-[11px] text-muted-foreground mt-0.5 block tracking-[0.06em] font-medium uppercase">
                                   {t(`destination.${d.slug}.region`, d.region)}
                                 </p>
-                                <p className="text-[11px] text-muted-foreground/80 mt-1 line-clamp-2 leading-relaxed">
+                                <p className="text-xs text-muted-foreground/80 mt-1 line-clamp-2 leading-relaxed">
                                   {t(`destination.${d.slug}.teaser`, d.teaser)}
                                 </p>
                               </div>
@@ -281,15 +281,15 @@ export function SiteNav() {
                       <div className="shell grid grid-cols-[1fr_3.2fr] gap-12 py-10">
                         <div className="flex flex-col justify-between">
                           <div>
-                            <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-accent mb-2 block">{t('nav.tours.eyebrow', 'Curated Journeys')}</span>
+                            <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-accent mb-2 block">{t('nav.tours.eyebrow', 'Curated Journeys')}</span>
                             <h3 className="font-serif text-2xl text-foreground mb-4">{t('nav.tours.title', 'Signature Itineraries')}</h3>
-                            <p className="text-xs text-muted-foreground leading-relaxed">
+                            <p className="text-sm text-muted-foreground leading-relaxed">
                               {t('nav.tours.text', 'Expertly designed private expeditions combining luxury lodgings, expert naturalist guides, and exclusive cultural access.')}
                             </p>
                           </div>
                           <Link
                             href="/tours"
-                            className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-accent hover:text-accent/80 transition-colors mt-6"
+                            className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.16em] text-accent hover:text-accent/80 transition-colors mt-6"
                           >
                             {t('nav.tours.cta', 'Explore All Tours')} <ArrowRight className="h-3.5 w-3.5" />
                           </Link>
@@ -318,15 +318,15 @@ export function SiteNav() {
                                 <h4 className="font-serif text-[14px] text-foreground group-hover/item:text-accent transition-colors duration-300 line-clamp-1">
                                   {t(`tour.${tour.slug}.title`, tour.title)}
                                 </h4>
-                                <p className="text-[10px] text-muted-foreground mt-0.5 block tracking-[0.06em] font-medium uppercase">
+                                <p className="text-[11px] text-muted-foreground mt-0.5 block tracking-[0.06em] font-medium uppercase">
                                   {t(`tour.${tour.slug}.style`, tour.style)}
                                 </p>
-                                <p className="text-[11px] text-muted-foreground/80 mt-1 line-clamp-2 leading-relaxed">
+                                <p className="text-xs text-muted-foreground/80 mt-1 line-clamp-2 leading-relaxed">
                                   {t(`tour.${tour.slug}.teaser`, tour.teaser)}
                                 </p>
                                 <div className="mt-2.5 flex items-center justify-between border-t border-border/60 pt-2">
-                                  <span className="text-[10px] text-muted-foreground uppercase tracking-wider">{t('from', 'From')}</span>
-                                  <span className="text-xs font-bold text-accent">{tour.from}</span>
+                                  <span className="text-[11px] text-muted-foreground uppercase tracking-wider">{t('from', 'From')}</span>
+                                  <span className="text-sm font-bold text-accent">{tour.from}</span>
                                 </div>
                               </div>
                             </Link>
@@ -353,7 +353,7 @@ export function SiteNav() {
                 )}
               >
                 <Globe className="h-[17px] w-[17px]" />
-                <span className="text-[11px] font-semibold tracking-[0.1em]">
+                <span className="text-xs font-semibold tracking-[0.1em]">
                   {lang.code}
                 </span>
                 <ChevronDown
@@ -397,7 +397,7 @@ export function SiteNav() {
 
             <Link
               href="/contact"
-              className="hidden rounded-full bg-primary px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-primary-foreground transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary/90 lg:inline-block"
+              className="hidden rounded-full bg-primary px-6 py-3 text-xs font-semibold uppercase tracking-[0.14em] text-primary-foreground transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary/90 lg:inline-block"
             >
               {t('nav.request', 'Book Now')}
             </Link>
@@ -448,7 +448,7 @@ export function SiteNav() {
                     )}
                   >
                     <span className="flex items-baseline gap-3">
-                      <span className="text-[10px] font-semibold tracking-[0.18em] text-accent">
+                      <span className="text-[11px] font-semibold tracking-[0.18em] text-accent">
                         {String(i + 1).padStart(2, '0')}
                       </span>
                       <span
@@ -473,7 +473,7 @@ export function SiteNav() {
           </ul>
 
           <div className="mt-8">
-            <span className="mb-3 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            <span className="mb-3 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
               <Globe className="h-3.5 w-3.5" />
               {t('nav.language', 'Language')}
             </span>
@@ -517,7 +517,7 @@ export function SiteNav() {
           <Link
             href="/contact"
             onClick={() => setOpen(false)}
-            className="flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-primary-foreground"
+            className="flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-4 text-xs font-semibold uppercase tracking-[0.14em] text-primary-foreground"
           >
             {t('nav.request', 'Book Now')}
             <ArrowRight className="h-4 w-4" />

@@ -97,7 +97,7 @@
   html {
     -webkit-tap-highlight-color: transparent;
     scroll-behavior: smooth;
-    font-size: 15px;
+    font-size: 16px;
   }
 
   body {
@@ -124,7 +124,7 @@
 
   /* Editorial micro-label: uppercase, letterspaced, hairline rule */
   .eyebrow {
-    @apply flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.24em] sm:text-[11px];
+    @apply flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.24em] sm:text-[12px];
   }
 
   .rule {
@@ -215,7 +215,7 @@
   border: 1px solid var(--border);
   background: var(--card);
   padding: 14px 16px;
-  font-size: 15px;
+  font-size: 16px;
   color: var(--foreground);
   transition:
     border-color 0.25s ease,

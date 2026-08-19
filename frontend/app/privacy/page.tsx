@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 import { JsonLd } from '@/components/json-ld'
-import { PolicyPage } from '@/components/policy-page'
 import { privacyPolicy } from '@/lib/policies'
 import { buildSocialMetadata } from '@/lib/seo'
 import { buildBreadcrumbList, buildWebPage, pageStructuredData } from '@/lib/structured-data'
+import { PrivacyContent } from './privacy-content'
 
 const socialImage = 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801491/lalibela.jpg'
 
@@ -27,7 +27,7 @@ export default function PrivacyPage() {
         buildBreadcrumbList([{ name: 'Home', path: '/' }, { name: 'Privacy Policy', path: '/privacy' }]),
         buildWebPage({ path: '/privacy', name: privacyPolicy.title, description: privacyPolicy.description }),
       )} />
-      <PolicyPage document={privacyPolicy} />
+      <PrivacyContent />
     </>
   )
 }

@@ -40,11 +40,6 @@ export function SiteFooter() {
         { label: t('footer.about', 'About Us'), href: '/about' },
         { label: t('footer.layover', 'Layover in Addis'), href: '/layover' },
         { label: t('footer.journal', 'Travel Journal'), href: '/blog' },
-        {
-          label: t('footer.responsible', 'Responsible Tourism'),
-          href: '/responsible-tourism',
-        },
-        { label: t('footer.bookingPolicy', 'Booking & Cancellation'), href: '/booking-policy' },
         { label: t('footer.when', 'When to Visit'), href: '/blog/when-to-visit-ethiopia' },
         { label: t('footer.contact', 'Contact Us'), href: '/contact' },
       ],
@@ -241,7 +236,7 @@ export function SiteFooter() {
               href="https://melba.et"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-background/80"
+              className="font-medium hover:text-background/80"
             >
               Built by Melba Technology
             </a>
@@ -252,12 +247,6 @@ export function SiteFooter() {
             </Link>
             <Link href="/terms" className="hover:text-background/80">
               {t('footer.terms', 'Terms & Conditions')}
-            </Link>
-            <Link href="/booking-policy" className="hover:text-background/80">
-              {t('footer.bookingPolicy', 'Booking & Cancellation')}
-            </Link>
-            <Link href="/responsible-tourism" className="hover:text-background/80">
-              {t('footer.responsible', 'Responsible Tourism')}
             </Link>
           </div>
         </div>

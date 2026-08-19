@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 import { JsonLd } from '@/components/json-ld'
-import { PolicyPage } from '@/components/policy-page'
 import { termsPolicy } from '@/lib/policies'
 import { buildSocialMetadata } from '@/lib/seo'
 import { buildBreadcrumbList, buildWebPage, pageStructuredData } from '@/lib/structured-data'
+import { TermsContent } from './terms-content'
 
 const socialImage = 'https://res.cloudinary.com/q16lm8mo/image/upload/v1786801491/lalibela.jpg'
 
@@ -27,7 +27,7 @@ export default function TermsPage() {
         buildBreadcrumbList([{ name: 'Home', path: '/' }, { name: 'Terms & Conditions', path: '/terms' }]),
         buildWebPage({ path: '/terms', name: termsPolicy.title, description: termsPolicy.description }),
       )} />
-      <PolicyPage document={termsPolicy} />
+      <TermsContent />
     </>
   )
 }
