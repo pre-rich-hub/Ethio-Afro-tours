@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
 import { Check } from 'lucide-react'
 import { subscribe } from '@/lib/api'
 import { useLanguage } from '@/components/language-provider'
@@ -57,10 +56,6 @@ export function NewsletterForm() {
         </button>
       </form>
       {error ? <p className="mt-2 text-xs text-red-500" role="alert">{error}</p> : null}
-      <p className="mt-2 text-[11px] leading-relaxed text-background/45">
-        {t('newsletter.privacy', 'By subscribing, you agree to receive our travel emails. Unsubscribe by contacting us. See our')}{' '}
-        <Link href="/privacy" className="underline underline-offset-2 hover:text-background/75">Privacy Policy</Link>.
-      </p>
     </div>
   )
 }
