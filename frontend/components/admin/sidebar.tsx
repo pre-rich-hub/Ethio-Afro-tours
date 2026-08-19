@@ -41,9 +41,13 @@ export function AdminSidebar() {
 
   return (
     <aside className="flex h-full w-64 shrink-0 flex-col border-r border-sand/10 bg-charcoal text-sand">
-      <div className="flex h-16 items-center gap-3 border-b border-sand/10 px-6">
+      <div className="flex h-20 items-center gap-3 border-b border-sand/10 px-4">
+        <img
+          src="/images/logo-full.png"
+          alt="EthioAfro Tours Logo"
+          className="h-16 w-auto shrink-0 object-contain"
+        />
         <div>
-          <p className="font-serif text-xl leading-none text-sand">EthioAfro</p>
           <p className="mt-1 text-[9px] font-semibold uppercase tracking-[0.28em] text-accent">
             Admin
           </p>

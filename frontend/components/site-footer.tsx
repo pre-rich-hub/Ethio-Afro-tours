@@ -55,19 +55,11 @@ export function SiteFooter() {
       <div className="shell pt-16 pb-4 sm:pt-20 sm:pb-6">
         <div className="grid gap-12 lg:grid-cols-[1.3fr_1fr_1fr_1fr] lg:gap-10">
           <div className="lg:row-span-2">
-            <div className="flex items-center gap-3">
-              <img
-                src="/images/logo.png"
-                alt="EthioAfro Tours Logo"
-                className="h-14 w-14 rounded-full object-cover border border-accent/20"
-              />
-              <div className="flex flex-col">
-                <span className="font-serif text-3xl leading-none">EthioAfro</span>
-                <span className="text-[9px] font-semibold uppercase tracking-[0.28em] text-accent mt-1">
-                  Tours
-                </span>
-              </div>
-            </div>
+            <img
+              src="/images/logo-full.png"
+              alt="EthioAfro Tours full logo"
+              className="h-auto w-52 object-contain"
+            />
             <p className="mt-5 max-w-xs text-pretty text-sm leading-relaxed text-background/60">
               {t('footer.copy', "Introducing travellers to one of humanity's oldest civilisations — with care, knowledge, and quiet luxury.")}
             </p>

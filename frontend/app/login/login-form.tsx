@@ -48,6 +48,11 @@ export function LoginForm() {
       <div className="w-full max-w-md">
         <div className="rounded-xl border border-border bg-card p-8 shadow-lg md:p-10">
           <div className="mb-8 text-center">
+            <img
+              src="/images/logo-full.png"
+              alt="EthioAfro Tours Logo"
+              className="mx-auto mb-5 h-auto w-44 object-contain"
+            />
             <p className="eyebrow justify-center text-accent">
               <span className="rule" />
               EthioAfro Tours

@@ -42,9 +42,9 @@ function Wordmark({
       className="flex items-center"
     >
       <img
-        src="/images/logo.png"
+        src="/images/logo-full.png"
         alt="EthioAfro Tours Logo"
-        className="h-14 w-14 rounded-full object-cover border border-accent/25 shadow-md transition-transform duration-300 hover:scale-105"
+        className="h-16 w-auto object-contain transition-transform duration-300 hover:scale-105"
       />
     </Link>
   )
