@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from 'next'
 import { SiteNav } from '@/components/site-nav'
 import { SiteFooter } from '@/components/site-footer'
 import { FloatingSupportLazy } from '@/components/floating-support-lazy'
+import { VerifiedReviewsBadge } from '@/components/verified-reviews-badge'
 import { LanguageProvider } from '@/components/language-provider'
 import { JsonLd } from '@/components/json-ld'
 import { siteUrl } from '@/lib/seo'
@@ -70,6 +71,7 @@ export default function RootLayout({
           <SiteNav />
           <main id="main">{children}</main>
           <SiteFooter />
+          <VerifiedReviewsBadge />
           <FloatingSupportLazy />
         </LanguageProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
