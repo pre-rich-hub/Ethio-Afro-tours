@@ -91,6 +91,36 @@ export function buildBreadcrumbList(items: readonly BreadcrumbItem[]) {
   }
 }
 
+type WebPageOptions = {
+  path: string
+  name: string
+  description: string
+  type?: 'WebPage' | 'AboutPage'
+  mainEntityId?: string
+}
+
+export function buildWebPage({
+  path,
+  name,
+  description,
+  type = 'WebPage',
+  mainEntityId,
+}: WebPageOptions) {
+  const url = absoluteUrl(path)
+
+  return {
+    '@type': type,
+    '@id': `${url}#webpage`,
+    url,
+    name,
+    description,
+    inLanguage: 'en',
+    isPartOf: { '@id': websiteId },
+    breadcrumb: { '@id': `${url}#breadcrumb` },
+    ...(mainEntityId ? { mainEntity: { '@id': mainEntityId } } : {}),
+  }
+}
+
 export function buildTouristTrip(tour: Tour) {
   const url = absoluteUrl(`/tours/${tour.slug}`)
 

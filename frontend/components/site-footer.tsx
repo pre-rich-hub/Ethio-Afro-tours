@@ -42,8 +42,9 @@ export function SiteFooter() {
         { label: t('footer.journal', 'Travel Journal'), href: '/blog' },
         {
           label: t('footer.responsible', 'Responsible Tourism'),
-          href: '/blog/responsible-travel-in-the-omo',
+          href: '/responsible-tourism',
         },
+        { label: t('footer.bookingPolicy', 'Booking & Cancellation'), href: '/booking-policy' },
         { label: t('footer.when', 'When to Visit'), href: '/blog/when-to-visit-ethiopia' },
         { label: t('footer.contact', 'Contact Us'), href: '/contact' },
       ],
@@ -246,13 +247,16 @@ export function SiteFooter() {
             &copy; {new Date().getFullYear()} EthioAfro Tours. {t('footer.rights', 'All rights reserved.')}
           </p>
           <div className="flex flex-wrap gap-x-6 gap-y-2">
-            <Link href="/contact" className="hover:text-background/80">
+            <Link href="/privacy" className="hover:text-background/80">
               {t('footer.privacy', 'Privacy')}
             </Link>
-            <Link href="/contact" className="hover:text-background/80">
+            <Link href="/terms" className="hover:text-background/80">
               {t('footer.terms', 'Terms')}
             </Link>
-            <Link href="/blog/responsible-travel-in-the-omo" className="hover:text-background/80">
+            <Link href="/booking-policy" className="hover:text-background/80">
+              {t('footer.bookingPolicy', 'Booking & Cancellation')}
+            </Link>
+            <Link href="/responsible-tourism" className="hover:text-background/80">
               {t('footer.responsible', 'Responsible Tourism')}
             </Link>
           </div>

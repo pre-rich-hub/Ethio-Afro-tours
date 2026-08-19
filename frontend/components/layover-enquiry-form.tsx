@@ -1,6 +1,7 @@
 'use client'
 
 import { FormEvent, useEffect, useState } from 'react'
+import Link from 'next/link'
 import { ArrowRight, Check } from 'lucide-react'
 import { submitContact } from '@/lib/api'
 import { useLanguage } from '@/components/language-provider'
@@ -156,7 +157,10 @@ export function LayoverEnquiryForm({
       <button type="submit" className="group inline-flex w-full items-center justify-center gap-2.5 bg-primary px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary-foreground transition-colors duration-300 hover:bg-charcoal sm:w-auto">
         {t('layover.form.submit', 'Check my connection')} <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
       </button>
-      <p className="text-xs leading-relaxed text-muted-foreground">{t('layover.form.note', 'Submitting an enquiry does not confirm visa eligibility or a booking. We reply personally within 24 hours.')}</p>
+      <p className="text-xs leading-relaxed text-muted-foreground">
+        {t('layover.form.privacyNotice', 'Submitting an enquiry does not confirm visa eligibility or a booking. We reply personally within 24 hours. Your flight and travel details are handled as described in our')}{' '}
+        <Link href="/privacy" className="underline underline-offset-2 hover:text-foreground">Privacy Policy</Link>.
+      </p>
     </form>
   )
 }

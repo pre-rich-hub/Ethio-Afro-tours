@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import Link from 'next/link'
 import { MessageSquare, X, Send, Sparkles, Bot } from 'lucide-react'
 import { contact } from '@/lib/site'
 import { streamAssistantChat } from '@/lib/api'
@@ -301,6 +302,10 @@ export function FloatingSupport() {
                         <Send className="h-4 w-4" />
                     </button>
                 </form>
+                <p className="bg-neutral-950 px-4 pb-3 text-center text-[9px] leading-relaxed text-sand/45">
+                    {t('chat.privacy', 'Messages are processed by our AI provider and retained for up to 30 days. Do not share sensitive information. See our')}{' '}
+                    <Link href="/privacy" onClick={() => setIsOpen(false)} className="underline underline-offset-2 hover:text-sand/75">Privacy Policy</Link>.
+                </p>
             </div>
 
             <style>{`
