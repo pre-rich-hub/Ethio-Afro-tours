@@ -413,6 +413,71 @@ const placeInsights: TourPlaceInsight[] = [
     logistics:
       'Church etiquette applies. We combine it with Tiya and rural stops when road and timing conditions allow.',
   },
+  {
+    name: 'Gheralta Mountains',
+    region: 'Tigray Highlands',
+    status: 'Sacred rock-hewn landscape',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1787156491/gheralta-mountains.jpg',
+    bestMoment: 'Cool morning light on the sandstone ridges and church paths',
+    context:
+      'Gheralta combines monumental sandstone escarpments with a dense network of rock-hewn churches that remain active sacred places.',
+    experience:
+      'Routes are selected church by church, from accessible heritage visits to exposed ridge walks supported by experienced local guides.',
+    logistics:
+      'Fitness, exposure, custodian access, regional conditions and insurance eligibility are confirmed before a route is promised.',
+  },
+  {
+    name: 'Awash National Park',
+    region: 'Eastern Rift Valley',
+    status: 'Savanna national park',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1787156513/awash-national-park.png',
+    bestMoment: 'Dawn wildlife drives before the acacia plains warm',
+    context:
+      'Awash protects dry savanna, volcanic country and the river gorge on the road linking Addis Ababa with eastern Ethiopia.',
+    experience:
+      'Early drives focus on oryx, kudu, gazelles, baboons and birds, with the falls and gorge adding landscape context later in the day.',
+    logistics:
+      'Park access, heat, roads and the wider eastern corridor are reconfirmed before departure.',
+  },
+  {
+    name: 'Lake Langano',
+    region: 'Central Rift Valley',
+    status: 'Lakeside nature retreat',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1787156508/lake-langano.png',
+    bestMoment: 'First light along the wooded shore with fish eagles calling',
+    context:
+      'Langano offers comfortable lakeside time, woodland birding and an easy pause between Addis Ababa and the southern highlands.',
+    experience:
+      'A good stay leaves room for naturalist walks, swimming or kayaking and quiet time beside the water rather than filling every hour.',
+    logistics:
+      'Lodge, shoreline, water and nearby park conditions are checked locally before activities are confirmed.',
+  },
+  {
+    name: 'Gedeo Cultural Landscape',
+    region: 'Southern Highlands',
+    status: 'UNESCO living landscape',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1787156514/gedeo-cultural-landscape.png',
+    bestMoment: 'Morning walks beneath layered enset, coffee and shade trees',
+    context:
+      'Gedeo’s UNESCO-listed landscape expresses a long-lived agroforestry system supported by community knowledge, sacred forests and cultural sites.',
+    experience:
+      'Hosted walks connect coffee and enset cultivation with local institutions, forest stewardship, hospitality and megalithic heritage.',
+    logistics:
+      'Community availability, consent, roads and regional conditions determine the final sequence.',
+  },
+  {
+    name: 'Kafa Biosphere Reserve',
+    region: 'Southwest Ethiopia',
+    status: 'UNESCO biosphere reserve',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1787156488/kafa-biosphere-reserve.jpg',
+    bestMoment: 'Mist lifting through wild-coffee forest during early birding',
+    context:
+      'Kafa is an Afromontane biodiversity landscape associated with wild Arabica coffee and extensive community-managed forest.',
+    experience:
+      'Walk with local naturalists for forest birds, coffee ecology, waterfalls and conservation encounters based around Bonga.',
+    logistics:
+      'Remote roads, rain, trail conditions and limited lodging require conservative timings and flexible plans.',
+  },
 ]
 
 const aliases: Record<string, string> = {

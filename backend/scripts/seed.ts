@@ -18,8 +18,8 @@ const prisma = new PrismaClient({
 /**
  * Seeds the client catalog and ops data:
  *  - blog categories (4), tour categories (5)
- *  - destinations (20 client destinations from frontend/lib/site.ts)
- *  - tours (15 client tours from frontend/lib/site.ts, mapped into our schema)
+ *  - destinations (25 client destinations from frontend/lib/site.ts)
+ *  - tours (20 client tours from frontend/lib/site.ts, mapped into our schema)
  *  - layover packages (6 client packages — import-once, with a one-time legacy
  *    four-package catalog replacement; admin-managed catalogs are preserved)
  *    Phase 3 makes them client-owned, admin edits must survive re-seeds)
@@ -30,7 +30,7 @@ const prisma = new PrismaClient({
  * the seed values, so the second run changes nothing), destinations upsert by
  * slug, and bookings/contacts/subscribers are guarded by row counts. Stale
  * rows (tours/destinations whose slug is no longer in the client catalog,
- * e.g. destinations outside the approved 20-entry catalog) are pruned so
+ * e.g. destinations outside the approved 25-entry catalog) are pruned so
  * the API surface matches the client catalog exactly.
  */
 async function main() {
@@ -63,7 +63,7 @@ async function main() {
   console.log(`Tour categories: ${tourCategories.length}`);
 
   // ------------------------- Destinations -------------------------
-  // All 20 client destinations (from frontend/lib/site.ts destinations array).
+  // All 25 client destinations (from frontend/lib/site.ts destinations array).
   // Upsert by the seed's explicit slug: the client slug is the API contract
   // (e.g. "lake-tana", NOT the slugified name "lake-tana-blue-nile").
   const clientDestinationSlugs = destinationSeeds.map((d) => d.slug);
@@ -189,7 +189,8 @@ async function main() {
         included: true,
         excluded: true,
         itinerary: true,
-        journeyMap: true
+        journeyMap: true,
+        gallery: { select: { id: true, imageUrl: true } }
       }
     });
 
@@ -208,7 +209,14 @@ async function main() {
       existing.itinerary !== fields.itinerary ||
       existing.journeyMap !== fields.journeyMap;
 
-    if (!existing || scalarChanged) {
+    const existingGalleryUrls = new Set(
+      existing?.gallery.map((image) => image.imageUrl) ?? []
+    );
+    const galleryChanged =
+      seed.gallery.some((imageUrl) => !existingGalleryUrls.has(imageUrl)) ||
+      seed.legacyGallery.some((imageUrl) => existingGalleryUrls.has(imageUrl));
+
+    if (!existing || scalarChanged || galleryChanged) {
       await prisma.$transaction(async (tx) => {
         const tour = existing
           ? await tx.tour.update({
@@ -239,12 +247,28 @@ async function main() {
             skipDuplicates: true
           });
         }
-        if (seed.gallery.length) {
+        // Keep the original gallery row id when replacing a legacy seeded
+        // hero so it remains first in the API's id-ordered gallery. Any
+        // unrelated admin-added gallery rows are left untouched.
+        for (const [index, imageUrl] of seed.gallery.entries()) {
+          if (existingGalleryUrls.has(imageUrl)) continue;
+          const legacyImageUrl = seed.legacyGallery[index];
+          const legacyImage = legacyImageUrl
+            ? existing?.gallery.find((image) => image.imageUrl === legacyImageUrl)
+            : undefined;
+
+          if (legacyImage) {
+            await tx.gallery.update({
+              where: { id: legacyImage.id },
+              data: { imageUrl }
+            });
+          } else {
+            await tx.gallery.create({ data: { tourId: tour.id, imageUrl } });
+          }
+        }
+        if (seed.legacyGallery.length) {
           await tx.gallery.deleteMany({
-            where: { tourId: tour.id, imageUrl: { in: seed.gallery } }
-          });
-          await tx.gallery.createMany({
-            data: seed.gallery.map((imageUrl) => ({ tourId: tour.id, imageUrl }))
+            where: { tourId: tour.id, imageUrl: { in: seed.legacyGallery } }
           });
         }
       });

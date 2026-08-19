@@ -20,8 +20,8 @@ export function DestinationsContent({ destinations }: { destinations: Destinatio
     <>
       <PageHero
         eyebrow={t('destinationsPage.hero.eyebrow', 'Where We Travel')}
-        title={t('destinationsPage.hero.title', 'Twenty places, and the routes between them')}
-        lede={t('destinationsPage.hero.lede', 'From churches carved downward into the rock to a lava lake burning below sea level. These are twenty places our designers connect into thoughtful journeys across Ethiopia.')}
+        title={t('destinationsPage.hero.title', 'Twenty-five places, and the routes between them')}
+        lede={t('destinationsPage.hero.lede', 'From churches carved downward into the rock to wild-coffee forest and a lava lake below sea level. These are twenty-five places our designers connect into thoughtful journeys across Ethiopia.')}
         image={lalibelaImage}
         imageAlt={t('destinationsPage.hero.imageAlt', heroImageAlt)}
         crumbs={[
@@ -30,7 +30,7 @@ export function DestinationsContent({ destinations }: { destinations: Destinatio
         ]}
         meta={[
           { label: t('destinationsPage.meta.destinations', 'Destinations'), value: String(destinations.length) },
-          { label: t('destinationsPage.meta.unesco', 'UNESCO Sites'), value: '9' },
+          { label: t('destinationsPage.meta.unesco', 'UNESCO Sites'), value: '10' },
           { label: t('destinationsPage.meta.altitude', 'Altitude Range'), value: '-125 – 4,533 m' },
           { label: t('destinationsPage.meta.months', 'Best Months'), value: t('destinationsPage.meta.monthsValue', 'Oct – Mar') },
         ]}

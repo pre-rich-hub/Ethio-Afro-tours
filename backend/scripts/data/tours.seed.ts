@@ -1,4 +1,4 @@
-// CLIENT CATALOG — mirrors the 15 popularity-ordered tours in frontend/lib/site.ts.
+// CLIENT CATALOG — mirrors the 20 popularity-ordered tours in frontend/lib/site.ts.
 // Public pricing is quote-only until the client supplies confirmed rates.
 export interface TourSeed {
   slug: string;
@@ -18,6 +18,7 @@ export interface TourSeed {
   isFeatured: boolean;
   priceSource: "quote";
   gallery: string[];
+  legacyGallery: string[];
 }
 
 const PLACE_SLUG_MAP: Record<string, string> = {
@@ -44,7 +45,13 @@ const PLACE_SLUG_MAP: Record<string, string> = {
   "Debre Libanos Monastery": "debre-libanos",
   "Wonchi Crater Lake": "wonchi-crater-lake",
   "Tiya Archaeological Site": "tiya",
-  "Adadi Mariam Rock-Hewn Church": "adadi-mariam"
+  "Adadi Mariam Rock-Hewn Church": "adadi-mariam",
+  "Gheralta Mountains": "gheralta-mountains",
+  "Awash National Park": "awash-national-park",
+  "Lake Langano": "lake-langano",
+  "Gedeo Cultural Landscape": "gedeo-cultural-landscape",
+  "Kafa Biosphere Reserve": "kafa-biosphere-reserve",
+  Kaffa: "kafa-biosphere-reserve"
 };
 
 type SeedInput = {
@@ -54,6 +61,8 @@ type SeedInput = {
   places: string[];
   categorySlugs: string[];
   featured?: boolean;
+  image?: string;
+  legacyImage?: string;
   itinerary: Array<[string, string]>;
 };
 
@@ -96,7 +105,8 @@ function makeTour(input: SeedInput): TourSeed {
     noOfRates: 0,
     isFeatured: Boolean(input.featured),
     priceSource: "quote",
-    gallery: []
+    gallery: input.image ? [input.image] : [],
+    legacyGallery: input.legacyImage ? [input.legacyImage] : []
   };
 }
 
@@ -268,7 +278,7 @@ export const tourSeeds: TourSeed[] = [
     slug: "ethiopia-coffee-origins",
     name: "Ethiopia Coffee Origins Journey",
     overview: "Follow coffee from Addis roasteries to the farms and forests of Jimma, Kaffa and Sidama.",
-    places: ["Addis Ababa", "Hawassa"],
+    places: ["Addis Ababa", "Kaffa", "Hawassa"],
     categorySlugs: ["cultural-tours", "nature-tours"],
     itinerary: [
       ["Addis coffee culture", "Begin with a guided cupping."],
@@ -318,6 +328,91 @@ export const tourSeeds: TourSeed[] = [
       ["Rock-hewn churches", "Explore the clusters before the main ceremonies."],
       ["Genna vigil", "Follow the processions with a scholar-guide."],
       ["Christmas morning", "Experience the celebrations before returning to Addis."]
+    ]
+  }),
+  makeTour({
+    slug: "gheralta-rock-churches-and-aksum",
+    name: "Gheralta Rock Churches & Aksum",
+    overview: "A specialist northern journey balancing Gheralta's rock-hewn churches and sandstone trails with the archaeology and sacred history of Aksum.",
+    places: ["Addis Ababa", "Gheralta Mountains", "Aksum"],
+    categorySlugs: ["historical-tours", "religious-pilgrimage-tours", "trekking-hiking-tours", "cultural-tours"],
+    image: "https://res.cloudinary.com/q16lm8mo/image/upload/v1787156491/gheralta-mountains.jpg",
+    legacyImage: "/images/tours/gheralta-rock-churches-and-aksum.png",
+    itinerary: [
+      ["Addis to the Tigray highlands", "Fly on the confirmed route, meet the regional team and continue to the Gheralta base."],
+      ["Wukro church circuit", "Begin with accessible rock churches and the historical context of the wider sacred landscape."],
+      ["Maryam Korkor ridge", "Climb with local guides to the plateau churches and wide views over the Gheralta plains."],
+      ["Gheralta at your level", "Choose a demanding cliff sanctuary or a lower circuit matched to confidence and conditions."],
+      ["Yeha and Aksum", "Travel through the northern highlands for Yeha before reaching Aksum."],
+      ["Aksum and return", "Explore the stelae, tombs and sacred traditions before the confirmed onward connection."]
+    ]
+  }),
+  makeTour({
+    slug: "awash-and-harar-eastern-ethiopia",
+    name: "Awash & Harar Eastern Ethiopia",
+    overview: "A complete eastern route pairing early wildlife drives in Awash National Park with the markets, homes and Islamic heritage of Harar Jugol.",
+    places: ["Addis Ababa", "Awash National Park", "Dire Dawa", "Harar Jugol"],
+    categorySlugs: ["nature-tours", "cultural-tours", "nature-adventure-tours"],
+    image: "https://res.cloudinary.com/q16lm8mo/image/upload/v1787156513/awash-national-park.png",
+    legacyImage: "/images/tours/awash-and-harar-eastern-ethiopia.png",
+    itinerary: [
+      ["Addis to Awash", "Drive east through the Rift Valley and enter the park for a late-afternoon wildlife circuit."],
+      ["Awash National Park", "Use the cool hours for the plains, river gorge, falls and bird-rich woodland."],
+      ["Awash to Dire Dawa", "Continue east through changing dryland landscapes to the historic railway city."],
+      ["Harar Jugol", "Walk the gates, markets, traditional homes and sacred lanes with a resident guide."],
+      ["Harar and Aweday", "Meet artisans, explore the regional market and leave room for unhurried old-city life."],
+      ["Dire Dawa to Addis", "Take the confirmed flight or rail connection to Addis Ababa."]
+    ]
+  }),
+  makeTour({
+    slug: "rift-valley-lakes-and-langano",
+    name: "Rift Valley Lakes & Langano Escape",
+    overview: "A comfortable Rift Valley journey designed around birding, changing lake landscapes and time to enjoy the shore rather than rush south.",
+    places: ["Addis Ababa", "Lake Langano", "Hawassa"],
+    categorySlugs: ["nature-tours", "cultural-tours"],
+    image: "https://res.cloudinary.com/q16lm8mo/image/upload/v1787156508/lake-langano.png",
+    legacyImage: "/images/tours/rift-valley-lakes-and-langano.png",
+    itinerary: [
+      ["Addis to Lake Ziway", "Travel south for wetland birding and a locally arranged lake or island visit."],
+      ["Abijatta-Shalla and Langano", "Read the volcanic lake system with a naturalist before settling beside Langano."],
+      ["Lake Langano", "Choose woodland birding, swimming, kayaking or an unhurried lakeside day."],
+      ["Langano to Hawassa", "Continue south for Lake Hawassa's birdlife, fish-market culture and waterfront rhythm."],
+      ["Return to Addis", "Use the morning by the lake before the confirmed return to the capital."]
+    ]
+  }),
+  makeTour({
+    slug: "gedeo-living-landscape",
+    name: "Gedeo Living Landscape & Yirgacheffe",
+    overview: "A community-led southern highlands journey focused on how Gedeo knowledge brings coffee, enset, forest and cultural heritage into one living landscape.",
+    places: ["Addis Ababa", "Hawassa", "Gedeo Cultural Landscape"],
+    categorySlugs: ["cultural-tours", "nature-tours"],
+    image: "https://res.cloudinary.com/q16lm8mo/image/upload/v1787156514/gedeo-cultural-landscape.png",
+    legacyImage: "/images/tours/gedeo-living-landscape.png",
+    itinerary: [
+      ["Addis to Hawassa", "Travel into the Rift Valley and settle beside Lake Hawassa."],
+      ["Sidama highlands", "Begin with coffee landscapes and hosted context before continuing toward Gedeo country."],
+      ["Yirgacheffe at origin", "Walk a coffee-growing landscape and explore preparation, processing and hospitality."],
+      ["Gedeo agroforestry", "Read the layered enset-and-coffee system with community guides and farmers."],
+      ["Sacred forest and megaliths", "Approach cultural sites with locally agreed access and interpretation."],
+      ["Return to Addis", "Drive or connect north according to the final operating schedule."]
+    ]
+  }),
+  makeTour({
+    slug: "kafa-forest-trekking-and-birding",
+    name: "Kafa Forest Trekking & Birding",
+    overview: "An ecology-led southwest journey using Bonga as a base for forest trekking, patient birding and community conservation encounters.",
+    places: ["Addis Ababa", "Kafa Biosphere Reserve"],
+    categorySlugs: ["nature-tours", "trekking-hiking-tours", "nature-adventure-tours"],
+    image: "https://res.cloudinary.com/q16lm8mo/image/upload/v1787156488/kafa-biosphere-reserve.jpg",
+    legacyImage: "/images/tours/kafa-forest-trekking-and-birding.png",
+    itinerary: [
+      ["Addis to Jimma", "Fly or drive southwest and meet the naturalist team for a route briefing."],
+      ["Jimma to Bonga", "Continue into wetter highlands with roadside birding and landscape stops."],
+      ["Wild-coffee forest", "Walk beneath the canopy to understand wild Arabica, forest structure and conservation."],
+      ["Kafa birding day", "Use the quiet morning and late afternoon for southwest specialties."],
+      ["Waterfalls and community forest", "Combine a longer forest trail with locally hosted conservation context."],
+      ["Bonga to Jimma", "Return gradually with flexible wetland, forest-edge and cultural stops."],
+      ["Return to Addis", "Take the confirmed connection back to the capital for onward travel."]
     ]
   })
 ];

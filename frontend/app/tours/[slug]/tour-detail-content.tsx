@@ -65,6 +65,18 @@ export function TourDetailContent({ tour, others }: { tour: Tour; others: Tour[]
         ]}
       />
 
+      {item.accessNote && (
+        <aside className="border-b border-amber-300/50 bg-amber-50 text-amber-950">
+          <div className="shell flex items-start gap-3 py-4 text-sm leading-relaxed">
+            <Compass className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
+            <p>
+              <span className="font-semibold">{t('accessNote.label', 'Current access')}:</span>{' '}
+              {item.accessNote}
+            </p>
+          </div>
+        </aside>
+      )}
+
       <section className="shell grid gap-12 py-16 sm:py-20 lg:grid-cols-[1.35fr_1fr] lg:gap-20 lg:py-28">
         <Reveal>
           <p className="eyebrow mb-5 text-accent">

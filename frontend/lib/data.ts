@@ -83,6 +83,7 @@ function toTour(live: ApiTour, fallback: Tour | undefined, index = 0): Tour {
     places: destinations.length ? destinations : fallback?.places ?? [],
     categories: categories.length ? categories : fallback?.categories ?? [],
     featured: live.isFeatured,
+    accessNote: fallback?.accessNote,
   }
 }
 
@@ -104,6 +105,7 @@ function toDestination(live: ApiDestination, fallback?: Destination): Destinatio
     highlights: fallback?.highlights ?? [live.name],
     paragraphs: fallback?.paragraphs ?? [description],
     span: fallback?.span,
+    accessNote: fallback?.accessNote,
   }
 }
 

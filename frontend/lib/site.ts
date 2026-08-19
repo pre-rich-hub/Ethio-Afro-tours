@@ -29,6 +29,7 @@ export type Destination = {
   highlights: string[]
   paragraphs: string[]
   span?: string
+  accessNote?: string
 }
 
 export const destinations: Destination[] = [
@@ -531,6 +532,141 @@ export const destinations: Destination[] = [
     ],
     span: 'lg:col-span-6',
   },
+  {
+    slug: 'gheralta-mountains',
+    name: 'Gheralta Mountains & Rock-Hewn Churches',
+    region: 'Tigray Highlands',
+    tag: 'Sacred Landscape',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1787156491/gheralta-mountains.jpg',
+    teaser:
+      'Sandstone pinnacles, cliff paths and ancient sanctuaries suspended above the Tigray plains.',
+    intro:
+      'Gheralta combines one of Ethiopia’s most dramatic mountain landscapes with a remarkable concentration of rock-hewn Orthodox churches.',
+    bestTime: 'October – March',
+    duration: '3 – 4 days',
+    altitude: '2,000 – 2,800 m',
+    highlights: [
+      'Guided ascent to Maryam Korkor and Daniel Korkor',
+      'Abuna Yemata Guh for suitably confident hikers',
+      'Accessible rock churches around Wukro and Hawzen',
+      'Sunrise and sunset across the Gheralta escarpments',
+    ],
+    paragraphs: [
+      'Gheralta is a landscape of vertical sandstone, broad plains and churches cut into improbable ledges. Each sanctuary has its own access, art and living religious community, so the route must be matched carefully to fitness, confidence and local advice.',
+      'We base the journey around Hawzen and mix demanding ascents with accessible churches, village time and long pauses for the landscape. Specialist local guides and honest route choices matter more here than checking off the greatest number of sites.',
+    ],
+    span: 'lg:col-span-7',
+    accessNote:
+      'This route is published for future planning and is offered only when current travel advice, local conditions, transport access and insurance eligibility allow.',
+  },
+  {
+    slug: 'awash-national-park',
+    name: 'Awash National Park',
+    region: 'Eastern Rift Valley',
+    tag: 'National Park',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1787156513/awash-national-park.png',
+    teaser:
+      'Acacia savanna, volcanic plains and wildlife gathered around the Awash River gorge.',
+    intro:
+      'One of Ethiopia’s oldest national parks brings oryx, kudu, baboons and exceptional birdlife within reach of Addis Ababa and the eastern route.',
+    bestTime: 'September – March',
+    duration: '2 days',
+    altitude: '750 – 2,007 m',
+    highlights: [
+      'Early wildlife drives on the Illala Saha plains',
+      'Awash Falls and the river gorge',
+      'Beisa oryx, greater kudu and hamadryas baboons',
+      'Hot springs, volcanic scenery and prolific birdlife',
+    ],
+    paragraphs: [
+      'Awash is not a conventional big-game safari. Its appeal lies in the relationship between dry savanna, volcanic geology and the river that cuts through it, with rewarding mammals and an unusually rich bird list.',
+      'A night near the park protects the cool hours. We use dawn and late afternoon for wildlife, then connect east toward Dire Dawa and Harar or return to Addis at an unhurried pace.',
+    ],
+    span: 'lg:col-span-5',
+    accessNote:
+      'Departure is confirmed only after checking current travel advice, local park conditions, road access and insurance eligibility.',
+  },
+  {
+    slug: 'lake-langano',
+    name: 'Lake Langano & Central Rift Valley',
+    region: 'Central Rift Valley',
+    tag: 'Lakes & Birdlife',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1787156508/lake-langano.png',
+    teaser:
+      'A copper-coloured lake of quiet beaches, woodland trails and prolific Rift Valley birdlife.',
+    intro:
+      'Lake Langano is Ethiopia’s classic lakeside retreat and a comfortable base for exploring the wetlands, volcanic shores and birdlife of the Central Rift Valley.',
+    bestTime: 'October – May',
+    duration: '1 – 2 days',
+    altitude: '1,585 m',
+    highlights: [
+      'Lakeside birding at first light',
+      'Swimming, kayaking and quiet shoreline time',
+      'Abijatta-Shalla viewpoints and hot springs',
+      'A restorative break on the road south',
+    ],
+    paragraphs: [
+      'Langano works because it slows a journey down. Woodland reaches the shore, fish eagles call over the water and comfortable lodges make room for swimming, walking or simply recovering between longer road sectors.',
+      'We combine it with Lake Ziway, Abijatta-Shalla and Hawassa according to season and interest, keeping wildlife expectations realistic and placing the emphasis on birds, landscapes and time beside the water.',
+    ],
+    span: 'lg:col-span-5',
+    accessNote:
+      'Road and park access are reconfirmed before departure, together with current travel advice and insurance requirements.',
+  },
+  {
+    slug: 'gedeo-cultural-landscape',
+    name: 'Gedeo Cultural Landscape',
+    region: 'Southern Highlands',
+    tag: 'UNESCO Heritage',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1787156514/gedeo-cultural-landscape.png',
+    teaser:
+      'A living highland mosaic where coffee, enset, sacred forest and community knowledge grow together.',
+    intro:
+      'The UNESCO-listed Gedeo landscape preserves a sophisticated agroforestry tradition alongside sacred forests, megalithic sites and celebrated coffee country.',
+    bestTime: 'October – February',
+    duration: '2 – 3 days',
+    altitude: '1,300 – 3,000 m',
+    highlights: [
+      'Layered coffee-and-enset agroforestry',
+      'Hosted visits with Gedeo farmers and local guides',
+      'Sacred forest and megalithic heritage',
+      'Yirgacheffe coffee preparation and tasting',
+    ],
+    paragraphs: [
+      'Gedeo is a cultural landscape rather than a single monument. Tall indigenous trees shelter enset, coffee and other crops in productive layers sustained by community knowledge and institutions that have shaped the highlands for generations.',
+      'The right visit follows local invitation: walking farms and forest edges, discussing land stewardship, tasting coffee at origin and approaching sacred or megalithic places with the context they deserve.',
+    ],
+    span: 'lg:col-span-7',
+    accessNote:
+      'Community visits and regional access are confirmed locally before travel and remain subject to current advice and insurance eligibility.',
+  },
+  {
+    slug: 'kafa-biosphere-reserve',
+    name: 'Kafa Biosphere Reserve',
+    region: 'Southwest Ethiopia',
+    tag: 'Coffee Forest',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1787156488/kafa-biosphere-reserve.jpg',
+    teaser:
+      'Wild Arabica beneath an Afromontane canopy, threaded with forest trails, waterfalls and rare birds.',
+    intro:
+      'Around Bonga, the Kafa Biosphere Reserve protects extraordinary forest biodiversity and the living landscape associated with wild Coffea arabica.',
+    bestTime: 'October – March',
+    duration: '3 – 4 days',
+    altitude: '1,000 – 3,350 m',
+    highlights: [
+      'Wild-coffee walks beneath the forest canopy',
+      'Birding for southwest highland specialties',
+      'Waterfalls, wetlands and community forest sites',
+      'Coffee hospitality with local farming families',
+    ],
+    paragraphs: [
+      'Kafa gives the coffee story its ecological depth. Arabica grows wild beneath a complex forest canopy, surrounded by wetlands and highland habitats whose conservation is tied closely to local livelihoods.',
+      'We travel slowly from Bonga with local naturalists and community hosts, balancing forest walks and birding with coffee knowledge, rural hospitality and realistic drives on southwest roads.',
+    ],
+    span: 'lg:col-span-6',
+    accessNote:
+      'This remote route operates only after road, local security, weather and insurance conditions have been checked close to departure.',
+  },
 ]
 
 export const tourCategories = [
@@ -564,6 +700,7 @@ export type Tour = {
   places: string[]
   categories: TourCategory[]
   featured?: boolean
+  accessNote?: string
 }
 
 const tourCatalog: Tour[] = [
@@ -1151,6 +1288,206 @@ const tourCatalog: Tour[] = [
     ],
     places: ['Addis Ababa', 'Lalibela'],
     categories: ['Festivals', 'Historic & Religious'],
+  },
+  {
+    popularityRank: 16,
+    slug: 'gheralta-rock-churches-and-aksum',
+    title: 'Gheralta Rock Churches & Aksum',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1787156491/gheralta-mountains.jpg',
+    days: '6 Days',
+    nights: 5,
+    style: 'Sacred Hiking · Private',
+    season: 'Oct – Mar',
+    from: 'Custom quote',
+    group: '2 – 6 guests',
+    teaser:
+      'Walk between Tigray’s cliff sanctuaries before reading the ancient stelae and traditions of Aksum.',
+    summary:
+      'A specialist northern journey balancing Gheralta’s rock-hewn churches and sandstone trails with the archaeology and sacred history of Aksum.',
+    includes: [
+      'Domestic flights on the confirmed operating route',
+      'Private 4x4 and senior Tigray guide',
+      'Church guides, entrance fees and community support',
+      'Five nights in the best available lodging',
+      'Daily breakfast and trail lunches',
+    ],
+    excludes: [
+      'International flights and visa fees',
+      'Travel insurance valid for the confirmed route',
+      'Technical climbing equipment and gratuities',
+    ],
+    itinerary: [
+      { day: 'Day 1', title: 'Addis to the Tigray highlands', text: 'Fly on the confirmed route, meet the regional team and continue to the Gheralta base.' },
+      { day: 'Day 2', title: 'Wukro church circuit', text: 'Begin with accessible rock churches and the historical context of the wider sacred landscape.' },
+      { day: 'Day 3', title: 'Maryam Korkor ridge', text: 'Climb with local guides to the plateau churches and wide views over the Gheralta plains.' },
+      { day: 'Day 4', title: 'Gheralta at your level', text: 'Choose a demanding cliff sanctuary or a lower, less exposed circuit matched to confidence and conditions.' },
+      { day: 'Day 5', title: 'Yeha and Aksum', text: 'Travel through the northern highlands for Yeha before reaching Aksum’s ancient capital.' },
+      { day: 'Day 6', title: 'Aksum and return', text: 'Explore the stelae, tombs and sacred traditions before the confirmed onward connection.' },
+    ],
+    places: ['Addis Ababa', 'Gheralta Mountains', 'Aksum'],
+    categories: ['Historic & Religious', 'Trekking', 'Cultural'],
+    accessNote:
+      'This itinerary is offered only when current travel advice, local conditions, transport access and insurance eligibility allow.',
+  },
+  {
+    popularityRank: 17,
+    slug: 'awash-and-harar-eastern-ethiopia',
+    title: 'Awash & Harar Eastern Ethiopia',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1787156513/awash-national-park.png',
+    days: '6 Days',
+    nights: 5,
+    style: 'Wildlife & Culture · Private',
+    season: 'Sep – Mar',
+    from: 'Custom quote',
+    group: '2 – 8 guests',
+    teaser:
+      'Link Rift Valley savanna and the Awash River with Dire Dawa’s railway history and the lanes of Harar.',
+    summary:
+      'A complete eastern route pairing early wildlife drives in Awash National Park with the markets, homes and Islamic heritage of Harar Jugol.',
+    includes: [
+      'Private vehicle through Awash and the eastern corridor',
+      'National park fees and wildlife guide',
+      'Resident guides in Dire Dawa and Harar',
+      'Five nights accommodation',
+      'Daily breakfast and selected park meals',
+    ],
+    excludes: [
+      'International flights and visa fees',
+      'Travel insurance valid for the confirmed route',
+      'Most lunches, dinners and gratuities',
+    ],
+    itinerary: [
+      { day: 'Day 1', title: 'Addis to Awash', text: 'Drive east through the Rift Valley and enter the park for a late-afternoon wildlife circuit.' },
+      { day: 'Day 2', title: 'Awash National Park', text: 'Use the cool hours for the plains, river gorge, falls and bird-rich acacia woodland.' },
+      { day: 'Day 3', title: 'Awash to Dire Dawa', text: 'Continue east through changing dryland landscapes to the historic railway city.' },
+      { day: 'Day 4', title: 'Harar Jugol', text: 'Walk the gates, markets, traditional homes and sacred lanes with a resident guide.' },
+      { day: 'Day 5', title: 'Harar and Aweday', text: 'Meet artisans, explore the regional market and leave room for unhurried old-city life.' },
+      { day: 'Day 6', title: 'Dire Dawa to Addis', text: 'Return to Dire Dawa for the confirmed flight or rail connection to Addis Ababa.' },
+    ],
+    places: ['Addis Ababa', 'Awash National Park', 'Dire Dawa', 'Harar Jugol'],
+    categories: ['Nature & Wildlife', 'Cultural', 'Adventure'],
+    accessNote:
+      'Departure is confirmed only after current advice, park conditions, road access and insurance eligibility have been checked.',
+  },
+  {
+    popularityRank: 18,
+    slug: 'rift-valley-lakes-and-langano',
+    title: 'Rift Valley Lakes & Langano Escape',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1787156508/lake-langano.png',
+    days: '5 Days',
+    nights: 4,
+    style: 'Lakes & Birding · Private',
+    season: 'Oct – May',
+    from: 'Custom quote',
+    group: '2 – 8 guests',
+    teaser:
+      'Slow down beside Ziway, Langano and Hawassa with wetlands, woodland birds and restorative lake time.',
+    summary:
+      'A comfortable five-day Rift Valley journey designed around birding, changing lake landscapes and time to enjoy the shore rather than rush south.',
+    includes: [
+      'Private vehicle from and back to Addis Ababa',
+      'Four nights in selected lakeside lodging',
+      'Naturalist guiding and listed park fees',
+      'Community boat visit when conditions allow',
+      'Daily breakfast',
+    ],
+    excludes: [
+      'International flights and visa fees',
+      'Travel insurance',
+      'Optional watersports, lunches and dinners',
+    ],
+    itinerary: [
+      { day: 'Day 1', title: 'Addis to Lake Ziway', text: 'Travel south for wetland birding and a locally arranged lake or island visit.' },
+      { day: 'Day 2', title: 'Abijatta-Shalla and Langano', text: 'Read the volcanic lake system with a naturalist before settling beside Langano.' },
+      { day: 'Day 3', title: 'Lake Langano', text: 'Choose woodland birding, swimming, kayaking or an entirely unhurried lakeside day.' },
+      { day: 'Day 4', title: 'Langano to Hawassa', text: 'Continue south for Lake Hawassa’s birdlife, fish-market culture and waterfront rhythm.' },
+      { day: 'Day 5', title: 'Return to Addis', text: 'Use the morning by the lake before the drive or confirmed flight back to the capital.' },
+    ],
+    places: ['Addis Ababa', 'Lake Langano', 'Hawassa'],
+    categories: ['Nature & Wildlife', 'Cultural'],
+    accessNote:
+      'Road, park and lake activities are reconfirmed before departure against local conditions and current travel advice.',
+  },
+  {
+    popularityRank: 19,
+    slug: 'gedeo-living-landscape',
+    title: 'Gedeo Living Landscape & Yirgacheffe',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1787156514/gedeo-cultural-landscape.png',
+    days: '6 Days',
+    nights: 5,
+    style: 'Living Heritage · Private',
+    season: 'Oct – Feb',
+    from: 'Custom quote',
+    group: '2 – 8 guests',
+    teaser:
+      'Enter a UNESCO agroforestry landscape through hosted walks, sacred forest, megaliths and coffee at origin.',
+    summary:
+      'A community-led southern highlands journey focused on how Gedeo knowledge brings coffee, enset, forest and cultural heritage into one living landscape.',
+    includes: [
+      'Private transport from and back to Addis Ababa',
+      'Five nights accommodation',
+      'Gedeo local guides and hosted farm visits',
+      'Coffee tasting and listed heritage fees',
+      'Daily breakfast and selected hosted meals',
+    ],
+    excludes: [
+      'International flights and visa fees',
+      'Travel insurance',
+      'Coffee purchases, most dinners and gratuities',
+    ],
+    itinerary: [
+      { day: 'Day 1', title: 'Addis to Hawassa', text: 'Travel into the Rift Valley and settle beside Lake Hawassa.' },
+      { day: 'Day 2', title: 'Sidama highlands', text: 'Begin with coffee landscapes and hosted context before continuing toward Gedeo country.' },
+      { day: 'Day 3', title: 'Yirgacheffe at origin', text: 'Walk a coffee-growing landscape and explore preparation, processing and hospitality with local hosts.' },
+      { day: 'Day 4', title: 'Gedeo agroforestry', text: 'Read the layered enset-and-coffee system with community guides and farmers.' },
+      { day: 'Day 5', title: 'Sacred forest and megaliths', text: 'Approach cultural sites with locally agreed access, interpretation and photography etiquette.' },
+      { day: 'Day 6', title: 'Return to Addis', text: 'Drive or connect north according to the final operating schedule.' },
+    ],
+    places: ['Addis Ababa', 'Hawassa', 'Gedeo Cultural Landscape'],
+    categories: ['Cultural', 'Nature & Wildlife'],
+    accessNote:
+      'Community visits and the operating route are reconfirmed locally before travel and remain subject to current advice and insurance eligibility.',
+  },
+  {
+    popularityRank: 20,
+    slug: 'kafa-forest-trekking-and-birding',
+    title: 'Kafa Forest Trekking & Birding',
+    image: 'https://res.cloudinary.com/q16lm8mo/image/upload/v1787156488/kafa-biosphere-reserve.jpg',
+    days: '7 Days',
+    nights: 6,
+    style: 'Forest Expedition · Private',
+    season: 'Oct – Mar',
+    from: 'Custom quote',
+    group: '2 – 6 guests',
+    teaser:
+      'Walk wild-coffee forest with local naturalists in search of southwest birds, waterfalls and living biodiversity.',
+    summary:
+      'An ecology-led southwest journey using Bonga as a base for forest trekking, patient birding and community conservation encounters in the Kafa Biosphere Reserve.',
+    includes: [
+      'Return domestic connections on the confirmed route',
+      'Private 4x4 in the southwest',
+      'Local naturalist and community forest guides',
+      'Six nights in the best available lodging',
+      'Daily breakfast and trail lunches',
+    ],
+    excludes: [
+      'International flights and visa fees',
+      'Travel insurance valid for the remote route',
+      'Personal birding equipment and gratuities',
+    ],
+    itinerary: [
+      { day: 'Day 1', title: 'Addis to Jimma', text: 'Fly or drive southwest and meet the naturalist team for a route and birding briefing.' },
+      { day: 'Day 2', title: 'Jimma to Bonga', text: 'Continue into wetter highlands with roadside birding and landscape stops.' },
+      { day: 'Day 3', title: 'Wild-coffee forest', text: 'Walk beneath the canopy to understand wild Arabica, forest structure and conservation.' },
+      { day: 'Day 4', title: 'Kafa birding day', text: 'Use the quiet morning and late afternoon for southwest specialties with a local naturalist.' },
+      { day: 'Day 5', title: 'Waterfalls and community forest', text: 'Combine a longer forest trail with locally hosted conservation and coffee context.' },
+      { day: 'Day 6', title: 'Bonga to Jimma', text: 'Return gradually with flexible wetland, forest-edge and cultural stops.' },
+      { day: 'Day 7', title: 'Return to Addis', text: 'Take the confirmed connection back to the capital for onward travel.' },
+    ],
+    places: ['Addis Ababa', 'Jimma', 'Kafa Biosphere Reserve'],
+    categories: ['Nature & Wildlife', 'Trekking', 'Adventure'],
+    accessNote:
+      'This remote itinerary operates only after road, weather, local security and insurance conditions have been checked close to departure.',
   },
 ]
 

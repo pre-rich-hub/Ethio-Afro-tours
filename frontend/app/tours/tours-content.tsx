@@ -30,13 +30,13 @@ export function ToursContent({ tours }: { tours: Tour[] }) {
     <>
       <PageHero
         eyebrow={t('toursPage.hero.eyebrow', 'Tours & Journeys')}
-        title={t('toursPage.hero.title', 'Fifteen routes, and none of them fixed')}
-        lede={t('toursPage.hero.lede', 'Consider these starting points rather than packages. Each one has been run dozens of times, and each one gets redrawn around the guests travelling it.')}
+        title={t('toursPage.hero.title', 'Twenty routes, and none of them fixed')}
+        lede={t('toursPage.hero.lede', 'Consider these starting points rather than fixed packages. Each route is redrawn around the guests travelling it, current access and the season.')}
         image={heroImage}
         imageAlt={t('toursPage.hero.imageAlt', 'The historic royal enclosure of Gondar, Ethiopia')}
         crumbs={[{ label: t('nav.home', 'Home'), href: '/' }, { label: t('nav.tours', 'Tours') }]}
         meta={[
-          { label: t('toursPage.meta.journeys', 'Journeys'), value: '15' },
+          { label: t('toursPage.meta.journeys', 'Journeys'), value: String(tours.length) },
           { label: t('toursPage.meta.length', 'Length'), value: t('toursPage.meta.lengthValue', '4 – 18 Days') },
           { label: t('toursPage.meta.group', 'Group Size'), value: t('toursPage.meta.groupValue', '2 – 10 Guests') },
           { label: t('toursPage.meta.guiding', 'Guiding'), value: t('toursPage.meta.guidingValue', 'Private') },
