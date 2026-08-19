@@ -267,6 +267,71 @@ export const destinationDossiers: DestinationDossier[] = [
     ],
     pairsWellWith: ['Tiya', 'Addis Ababa', 'Central Highlands'],
   },
+  {
+    slug: 'gheralta-mountains',
+    essence:
+      'Gheralta is a sacred sandstone landscape where rock-hewn churches, village paths and immense escarpments form one inseparable historical setting.',
+    howToExperience:
+      'Match churches to confidence and fitness, combining one major ridge walk with accessible sanctuaries and enough time for local guides to explain the living religious landscape.',
+    planningNotes: [
+      'Some routes involve exposure and scrambling; alternatives must be agreed honestly.',
+      'Church access depends on services, local custodians and current conditions.',
+      'Regional advice, transport and insurance are checked before the route is offered.',
+    ],
+    pairsWellWith: ['Aksum', 'Yeha', 'Wukro'],
+  },
+  {
+    slug: 'awash-national-park',
+    essence:
+      'Awash brings acacia savanna, volcanic plains, river gorge and dry-country wildlife together on Ethiopia’s eastern corridor.',
+    howToExperience:
+      'Stay overnight and protect dawn and late afternoon for wildlife, using the warmer hours for the falls, gorge, viewpoints and onward travel.',
+    planningNotes: [
+      'Wildlife is dispersed and sightings should never be oversold.',
+      'Heat, road access and park guidance shape the daily sequence.',
+      'It connects naturally with Dire Dawa and Harar when the corridor is operating.',
+    ],
+    pairsWellWith: ['Dire Dawa', 'Harar Jugol', 'Central Rift Valley'],
+  },
+  {
+    slug: 'lake-langano',
+    essence:
+      'Langano is a restorative Rift Valley lake where woodland birding, shore time and comfortable lodging break up longer journeys south.',
+    howToExperience:
+      'Leave the schedule light: a naturalist walk at first light, optional time on the water and a wider lake circuit only when current conditions make it worthwhile.',
+    planningNotes: [
+      'Water and shoreline conditions are checked locally.',
+      'Abijatta-Shalla is strongest for landscape and birds rather than big mammals.',
+      'One or two nights fit naturally between Addis and Hawassa.',
+    ],
+    pairsWellWith: ['Lake Ziway', 'Abijatta-Shalla', 'Hawassa'],
+  },
+  {
+    slug: 'gedeo-cultural-landscape',
+    essence:
+      'Gedeo is a living agroforestry landscape in which coffee, enset, mature trees, sacred places and community knowledge sustain one another.',
+    howToExperience:
+      'Walk with community guides and hosts, treating farms, forests and megalithic sites as parts of a lived system rather than separate attractions.',
+    planningNotes: [
+      'Visits depend on local invitation and should return value to hosts.',
+      'Harvest and processing seasons change the coffee experience.',
+      'Photography at homes and sacred places always follows consent.',
+    ],
+    pairsWellWith: ['Yirgacheffe', 'Hawassa', 'Sidama coffee country'],
+  },
+  {
+    slug: 'kafa-biosphere-reserve',
+    essence:
+      'Kafa protects a southwest Afromontane forest landscape rich in wild Arabica, wetlands, birds and community relationships with the forest.',
+    howToExperience:
+      'Base around Bonga and travel slowly with local naturalists, mixing forest walks and birding with coffee ecology and community conservation.',
+    planningNotes: [
+      'Rain can change trail and road conditions in every season.',
+      'Lodging is limited and driving times must remain conservative.',
+      'Binoculars, waterproof footwear and flexible expectations are valuable.',
+    ],
+    pairsWellWith: ['Bonga', 'Jimma', 'Southwest coffee country'],
+  },
 ]
 
 export function getDestinationDossier(slug: string) {

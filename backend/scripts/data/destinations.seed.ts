@@ -1,5 +1,5 @@
 // CLIENT CATALOG — EthioAfroTours frontend/lib/site.ts (destinations array).
-// All 20 site destinations, mapped into the backend Destination schema.
+// All 25 site destinations, mapped into the backend Destination schema.
 // Slugs intentionally match the public routes; established `axum` and
 // `lake-tana` URLs are retained even though their display names are broader.
 export interface DestinationSeed {
@@ -149,5 +149,40 @@ export const destinationSeeds: DestinationSeed[] = [
     description:
       "Adadi Mariam is a working monolithic church in the countryside south of Addis Ababa, traditionally associated with King Lalibela.",
     imageUrl: "https://res.cloudinary.com/q16lm8mo/image/upload/v1786801355/adadi-mariam.png"
+  },
+  {
+    slug: "gheralta-mountains",
+    destinationName: "Gheralta Mountains & Rock-Hewn Churches",
+    description:
+      "Gheralta combines one of Ethiopia's most dramatic mountain landscapes with a remarkable concentration of rock-hewn Orthodox churches.",
+    imageUrl: "https://res.cloudinary.com/q16lm8mo/image/upload/v1787156491/gheralta-mountains.jpg"
+  },
+  {
+    slug: "awash-national-park",
+    destinationName: "Awash National Park",
+    description:
+      "One of Ethiopia's oldest national parks brings oryx, kudu, baboons and exceptional birdlife within reach of Addis Ababa and the eastern route.",
+    imageUrl: "https://res.cloudinary.com/q16lm8mo/image/upload/v1787156513/awash-national-park.png"
+  },
+  {
+    slug: "lake-langano",
+    destinationName: "Lake Langano & Central Rift Valley",
+    description:
+      "Lake Langano is Ethiopia's classic lakeside retreat and a comfortable base for exploring the wetlands, volcanic shores and birdlife of the Central Rift Valley.",
+    imageUrl: "https://res.cloudinary.com/q16lm8mo/image/upload/v1787156508/lake-langano.png"
+  },
+  {
+    slug: "gedeo-cultural-landscape",
+    destinationName: "Gedeo Cultural Landscape",
+    description:
+      "The UNESCO-listed Gedeo landscape preserves a sophisticated agroforestry tradition alongside sacred forests, megalithic sites and celebrated coffee country.",
+    imageUrl: "https://res.cloudinary.com/q16lm8mo/image/upload/v1787156514/gedeo-cultural-landscape.png"
+  },
+  {
+    slug: "kafa-biosphere-reserve",
+    destinationName: "Kafa Biosphere Reserve",
+    description:
+      "Around Bonga, the Kafa Biosphere Reserve protects extraordinary forest biodiversity and the living landscape associated with wild Coffea arabica.",
+    imageUrl: "https://res.cloudinary.com/q16lm8mo/image/upload/v1787156488/kafa-biosphere-reserve.jpg"
   }
 ];
