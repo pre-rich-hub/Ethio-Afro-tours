@@ -217,6 +217,9 @@ async function main() {
       seed.legacyGallery.some((imageUrl) => existingGalleryUrls.has(imageUrl));
 
     if (!existing || scalarChanged || galleryChanged) {
+      // 30s instead of the 5s default: after a Neon autosuspend the DIRECT
+      // connection is cold and interactive transactions exceed the default
+      // window (P2028 "Transaction already closed ... 5000 ms").
       await prisma.$transaction(async (tx) => {
         const tour = existing
           ? await tx.tour.update({
@@ -271,7 +274,7 @@ async function main() {
             where: { tourId: tour.id, imageUrl: { in: seed.legacyGallery } }
           });
         }
-      });
+      }, { timeout: 30_000 });
     }
     seededTours += 1;
   }
