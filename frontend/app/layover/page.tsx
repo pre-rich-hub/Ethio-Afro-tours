@@ -5,6 +5,9 @@ import { layoverFaqs } from '@/lib/faqs'
 import {
   buildBreadcrumbList,
   buildFaqPage,
+  buildItemList,
+  buildLayoverServices,
+  buildWebPage,
   pageStructuredData,
 } from '@/lib/structured-data'
 import { buildSocialMetadata } from '@/lib/seo'
@@ -41,6 +44,25 @@ export default async function LayoverPage() {
             { name: 'Home', path: '/' },
             { name: 'Layover', path: '/layover' },
           ]),
+          buildWebPage({
+            path: '/layover',
+            name: pageTitle,
+            description: pageDescription,
+            type: 'CollectionPage',
+            mainEntityId: '/layover#layover-services',
+          }),
+          buildItemList({
+            path: '/layover',
+            id: 'layover-packages',
+            name: 'Addis Ababa layover tour packages',
+            items: packages.map((item) => ({
+              name: item.title,
+              path: '/layover',
+              description: item.teaser,
+              image: item.image ?? undefined,
+            })),
+          }),
+          buildLayoverServices(packages),
           buildFaqPage('/layover', layoverFaqs),
         )}
       />

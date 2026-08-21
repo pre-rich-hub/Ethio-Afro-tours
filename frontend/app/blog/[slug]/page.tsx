@@ -8,6 +8,7 @@ import { getPostData, getPostsData } from '@/lib/data'
 import {
   buildBlogPosting,
   buildBreadcrumbList,
+  buildWebPage,
   pageStructuredData,
 } from '@/lib/structured-data'
 
@@ -25,6 +26,8 @@ export async function generateMetadata({
   const { slug } = await params
   const p = await getPostData(slug)
   if (!p) return { title: 'Article not found' }
+  const articleDate = new Date(`${p.date} 00:00:00 UTC`)
+  const articleDateIso = Number.isNaN(articleDate.getTime()) ? undefined : articleDate.toISOString()
   return {
     title: p.title,
     description: p.excerpt,
@@ -34,6 +37,14 @@ export async function generateMetadata({
       title: p.title,
       description: p.excerpt,
       type: 'article',
+      ...(articleDateIso ? { publishedTime: articleDateIso, modifiedTime: articleDateIso } : {}),
+      authors: [p.author],
+      images: [cloudinaryImageUrl(p.image, { width: 1200, quality: 82 })],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: p.title,
+      description: p.excerpt,
       images: [cloudinaryImageUrl(p.image, { width: 1200, quality: 82 })],
     },
   }
@@ -61,6 +72,12 @@ export default async function ArticlePage({
             { name: 'Journal', path: '/blog' },
             { name: post.title, path: `/blog/${post.slug}` },
           ]),
+          buildWebPage({
+            path: `/blog/${post.slug}`,
+            name: post.title,
+            description: post.excerpt,
+            mainEntityId: `/blog/${post.slug}#article`,
+          }),
           buildBlogPosting(post),
         )}
       />

@@ -5,7 +5,12 @@ import { cloudinaryImageUrl } from '@/lib/cloudinary'
 import { destinations } from '@/lib/site'
 import { getDestinationData, getDestinationsData, getToursData } from '@/lib/data'
 import { getDestinationDossier } from '@/lib/destination-dossiers'
-import { buildBreadcrumbList, pageStructuredData } from '@/lib/structured-data'
+import {
+  buildBreadcrumbList,
+  buildTouristDestination,
+  buildWebPage,
+  pageStructuredData,
+} from '@/lib/structured-data'
 import { DestinationDetailContent } from './destination-detail-content'
 
 export function generateStaticParams() {
@@ -27,6 +32,12 @@ export async function generateMetadata({
     description: d.intro,
     alternates: { canonical: `/destinations/${d.slug}` },
     openGraph: {
+      title: d.name,
+      description: d.intro,
+      images: [cloudinaryImageUrl(d.image, { width: 1200, quality: 82 })],
+    },
+    twitter: {
+      card: 'summary_large_image',
       title: d.name,
       description: d.intro,
       images: [cloudinaryImageUrl(d.image, { width: 1200, quality: 82 })],
@@ -64,6 +75,13 @@ export default async function DestinationPage({
               path: `/destinations/${d.slug}`,
             },
           ]),
+          buildWebPage({
+            path: `/destinations/${d.slug}`,
+            name: d.name,
+            description: d.intro,
+            mainEntityId: `/destinations/${d.slug}#destination`,
+          }),
+          buildTouristDestination(d),
         )}
       />
       <DestinationDetailContent

@@ -4,8 +4,15 @@ import { cloudinarySocialImageUrl } from '@/lib/cloudinary'
 const productionSiteUrl = 'https://ethioafrotours.com'
 
 function resolveSiteUrl(): URL {
-  const configuredUrl = process.env.SITE_URL?.trim() || productionSiteUrl
-  const url = new URL(configuredUrl)
+  const configuredUrl =
+    process.env.SITE_URL?.trim() ||
+    process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim() ||
+    process.env.VERCEL_URL?.trim() ||
+    productionSiteUrl
+  const normalizedUrl = /^https?:\/\//i.test(configuredUrl)
+    ? configuredUrl
+    : `https://${configuredUrl}`
+  const url = new URL(normalizedUrl)
 
   if (url.protocol !== 'http:' && url.protocol !== 'https:') {
     throw new Error('SITE_URL must use the http or https protocol.')

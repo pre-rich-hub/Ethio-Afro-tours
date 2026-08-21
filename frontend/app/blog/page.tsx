@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { JsonLd } from '@/components/json-ld'
-import { buildBreadcrumbList, pageStructuredData } from '@/lib/structured-data'
+import { buildBreadcrumbList, buildItemList, buildWebPage, pageStructuredData } from '@/lib/structured-data'
 import { buildSocialMetadata } from '@/lib/seo'
 import { getPostsData } from '@/lib/data'
 import { BlogContent } from './blog-content'
@@ -38,6 +38,24 @@ export default async function BlogPage() {
             { name: 'Home', path: '/' },
             { name: 'Journal', path: '/blog' },
           ]),
+          buildWebPage({
+            path: '/blog',
+            name: pageTitle,
+            description: pageDescription,
+            type: 'CollectionPage',
+            mainEntityId: '/blog#articles',
+          }),
+          buildItemList({
+            path: '/blog',
+            id: 'articles',
+            name: 'EthioAfro Tours journal articles',
+            items: posts.map((post) => ({
+              name: post.title,
+              path: `/blog/${post.slug}`,
+              description: post.excerpt,
+              image: post.image,
+            })),
+          }),
         )}
       />
       <BlogContent posts={posts} />

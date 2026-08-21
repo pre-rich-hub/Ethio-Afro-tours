@@ -6,6 +6,8 @@ import { getToursData } from '@/lib/data'
 import {
   buildBreadcrumbList,
   buildFaqPage,
+  buildItemList,
+  buildWebPage,
   pageStructuredData,
 } from '@/lib/structured-data'
 import { buildSocialMetadata } from '@/lib/seo'
@@ -43,6 +45,24 @@ export default async function ToursPage() {
             { name: 'Home', path: '/' },
             { name: 'Tours', path: '/tours' },
           ]),
+          buildWebPage({
+            path: '/tours',
+            name: pageTitle,
+            description: pageDescription,
+            type: 'CollectionPage',
+            mainEntityId: '/tours#tours',
+          }),
+          buildItemList({
+            path: '/tours',
+            id: 'tours',
+            name: 'Private Ethiopia tours',
+            items: tours.map((tour) => ({
+              name: tour.title,
+              path: `/tours/${tour.slug}`,
+              description: tour.summary,
+              image: tour.image,
+            })),
+          }),
           buildFaqPage('/tours', tourFaqs),
         )}
       />

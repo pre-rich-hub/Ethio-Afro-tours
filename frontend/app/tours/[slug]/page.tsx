@@ -8,6 +8,7 @@ import { getTourData, getToursData } from '@/lib/data'
 import {
   buildBreadcrumbList,
   buildTouristTrip,
+  buildWebPage,
   pageStructuredData,
 } from '@/lib/structured-data'
 
@@ -30,6 +31,12 @@ export async function generateMetadata({
     description: tour.summary,
     alternates: { canonical: `/tours/${tour.slug}` },
     openGraph: {
+      title: tour.title,
+      description: tour.summary,
+      images: [cloudinaryImageUrl(tour.image, { width: 1200, quality: 82 })],
+    },
+    twitter: {
+      card: 'summary_large_image',
       title: tour.title,
       description: tour.summary,
       images: [cloudinaryImageUrl(tour.image, { width: 1200, quality: 82 })],
@@ -58,6 +65,12 @@ export default async function TourPage({
             { name: 'Tours', path: '/tours' },
             { name: tour.title, path: `/tours/${tour.slug}` },
           ]),
+          buildWebPage({
+            path: `/tours/${tour.slug}`,
+            name: tour.title,
+            description: tour.summary,
+            mainEntityId: `/tours/${tour.slug}#tour`,
+          }),
           buildTouristTrip(tour),
         )}
       />

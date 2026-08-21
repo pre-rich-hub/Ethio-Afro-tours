@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { JsonLd } from '@/components/json-ld'
 import { destinations } from '@/lib/site'
 import { getDestinationsData } from '@/lib/data'
-import { buildBreadcrumbList, pageStructuredData } from '@/lib/structured-data'
+import { buildBreadcrumbList, buildItemList, buildWebPage, pageStructuredData } from '@/lib/structured-data'
 import { buildSocialMetadata } from '@/lib/seo'
 import { DestinationsContent } from './destinations-content'
 
@@ -38,6 +38,24 @@ export default async function DestinationsPage() {
             { name: 'Home', path: '/' },
             { name: 'Destinations', path: '/destinations' },
           ]),
+          buildWebPage({
+            path: '/destinations',
+            name: pageTitle,
+            description: pageDescription,
+            type: 'CollectionPage',
+            mainEntityId: '/destinations#destinations',
+          }),
+          buildItemList({
+            path: '/destinations',
+            id: 'destinations',
+            name: 'Ethiopia destinations',
+            items: liveDestinations.map((destination) => ({
+              name: destination.name,
+              path: `/destinations/${destination.slug}`,
+              description: destination.intro,
+              image: destination.image,
+            })),
+          }),
         )}
       />
       <DestinationsContent destinations={liveDestinations} />

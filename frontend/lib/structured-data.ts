@@ -1,7 +1,7 @@
 import { absoluteUrl } from '@/lib/seo'
 import { cloudinaryImageUrl } from '@/lib/cloudinary'
 import type { FaqItem } from '@/lib/faqs'
-import { contact, type Post, type Tour } from '@/lib/site'
+import { contact, type Destination, type LayoverPackage, type Post, type Tour } from '@/lib/site'
 
 export const organizationId = absoluteUrl('/#organization')
 export const websiteId = absoluteUrl('/#website')
@@ -24,6 +24,16 @@ export const globalStructuredData = {
         'Private, tailor-made luxury journeys through Ethiopia, designed around each traveller.',
       telephone: contact.phone,
       email: contact.email,
+      contactPoint: [
+        {
+          '@type': 'ContactPoint',
+          telephone: contact.phone,
+          email: contact.email,
+          contactType: 'customer service',
+          areaServed: 'ET',
+          availableLanguage: ['en'],
+        },
+      ],
       address: {
         '@type': 'PostalAddress',
         streetAddress: 'Bole Medhaniallem, Cape Verde Street',
@@ -62,6 +72,11 @@ export const globalStructuredData = {
       publisher: {
         '@id': organizationId,
       },
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: `${absoluteUrl('/tours')}?q={search_term_string}`,
+        'query-input': 'required name=search_term_string',
+      },
     },
   ],
 } as const
@@ -96,7 +111,7 @@ type WebPageOptions = {
   path: string
   name: string
   description: string
-  type?: 'WebPage' | 'AboutPage'
+  type?: 'WebPage' | 'AboutPage' | 'CollectionPage' | 'ContactPage'
   mainEntityId?: string
 }
 
@@ -108,6 +123,9 @@ export function buildWebPage({
   mainEntityId,
 }: WebPageOptions) {
   const url = absoluteUrl(path)
+  const normalizedMainEntityId = mainEntityId?.startsWith('/')
+    ? absoluteUrl(mainEntityId)
+    : mainEntityId
 
   return {
     '@type': type,
@@ -117,8 +135,63 @@ export function buildWebPage({
     description,
     inLanguage: 'en',
     isPartOf: { '@id': websiteId },
-    breadcrumb: { '@id': `${url}#breadcrumb` },
-    ...(mainEntityId ? { mainEntity: { '@id': mainEntityId } } : {}),
+    ...(path === '/' ? {} : { breadcrumb: { '@id': `${url}#breadcrumb` } }),
+    publisher: { '@id': organizationId },
+    ...(normalizedMainEntityId ? { mainEntity: { '@id': normalizedMainEntityId } } : {}),
+  }
+}
+
+export function buildItemList({
+  path,
+  id = 'items',
+  name,
+  items,
+}: {
+  path: string
+  id?: string
+  name: string
+  items: readonly { name: string; path: string; description?: string; image?: string }[]
+}) {
+  const url = absoluteUrl(path)
+
+  return {
+    '@type': 'ItemList',
+    '@id': `${url}#${id}`,
+    name,
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      url: absoluteUrl(item.path),
+      name: item.name,
+      ...(item.description ? { description: item.description } : {}),
+      ...(item.image ? { image: cloudinaryImageUrl(item.image, { width: 1200, quality: 82 }) } : {}),
+    })),
+  }
+}
+
+export function buildTouristDestination(destination: Destination) {
+  const url = absoluteUrl(`/destinations/${destination.slug}`)
+
+  return {
+    '@type': 'TouristDestination',
+    '@id': `${url}#destination`,
+    name: destination.name,
+    description: destination.intro,
+    url,
+    image: cloudinaryImageUrl(destination.image, { width: 1600, quality: 82 }),
+    touristType: destination.tag,
+    containedInPlace: {
+      '@type': 'Country',
+      name: 'Ethiopia',
+    },
+    address: {
+      '@type': 'PostalAddress',
+      addressRegion: destination.region,
+      addressCountry: 'ET',
+    },
+    mainEntityOfPage: {
+      '@id': `${url}#webpage`,
+    },
   }
 }
 
@@ -133,6 +206,16 @@ export function buildTouristTrip(tour: Tour) {
     url,
     image: cloudinaryImageUrl(tour.image, { width: 1600, quality: 82 }),
     touristType: tour.categories,
+    duration: tour.days,
+    offers: {
+      '@type': 'Offer',
+      priceSpecification: {
+        '@type': 'PriceSpecification',
+        description: tour.from,
+      },
+      availability: 'https://schema.org/InStock',
+      url,
+    },
     provider: {
       '@id': organizationId,
     },
@@ -157,10 +240,9 @@ export function buildTouristTrip(tour: Tour) {
 export function buildBlogPosting(post: Post) {
   const url = absoluteUrl(`/blog/${post.slug}`)
   const publishedDate = new Date(`${post.date} 00:00:00 UTC`)
-
-  if (Number.isNaN(publishedDate.getTime())) {
-    throw new Error(`Invalid publication date for blog post: ${post.slug}`)
-  }
+  const date = Number.isNaN(publishedDate.getTime())
+    ? undefined
+    : publishedDate.toISOString().slice(0, 10)
 
   return {
     '@type': 'BlogPosting',
@@ -169,7 +251,7 @@ export function buildBlogPosting(post: Post) {
     description: post.excerpt,
     url,
     image: cloudinaryImageUrl(post.image, { width: 1600, quality: 82 }),
-    datePublished: publishedDate.toISOString().slice(0, 10),
+    ...(date ? { datePublished: date, dateModified: date } : {}),
     articleSection: post.category,
     articleBody: post.body.join('\n\n'),
     wordCount: post.body.join(' ').trim().split(/\s+/).length,
@@ -190,6 +272,51 @@ export function buildBlogPosting(post: Post) {
       '@id': url,
     },
   }
+}
+
+export function buildLayoverServices(packages: readonly LayoverPackage[]) {
+  const url = absoluteUrl('/layover')
+
+  return {
+    '@type': 'OfferCatalog',
+    '@id': `${url}#layover-services`,
+    name: 'Addis Ababa layover tour options',
+    itemListElement: packages.map((item, index) => ({
+      '@type': 'Offer',
+      position: index + 1,
+      itemOffered: {
+        '@type': 'Service',
+        '@id': `${url}#${item.slug}`,
+        name: item.title,
+        description: item.teaser,
+        serviceType: item.packageType === 'stopover' ? 'Stopover tour' : 'Layover tour',
+        provider: { '@id': organizationId },
+        areaServed: {
+          '@type': 'City',
+          name: 'Addis Ababa',
+        },
+        image: item.image ? cloudinaryImageUrl(item.image, { width: 1200, quality: 82 }) : undefined,
+        termsOfService: `Minimum connection: ${item.minimumConnection}. Experience length: ${item.hours}.`,
+      },
+      priceSpecification: {
+        '@type': 'PriceSpecification',
+        description: item.price,
+      },
+    })),
+  }
+}
+
+export function buildContactPage() {
+  const url = absoluteUrl('/contact')
+
+  return buildWebPage({
+    path: '/contact',
+    name: 'Contact Us',
+    description:
+      'Speak directly with an Addis-based travel designer about your Ethiopian journey.',
+    type: 'ContactPage',
+    mainEntityId: organizationId,
+  }) satisfies object
 }
 
 export function buildFaqPage(path: string, faqs: readonly FaqItem[]) {
