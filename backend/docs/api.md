@@ -183,6 +183,8 @@ Production email on Vercel should use `EMAIL_PROVIDER=resend`,
 Resend-verified domain, and `ADMIN_EMAIL` set to the inbox that receives
 contact/newsletter notifications. Resend delivery uses the HTTPS Email API,
 not SMTP, to avoid serverless SMTP timeout and background-task reliability
-issues.
+issues. Set `FRONTEND_ORIGIN` to the actual deployed frontend Vercel URL, not
+an unrelated custom domain. The frontend deployment only needs `API_BASE_URL`
+for API routing; set it to the deployed backend URL.
 
 Up-to-date template with comments: `.env.example`.
