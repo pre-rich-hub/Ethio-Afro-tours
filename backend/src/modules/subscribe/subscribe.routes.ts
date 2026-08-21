@@ -5,6 +5,7 @@ import { asyncHandler } from "../../utils/async-handler.js";
 import { ok } from "../../utils/api-response.js";
 import { sendSubscriberAdminEmail } from "../../services/email.service.js";
 import { publicFormLimiter } from "../../middleware/rate-limit.middleware.js";
+import { logger } from "../../config/pino.js";
 
 export const subscribeRouter = Router();
 
@@ -30,10 +31,12 @@ subscribeRouter.post(
       data: { email: input.email }
     });
 
-    await sendSubscriberAdminEmail({
+    void sendSubscriberAdminEmail({
       email: input.email,
       subscribedAt: new Date()
-    }).catch(() => undefined);
+    }).catch((err) => {
+      logger.warn({ err, email: input.email }, "Failed to send newsletter subscription notification email");
+    });
 
     return ok(res, "Subscribed successfully", { subscribed: true });
   })

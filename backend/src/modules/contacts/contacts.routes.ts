@@ -6,6 +6,7 @@ import { ok } from "../../utils/api-response.js";
 import { HttpError } from "../../middleware/error.middleware.js";
 import { publicFormLimiter } from "../../middleware/rate-limit.middleware.js";
 import { sendContactAdminEmail } from "../../services/email.service.js";
+import { logger } from "../../config/pino.js";
 
 export const contactsRouter = Router();
 
@@ -29,7 +30,9 @@ contactsRouter.post(
       }
     });
 
-    await sendContactAdminEmail(input).catch(() => undefined);
+    void sendContactAdminEmail(input).catch((err) => {
+      logger.warn({ err, email: input.email }, "Failed to send contact notification email");
+    });
 
     return ok(res, "Message sent successfully", null);
   })

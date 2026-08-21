@@ -29,6 +29,8 @@ const envSchema = z.object({
   SMTP_USER: z.string().optional().default(""),
   SMTP_PASS: z.string().optional().default(""),
   SMTP_FROM: z.string().optional().default(""),
+  EMAIL_PROVIDER: z.enum(["smtp", "resend"]).default("smtp"),
+  RESEND_API_KEY: z.string().optional().default(""),
   ADMIN_EMAIL: z.string().optional().default(""),
   ADMIN_PASSWORD: z.string().optional().default(""),
   EMAIL_ENABLED: z.preprocess(envBoolean, z.boolean()).default(false),
@@ -81,12 +83,20 @@ const parsed = {
   ASSISTANT_IP_HASH_SALT: rawEnv.ASSISTANT_IP_HASH_SALT || rawEnv.JWT_SECRET
 };
 
-// Boot check: email must be fully configured before it is enabled. Without an
-// SMTP host, every notification silently waits forever — fail fast instead.
-if (parsed.EMAIL_ENABLED && !parsed.SMTP_HOST) {
-  throw new Error(
-    "EMAIL_ENABLED is true but SMTP_HOST is not configured. Set SMTP_HOST (and SMTP_USER/SMTP_PASS) or set EMAIL_ENABLED=false."
-  );
+// Boot check: email must be fully configured before it is enabled. Without a
+// provider target, every notification silently waits forever; fail fast instead.
+if (parsed.EMAIL_ENABLED) {
+  if (parsed.EMAIL_PROVIDER === "resend" && !parsed.RESEND_API_KEY) {
+    throw new Error(
+      "EMAIL_ENABLED is true and EMAIL_PROVIDER=resend but RESEND_API_KEY is not configured. Set RESEND_API_KEY or set EMAIL_ENABLED=false."
+    );
+  }
+
+  if (parsed.EMAIL_PROVIDER === "smtp" && !parsed.SMTP_HOST) {
+    throw new Error(
+      "EMAIL_ENABLED is true but SMTP_HOST is not configured. Set SMTP_HOST (and SMTP_USER/SMTP_PASS) or set EMAIL_ENABLED=false."
+    );
+  }
 }
 
 // Boot check: the assistant may only be enabled with a configured provider.

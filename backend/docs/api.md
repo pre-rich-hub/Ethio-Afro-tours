@@ -174,7 +174,7 @@ six-package catalog is used only when the API request fails.
 
 `NODE_ENV`, `PORT`, `DATABASE_URL`, `DIRECT_URL`, `FRONTEND_ORIGIN` (comma list),
 `JWT_SECRET` (min 16 chars), `JWT_EXPIRES_IN`, `AUTH_COOKIE_NAME`, `COOKIE_SECURE`,
-`SMTP_*`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `EMAIL_ENABLED` (boolean strings
+`SMTP_*`, `EMAIL_PROVIDER`, `RESEND_API_KEY`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `EMAIL_ENABLED` (boolean strings
 `true/false/1/0/on/off` are parsed safely — plain `false` in `.env` stays false),
 `UPLOAD_ROOT`, `PUBLIC_FILE_BASE_URL`, `MAX_UPLOAD_MB`, `STORAGE_DRIVER`.
 

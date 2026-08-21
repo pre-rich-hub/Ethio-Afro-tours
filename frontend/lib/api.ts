@@ -14,6 +14,7 @@
 // thrown AbortError; in production the API answers in ~100ms and the timeout
 // never fires.
 const REQUEST_TIMEOUT_MS = 5_000
+const FORM_REQUEST_TIMEOUT_MS = 20_000
 
 type ApiEnvelope<T> = {
   success: boolean
@@ -75,11 +76,11 @@ export type ToursPage = {
   }
 }
 
-async function request<T>(path: string, init?: RequestInit): Promise<T> {
+async function request<T>(path: string, init?: RequestInit, timeoutMs = REQUEST_TIMEOUT_MS): Promise<T> {
   const response = await fetch(path, {
     ...init,
     cache: 'no-store',
-    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+    signal: AbortSignal.timeout(timeoutMs),
     headers: { 'Content-Type': 'application/json', ...(init?.headers ?? {}) },
   })
 
@@ -126,14 +127,14 @@ export async function submitContact(payload: ContactPayload): Promise<void> {
   await request<null>('/api/v1/contact', {
     method: 'POST',
     body: JSON.stringify(payload),
-  })
+  }, FORM_REQUEST_TIMEOUT_MS)
 }
 
 export async function subscribe(email: string): Promise<void> {
   await request<null>('/api/v1/subscribe', {
     method: 'POST',
     body: JSON.stringify({ email }),
-  })
+  }, FORM_REQUEST_TIMEOUT_MS)
 }
 
 export type ApiLayoverPackage = {

@@ -21,6 +21,30 @@ function escapeHtml(value: string): string {
   });
 }
 
+function getTransportOptions() {
+  if (env.EMAIL_PROVIDER === "resend") {
+    return {
+      host: "smtp.resend.com",
+      port: 465,
+      secure: true,
+      auth: { user: "resend", pass: env.RESEND_API_KEY },
+      connectionTimeout: 10_000,
+      greetingTimeout: 10_000,
+      socketTimeout: 20_000
+    };
+  }
+
+  return {
+    host: env.SMTP_HOST,
+    port: env.SMTP_PORT,
+    secure: env.SMTP_PORT === 465,
+    auth: env.SMTP_USER && env.SMTP_PASS ? { user: env.SMTP_USER, pass: env.SMTP_PASS } : undefined,
+    connectionTimeout: 10_000,
+    greetingTimeout: 10_000,
+    socketTimeout: 20_000
+  };
+}
+
 /**
  * Delivers one email. When EMAIL_ENABLED=false this is a pure log statement,
  * which keeps local development usable without any mail server.
@@ -32,15 +56,7 @@ export async function sendMail(input: SendEmailInput) {
   }
 
   const nodemailer = await import("nodemailer");
-  const transporter = nodemailer.default.createTransport({
-    host: env.SMTP_HOST,
-    port: env.SMTP_PORT,
-    secure: env.SMTP_PORT === 465,
-    auth: env.SMTP_USER && env.SMTP_PASS ? { user: env.SMTP_USER, pass: env.SMTP_PASS } : undefined,
-    connectionTimeout: 10_000,
-    greetingTimeout: 10_000,
-    socketTimeout: 20_000
-  });
+  const transporter = nodemailer.default.createTransport(getTransportOptions());
 
   await transporter.sendMail({
     from: env.SMTP_FROM,
