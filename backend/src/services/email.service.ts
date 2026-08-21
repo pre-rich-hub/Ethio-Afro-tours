@@ -8,6 +8,11 @@ type SendEmailInput = {
   replyTo?: string;
 };
 
+type ResendErrorResponse = {
+  name?: string;
+  message?: string;
+};
+
 function escapeHtml(value: string): string {
   return value.replace(/[&<>'"]/g, (character) => {
     const entities: Record<string, string> = {
@@ -45,6 +50,67 @@ function getTransportOptions() {
   };
 }
 
+function htmlToText(html: string) {
+  return html.replace(/<[^>]+>/g, " ");
+}
+
+function getErrorMessage(data: unknown) {
+  if (typeof data !== "object" || data === null) return "";
+
+  const error = data as ResendErrorResponse;
+  return [error.name, error.message].filter(Boolean).join(": ");
+}
+
+async function sendWithResend(input: SendEmailInput) {
+  const body: Record<string, unknown> = {
+    from: env.SMTP_FROM,
+    to: [input.to],
+    subject: input.subject,
+    html: input.html,
+    text: htmlToText(input.html)
+  };
+
+  if (input.replyTo) body.reply_to = input.replyTo;
+
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${env.RESEND_API_KEY}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(body),
+    signal: AbortSignal.timeout(15_000)
+  });
+
+  if (!response.ok) {
+    let data: unknown;
+    try {
+      data = await response.json();
+    } catch {
+      data = await response.text().catch(() => "");
+    }
+
+    const detail = getErrorMessage(data) || (typeof data === "string" ? data : "");
+    throw new Error(
+      `Resend email send failed (${response.status}${response.statusText ? ` ${response.statusText}` : ""})${detail ? `: ${detail}` : ""}`
+    );
+  }
+}
+
+async function sendWithSmtp(input: SendEmailInput) {
+  const nodemailer = await import("nodemailer");
+  const transporter = nodemailer.default.createTransport(getTransportOptions());
+
+  await transporter.sendMail({
+    from: env.SMTP_FROM,
+    to: input.to,
+    subject: input.subject,
+    html: input.html,
+    text: htmlToText(input.html),
+    replyTo: input.replyTo
+  });
+}
+
 /**
  * Delivers one email. When EMAIL_ENABLED=false this is a pure log statement,
  * which keeps local development usable without any mail server.
@@ -55,17 +121,12 @@ export async function sendMail(input: SendEmailInput) {
     return;
   }
 
-  const nodemailer = await import("nodemailer");
-  const transporter = nodemailer.default.createTransport(getTransportOptions());
+  if (env.EMAIL_PROVIDER === "resend") {
+    await sendWithResend(input);
+    return;
+  }
 
-  await transporter.sendMail({
-    from: env.SMTP_FROM,
-    to: input.to,
-    subject: input.subject,
-    html: input.html,
-    text: input.html.replace(/<[^>]+>/g, " "),
-    replyTo: input.replyTo
-  });
+  await sendWithSmtp(input);
 }
 
 export async function sendEmail(input: SendEmailInput) {

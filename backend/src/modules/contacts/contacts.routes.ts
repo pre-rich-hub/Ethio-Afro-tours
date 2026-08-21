@@ -30,7 +30,7 @@ contactsRouter.post(
       }
     });
 
-    void sendContactAdminEmail(input).catch((err) => {
+    await sendContactAdminEmail(input).catch((err) => {
       logger.warn({ err, email: input.email }, "Failed to send contact notification email");
     });
 

@@ -31,7 +31,7 @@ subscribeRouter.post(
       data: { email: input.email }
     });
 
-    void sendSubscriberAdminEmail({
+    await sendSubscriberAdminEmail({
       email: input.email,
       subscribedAt: new Date()
     }).catch((err) => {

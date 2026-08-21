@@ -86,6 +86,18 @@ const parsed = {
 // Boot check: email must be fully configured before it is enabled. Without a
 // provider target, every notification silently waits forever; fail fast instead.
 if (parsed.EMAIL_ENABLED) {
+  if (!parsed.SMTP_FROM) {
+    throw new Error(
+      "EMAIL_ENABLED is true but SMTP_FROM is not configured. Set SMTP_FROM to a verified sender address or set EMAIL_ENABLED=false."
+    );
+  }
+
+  if (!parsed.ADMIN_EMAIL) {
+    throw new Error(
+      "EMAIL_ENABLED is true but ADMIN_EMAIL is not configured. Set ADMIN_EMAIL so contact/newsletter notifications have a recipient, or set EMAIL_ENABLED=false."
+    );
+  }
+
   if (parsed.EMAIL_PROVIDER === "resend" && !parsed.RESEND_API_KEY) {
     throw new Error(
       "EMAIL_ENABLED is true and EMAIL_PROVIDER=resend but RESEND_API_KEY is not configured. Set RESEND_API_KEY or set EMAIL_ENABLED=false."

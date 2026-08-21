@@ -178,4 +178,11 @@ six-package catalog is used only when the API request fails.
 `true/false/1/0/on/off` are parsed safely — plain `false` in `.env` stays false),
 `UPLOAD_ROOT`, `PUBLIC_FILE_BASE_URL`, `MAX_UPLOAD_MB`, `STORAGE_DRIVER`.
 
+Production email on Vercel should use `EMAIL_PROVIDER=resend`,
+`EMAIL_ENABLED=true`, `RESEND_API_KEY`, `SMTP_FROM` set to a sender on a
+Resend-verified domain, and `ADMIN_EMAIL` set to the inbox that receives
+contact/newsletter notifications. Resend delivery uses the HTTPS Email API,
+not SMTP, to avoid serverless SMTP timeout and background-task reliability
+issues.
+
 Up-to-date template with comments: `.env.example`.
