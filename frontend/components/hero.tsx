@@ -14,14 +14,16 @@ export function Hero() {
       className="relative isolate flex min-h-[100svh] w-full flex-col justify-end overflow-hidden"
     >
       <div className="absolute inset-0 -z-10">
-        <Image
-          src="https://res.cloudinary.com/q16lm8mo/image/upload/v1786801491/lalibela.jpg"
-          alt={t('hero.alt', 'Bet Giyorgis (Church of St. George) in Lalibela, Ethiopia, a historic monolithic rock-hewn church')}
-          fill
-          priority
-          sizes="100vw"
-          className="animate-slow-zoom object-cover"
-        />
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          poster="https://res.cloudinary.com/q16lm8mo/image/upload/q_auto,f_auto/v1786801477/bale-mountains.png"
+          className="absolute inset-0 h-full w-full animate-slow-zoom object-cover"
+        >
+          <source src="https://res.cloudinary.com/q16lm8mo/video/upload/f_auto,q_auto/v1787381187/lv_0_20260821223346q.mp4" />
+        </video>
         <div className="absolute inset-0 bg-gradient-to-b from-charcoal/55 via-charcoal/25 to-charcoal/85" />
         <div className="absolute inset-0 bg-gradient-to-r from-charcoal/55 via-charcoal/10 to-transparent" />
       </div>
